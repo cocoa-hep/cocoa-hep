@@ -1,0 +1,61 @@
+{
+    "Output_file_path":"./hadron_test.root",
+    "Script_file_path":"macro/Pythia8/PiZero_monochromatic_isotropic.in",
+    "Type_of_running": "Standard",
+    "run_piZero_test" : true,
+    "Save_truth_particle_graph": true,
+    "Skip_unuseable_tracks": true,
+    "Geometry_definition":
+    {
+        "Check_Geometry_overlap": false,
+	"Use_inner_detector":true,
+	"Use_ID_support":true,
+        "Max_eta_of_barrel_region": 1.5,
+        "Max_eta_of_endcap_region": 3.0,
+        "Inner_calorimeter_layer" :1500,
+        "Noise_in_ECAL":[13, 34, 41],
+        "Noise_in_HCAL":[75, 50, 25],
+        "Low_Granularity_detector" : 
+        {
+            "Number_of_pixels_ECAL": [128,128,128],
+            "Number_of_pixels_HCAL": [64,64,32],
+            "Width_of_ECAL_layers_in_X0":  [4,16,2],
+            "Width_of_HCAL_layers_in_Lambda_int":  [1.5,4.1,1.8]
+        },
+        "Material_for_ECAL":["Liquid_Argon","G4_Pb"],
+        "Material_for_HCAL":["G4_PLASTIC_SC_VINYLTOLUENE","G4_Fe"],
+        "Characteristic_of_custom_material_for_ECAL":[[18,39.95,1.390]],
+        "ECAL_material_mixing_in_volume_proportion":[4.6,1.2],
+        "HCAL_material_mixing_in_volume_proportion":[1.0,1.1],
+        "Layer_gap": 80,
+        "Magnetic_field":3.8
+    },
+    "Graph_construction" :
+    {
+        "max_samelayer_edges": [8,8,8,6,6,6],
+        "max_dr": [0.05,0.07,0.14,0.30,0.30,0.60],
+        "max_interlayer_edges": [1,2,2,2,2,1],
+        "max_layer_sep": 1,
+        "max_celltrack_edges": [4,4,4,3,3,3],
+        "max_celltrack_dr": [0.15,0.15,0.4,1.10,1.10,2.00]
+    },
+    "TopoClustering":
+    {
+        "sigma_threshold_for_seed_cells":4.6,
+        "sigma_threshold_for_neighboring_cells":2,
+        "sigma_threshold_for_last_cells": 0,
+        "cluster_negative_energy_cells": false,
+        "local_max_seed_energy": 400 
+
+    },
+    "Particle_flow":
+    {
+        "S_discriminant_threshold":-1,
+        "E_div_p_threshold": 0.1,
+        "delta_Rprime_threshold": [2.4, 1.25, 0.8],
+        "momentum_delta_Rprime_threshold": [2000, 5000],
+        "factor_sigma_E_div_p_template": 1.25,
+        "Moliere_radius": 0.035
+    }
+
+}

@@ -1,0 +1,43 @@
+name: Detector Response Tests
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+
+  Response-Tests:
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: ghcr.io/paririeck/scd-hep:main
+
+    steps:
+
+      - name: checkout repo
+        uses: actions/checkout@v3
+
+      - name: Build
+        run: |
+          ln -s -f /usr/lib64/libGL.so.1 /usr/lib64/libGL.so
+          ln -s -f /usr/lib64/libexpat.so.1 /usr/lib64/libexpat.so
+          for libTag in Xmu ICE Xext X11 Xt SM; do ln -s -f /usr/lib64/lib${libTag}.so.6 /usr/lib64/lib${libTag}.so; done
+          mkdir -p SCD/build
+          cd SCD/build
+          cmake ..
+          make -j4
+          cd ..
+
+      - name: Hadron Response Test
+        run: |
+          cd SCD
+          ./build/SCDMain -path_to_config ./config/config_hadron_test.json -set_seed_value 1
+
+      - name: Neutral Pion Response Test
+        run: |
+          cd SCD
+          ./build/SCDMain -path_to_config ./config/config_piZero_test.json -set_seed_value 1
