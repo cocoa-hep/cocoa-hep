@@ -87,11 +87,13 @@ Config_reader_func::Config_reader_func(std::string path, Config_reader_var &conf
     Fill_1D_vector(characters, config_var.low_resolution.layer_noise_HCAL); //Low_layer_noise_HCAL
     
     if ( configs["Particle_flow"].isObject() ) {
+	config_var.doPFlow = true;
 	characters = configs["Particle_flow"]["delta_Rprime_threshold"];
 	Fill_1D_vector(characters, config_var.particle_flow.delta_Rprime_threshold);
 	characters = configs["Particle_flow"]["momentum_delta_Rprime_threshold"];
 	Fill_1D_vector(characters, config_var.particle_flow.momentum_delta_Rprime_threshold);
     } else {
+	config_var.doPFlow = false;
 	config_var.particle_flow.delta_Rprime_threshold = { 2.4, 1.25, 0.8 };
 	config_var.particle_flow.momentum_delta_Rprime_threshold = { 2000, 5000 };
     }

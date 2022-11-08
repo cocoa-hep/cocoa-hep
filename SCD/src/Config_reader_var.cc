@@ -3,6 +3,7 @@
 
 Config_reader_var::Config_reader_var()  :
 
+    doPFlow( false ),
     run_hadron_test( false ),
     run_piZero_test( false ),
     run_jets_test( false )

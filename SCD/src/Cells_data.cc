@@ -85,7 +85,8 @@ void Cells_data::ChangeLabelForCells(int OldLabel, int NewLabel)
 void Cells_data::set_tree_branches(TTree *outTree)
 {
 	//* cell branches
-	// outTree->Branch("cell_pflow_object_idx"   , "vector<int>",   &cell_pflow_object_idx);
+        if ( config_var.doPFlow )
+	    outTree->Branch("cell_pflow_object_idx"   , "vector<int>",   &cell_pflow_object_idx);
 	outTree->Branch("cell_particle_target", "vector<int>", &cell_particle_target);
 	outTree->Branch("cell_layer", "vector<int>", &cell_layer);
 	outTree->Branch("cell_x", "vector<float>", &cell_x);
