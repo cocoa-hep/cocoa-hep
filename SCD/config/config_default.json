@@ -47,15 +47,6 @@
         "local_max_seed_energy": 400 
 
     },
-    "Particle_flow":
-    {
-        "S_discriminant_threshold":-1,
-        "E_div_p_threshold": 0.1,
-        "delta_Rprime_threshold": [2.4, 1.25, 0.8],
-        "momentum_delta_Rprime_threshold": [2000, 5000],
-        "factor_sigma_E_div_p_template": 1.25,
-        "Moliere_radius": 0.035
-    },
     "Jet_parameters":
     {
         "algorithm": "kt_algorithm",

@@ -47,10 +47,12 @@ Config_reader_func::Config_reader_func(std::string path, Config_reader_var &conf
     config_var.topological_clustering.sigma_threshold_for_last_cells = configs["TopoClustering"]["sigma_threshold_for_last_cells"].asFloat();
     config_var.topological_clustering.cluster_negative_energy_cells = configs["TopoClustering"]["cluster_negative_energy_cells"].asBool();
     config_var.topological_clustering.local_max_seed_energy = configs["TopoClustering"]["local_max_seed_energy"].asFloat();
-    config_var.particle_flow.S_discriminant_threshold = configs["Particle_flow"]["S_discriminant_threshold"].asFloat();
-    config_var.particle_flow.E_div_p_threshold = configs["Particle_flow"]["E_div_p_threshold"].asFloat();
-    config_var.particle_flow.factor_sigma_E_div_p_template = configs["Particle_flow"]["factor_sigma_E_div_p_template"].asFloat();
-    config_var.particle_flow.Moliere_radius = configs["Particle_flow"]["Moliere_radius"].asFloat();
+    
+    config_var.particle_flow.S_discriminant_threshold = configs["Particle_flow"].get( "S_discriminant_threshold", -1.0 ).asFloat();
+    config_var.particle_flow.E_div_p_threshold = configs["Particle_flow"].get( "E_div_p_threshold", 0.1 ).asFloat();
+    config_var.particle_flow.factor_sigma_E_div_p_template = configs["Particle_flow"].get( "factor_sigma_E_div_p_template", 1.25 ).asFloat();
+    config_var.particle_flow.Moliere_radius = configs["Particle_flow"].get( "Moliere_radius", 0.035 ).asFloat();
+    
     config_var.jet_parameter.algorithm = configs["Jet_parameters"]["algorithm"].asString();
     config_var.jet_parameter.recombination_scheme = configs["Jet_parameters"]["recombination_scheme"].asString();
     config_var.jet_parameter.ptmin = configs["Jet_parameters"]["ptmin"].asDouble();
@@ -71,11 +73,7 @@ Config_reader_func::Config_reader_func(std::string path, Config_reader_var &conf
     config_var.Material_HCAL = Material_build("HCAL");
 
     //* Fill low resolution
-    Json::Value &characters = configs["Particle_flow"]["delta_Rprime_threshold"];
-    Fill_1D_vector(characters, config_var.particle_flow.delta_Rprime_threshold);
-    characters = configs["Particle_flow"]["momentum_delta_Rprime_threshold"];
-    Fill_1D_vector(characters, config_var.particle_flow.momentum_delta_Rprime_threshold);
-    characters = configs["Geometry_definition"]["Low_Granularity_detector"]["Number_of_pixels_ECAL"];
+    Json::Value &characters = configs["Geometry_definition"]["Low_Granularity_detector"]["Number_of_pixels_ECAL"];
     Fill_1D_vector(characters, config_var.low_resolution.number_of_pixels_ECAL); // Low_number_of_pixels_ECAL
     characters = configs["Geometry_definition"]["Low_Granularity_detector"]["Number_of_pixels_HCAL"];
     Fill_1D_vector(characters, config_var.low_resolution.number_of_pixels_HCAL); //Low_resolution_number_of_pixels_HCAL
@@ -87,6 +85,17 @@ Config_reader_func::Config_reader_func(std::string path, Config_reader_var &conf
     Fill_1D_vector(characters, config_var.low_resolution.layer_noise_ECAL); //Low_layer_noise_ECAL
     characters = configs["Geometry_definition"]["Noise_in_HCAL"];
     Fill_1D_vector(characters, config_var.low_resolution.layer_noise_HCAL); //Low_layer_noise_HCAL
+    
+    if ( configs["Particle_flow"].isObject() ) {
+	characters = configs["Particle_flow"]["delta_Rprime_threshold"];
+	Fill_1D_vector(characters, config_var.particle_flow.delta_Rprime_threshold);
+	characters = configs["Particle_flow"]["momentum_delta_Rprime_threshold"];
+	Fill_1D_vector(characters, config_var.particle_flow.momentum_delta_Rprime_threshold);
+    } else {
+	config_var.particle_flow.delta_Rprime_threshold = { 2.4, 1.25, 0.8 };
+	config_var.particle_flow.momentum_delta_Rprime_threshold = { 2000, 5000 };
+    }
+    
     config_var.low_resolution.layer_inn_radius_ECAL = config_var.low_resolution.resolution_width_of_ECAL_layers_in_X0;
     config_var.low_resolution.layer_mid_radius_ECAL = config_var.low_resolution.layer_inn_radius_ECAL;
     config_var.low_resolution.layer_out_radius_ECAL = config_var.low_resolution.layer_mid_radius_ECAL;

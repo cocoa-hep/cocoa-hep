@@ -58,7 +58,7 @@ void Tracks_data::set_tree_branches(TTree *outTree, int NLayers, std::string Typ
     nLayers = NLayers;
     if (Type_of_running != "PFlow_debug_E_p_template")
     {
-        outTree->Branch("track_pflow_object_idx", "vector<int>", &track_pflow_object_idx);
+        // outTree->Branch("track_pflow_object_idx", "vector<int>", &track_pflow_object_idx);
         outTree->Branch("track_pdgid"           , "vector<int>", &TrckPDGID        );
         outTree->Branch("track_parent_idx"      , "vector<int>", &TrckPosInRealList   );
         outTree->Branch("track_d0"              , "vector<float>", &PerigeeA0   );
