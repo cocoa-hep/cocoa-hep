@@ -111,6 +111,7 @@ public:
     Geometry_definition high_resolution;
     Graph_construction graph_construction;
     Topological_clustering_var topological_clustering;
+    bool doPFlow;
     Particle_flow_alg_var particle_flow;
     Jet_parameters jet_parameter;
     Fiducial_cuts fiducial_cuts;
