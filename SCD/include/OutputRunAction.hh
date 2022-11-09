@@ -112,7 +112,7 @@ public:
 
 private:
 	// Values for initialising 'loopers' parameters of Transport process
-	G4int theNumberOfTrials = 5;			 // Default will not overwrite
+	G4int theNumberOfTrials = 10;			 // Default will not overwrite
 	G4double theWarningEnergy = 300 * MeV;	 // Default values - non operational
 	G4double theImportantEnergy = 300 * MeV; // Default - will not overwrite
 
