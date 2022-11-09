@@ -51,6 +51,7 @@ char* SteppingAction::Name_creation(char *name, int low_layer, int high_layer)
 }
 SteppingAction::SteppingAction(Geometry_definition Geometry) : G4UserSteppingAction()
 {
+
 	geometry = Geometry;
 	theta_min = 2 * atan(exp(-1 * config_json_var.max_eta_barrel));
 	cone_min_length_flatten = geometry.layer_inn_radius_flatten;
@@ -183,7 +184,11 @@ int *SteppingAction::CellIndex(const char* cellName, double XPos, double YPos, d
 void SteppingAction::UserSteppingAction(const G4Step *astep)
 {
 	G4Track *aTrack = astep->GetTrack();
-	// G4cout << "hit volume is " << aTrack->GetVolume()->GetName() << G4endl;
+	
+	// prevent infinite loops
+	if ( aTrack->GetCurrentStepNumber() > 1e5 )
+	    aTrack->SetTrackStatus( fStopAndKill );
+	
 	auto edep = astep->GetTotalEnergyDeposit();
 	Full_trajectory_info_data &trajectories = Full_trajectory_info_data::GetInstance();
 	
