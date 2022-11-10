@@ -115,8 +115,8 @@ void HepMCG4Pythia8Interface::CallPythiaReadString(G4String par)
 void HepMCG4Pythia8Interface::CallPythiaInit() //
 {
 
-	auto myUserHooks = make_shared<MyUserHooks>();
-	pythia.setUserHooksPtr(myUserHooks);
+// 	auto myUserHooks = make_shared<MyUserHooks>();
+// 	pythia.setUserHooksPtr(myUserHooks);
 	//MyUserHooks myUserHooks = MyUserHooks();
 	//pythia.setUserHooksPtr(myUserHooks);
 	pythia.init();
