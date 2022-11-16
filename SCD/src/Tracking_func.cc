@@ -19,11 +19,12 @@ Tracking::Tracking(std::vector<FullTrajectoryInfo> FSPs, bool Smearing, std::vec
     sort(Tracks_list.begin(), Tracks_list.end(), sort_by_pt);
     int size_tracks_list = Tracks_list.size();
     for (int itrack = 0; itrack < size_tracks_list; itrack++)
-    {
+    {	
         Tracks_list.at(itrack).position_in_list = itrack;
     }
 }
 
+// Extrapolated track for charged particle
 void Tracking::Trajectory_finder(FullTrajectoryInfo FSP, int nParticle, std::vector<Track_struct> &Tracks_list)
 {
     double Hmagnetic = config_json_var.fieldValue;
@@ -52,9 +53,11 @@ void Tracking::Trajectory_finder(FullTrajectoryInfo FSP, int nParticle, std::vec
             track.ind_phi.push_back(-1000000);
             track.ind_eta.push_back(-1000000);
         }
+	// Compute the Helix for charged particle in Magnetic field
+	// Helix computed until first layer of ECAL1 (config_json_var.r_inn_calo)
         if (Hmagnetic != 0)
         {
-            track.rho = fabs(track.pt / (track.charge * Hmagnetic * ligh_speed));
+            track.rho = fabs(track.pt / (track.charge * Hmagnetic * ligh_speed)); // R of curvature rho = pT/0.3qB
             float x0 = track.initX + track.charge * track.rho * (py / track.pt);
             float y0 = track.initY - track.charge * track.rho * (px / track.pt);
             float r0 = sqrt(sqr(x0) + sqr(y0));
@@ -85,16 +88,21 @@ void Tracking::Trajectory_finder(FullTrajectoryInfo FSP, int nParticle, std::vec
             track.energy_perigee = sqrt(sqr(track.p_perigee) + sqr(track.mass_perigee));
             track.rho_perigee = fabs(track.pt_perigee / (charge * Hmagnetic * ligh_speed));
             float param_time = 2 / track.pt_perigee * asin(sqrt((sqr(config_json_var.r_inn_calo) - a0sqr) / (4 * sqr(track.rho_perigee) + 4 * charge * track.rho_perigee * track.a0)));
+
+	    // Helix until detector if not Endcap (equivalent of finding phi at detector position)
             track.x_end_MF = (charge * track.a0 + track.rho_perigee) * cos(track.phiHelix - charge * M_PI_2) + charge * track.rho_perigee * sin(charge * param_time * track.pt_perigee - track.phiHelix);
             track.y_end_MF = (charge * track.a0 + track.rho_perigee) * sin(track.phiHelix - charge * M_PI_2) + charge * track.rho_perigee * cos(charge * param_time * track.pt_perigee - track.phiHelix);
+
             track.z_end_MF = track.z0 + track.rho_perigee * track.pz_perigee * param_time;
+
             track.px_end_MF = track.pt_perigee * cos(charge * param_time * track.pt_perigee - track.phiHelix);
             track.py_end_MF = -track.pt_perigee * sin(charge * param_time * track.pt_perigee - track.phiHelix);
 
             float length = config_json_var.r_inn_calo / tan(theta_end_barrel);
+            //* coeff of quadratic equation for traject extrapol
             track.a_coeff = sqr(track.pt_perigee);
             track.b_coeff = 2 * (track.px_end_MF * track.x_end_MF + track.py_end_MF * track.y_end_MF);
-            //* coeff of quadratic equation for traject extrapol
+	    // Helix in Endcap
             if (std::isnan(track.x_end_MF) || fabs(track.z_end_MF) > length)
             {
                 int sign = track.z_end_MF / fabs(track.z_end_MF);
@@ -122,14 +130,19 @@ void Tracking::Trajectory_finder(FullTrajectoryInfo FSP, int nParticle, std::vec
                     track.Is_reach_calorimeter = false;
                 }
             }
+	    // continue with Linear Extrapolation in Calorimeter if Magnetic field
+            for (int lay = 0; lay < NLayers; lay++)
+                TrajectoryInMF(track, lay);
         }
-        else
+	// no Magnetic field
+        else 
         {
-            track.theta = -10000000;
+	    // compute linear extrapolation
             track.a0 = -10000000;
-            track.q_p = -10000000;
             track.z0 = -10000000;
-            track.phiHelix = -10000000;
+            track.phiHelix = atan2(track.py, track.px);;
+            track.theta = acos(pz / sqrt(sqr(track.pt) + sqr(pz)));
+            track.q_p = charge / sqrt(sqr(track.pt) + sqr(track.pz));
             for (int lay = 0; lay < NLayers; lay++)
             {
                 float time_to_layer = R_mid.at(lay) / track.pt;
@@ -140,7 +153,6 @@ void Tracking::Trajectory_finder(FullTrajectoryInfo FSP, int nParticle, std::vec
                 track.y_mid_layer.at(lay) = y_f;
                 track.z_mid_layer.at(lay) = z_f;
                 track.eta.at(lay) = -1 * log(tan(0.5 * acos(z_f / sqrt(sqr(R_mid.at(lay)) + sqr(z_f)))));
-
                 track.phi.at(lay) = atan2(y_f, x_f);
                 if (track.phi.at(lay) < 0)
                     track.phi.at(lay) += 2*M_PI;
@@ -149,10 +161,9 @@ void Tracking::Trajectory_finder(FullTrajectoryInfo FSP, int nParticle, std::vec
                 track.ind_phi.at(lay) = (int)floor(track.phi.at(lay) / dphi);
                 track.ind_eta.at(lay) = (int)floor((config_json_var.max_eta_endcap + track.eta.back()) / deta);
             }
+		
         }
-
-        for (int lay = 0; lay < NLayers; lay++)
-            TrajectoryInMF(track, lay);
+	// Apply track inefficiency as function of pT
         if (smearing)
             track.IsTrackReconstructed();
 
@@ -163,6 +174,7 @@ void Tracking::Trajectory_finder(FullTrajectoryInfo FSP, int nParticle, std::vec
         }
         else
             Tracks_list.push_back(track);
+
     }
 }
 
@@ -190,8 +202,8 @@ void Tracking::TrajectoryInMF(Track_struct &track, int lay)
 
         track.eta.at(lay) = Eta;
         track.phi.at(lay) = Phi;
-        track.ind_eta.at(lay) = floor(Phi / dphi);
-        track.ind_phi.at(lay) = floor((config_json_var.max_eta_endcap + Eta) / deta);
+        track.ind_eta.at(lay) = floor((config_json_var.max_eta_endcap + Eta) / deta);
+        track.ind_phi.at(lay) = floor(Phi / dphi);
     }
     else if (!std::isnan(track.x_end_MF) && track.z_end_MF < length)
     {
@@ -203,8 +215,8 @@ void Tracking::TrajectoryInMF(Track_struct &track, int lay)
         float Phi = atan2(Y_in_mid_layer, X_in_mid_layer);
         if (Phi < 0)
             Phi += 2*M_PI;
-        float Eta = -1 * log(tan(0.5 * acos(Z_in_mid_layer / sqrt(sqr(R_mid.at(lay)) + sqr(Z_in_mid_layer)))));
-
+        float Eta = -1 * log(tan(0.5 * acos(Z_in_mid_layer / sqrt( sqr(R_mid.at(lay)) + sqr(Z_in_mid_layer) ) )));
+	
         float deta = d_eta.at(lay);
         float dphi = d_phi.at(lay);
         track.x_mid_layer.at(lay) = X_in_mid_layer;
@@ -212,8 +224,8 @@ void Tracking::TrajectoryInMF(Track_struct &track, int lay)
         track.z_mid_layer.at(lay) = Z_in_mid_layer;
         track.eta.at(lay) = Eta;
         track.phi.at(lay) = Phi;
-        track.ind_eta.at(lay) = floor(Phi / dphi);
-        track.ind_phi.at(lay) = floor((config_json_var.max_eta_endcap + Eta) / deta);
+        track.ind_eta.at(lay) = floor((config_json_var.max_eta_endcap + Eta) / deta);
+        track.ind_phi.at(lay) = floor(Phi / dphi);
     }
     else
     {
