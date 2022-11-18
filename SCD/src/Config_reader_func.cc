@@ -73,13 +73,13 @@ Config_reader_func::Config_reader_func(std::string path, Config_reader_var &conf
     config_var.Material_HCAL = Material_build("HCAL");
 
     //* Fill low resolution
-    Json::Value &characters = configs["Geometry_definition"]["Low_Granularity_detector"]["Number_of_pixels_ECAL"];
+    Json::Value &characters = configs["Geometry_definition"]["Detector_granularity"]["Number_of_pixels_ECAL"];
     Fill_1D_vector(characters, config_var.low_resolution.number_of_pixels_ECAL); // Low_number_of_pixels_ECAL
-    characters = configs["Geometry_definition"]["Low_Granularity_detector"]["Number_of_pixels_HCAL"];
+    characters = configs["Geometry_definition"]["Detector_granularity"]["Number_of_pixels_HCAL"];
     Fill_1D_vector(characters, config_var.low_resolution.number_of_pixels_HCAL); //Low_resolution_number_of_pixels_HCAL
-    characters = configs["Geometry_definition"]["Low_Granularity_detector"]["Width_of_ECAL_layers_in_X0"];
+    characters = configs["Geometry_definition"]["Detector_granularity"]["Width_of_ECAL_layers_in_X0"];
     Fill_1D_vector(characters, config_var.low_resolution.resolution_width_of_ECAL_layers_in_X0); //Low_resolution_width_of_ECAL_layers_in_X0
-    characters = configs["Geometry_definition"]["Low_Granularity_detector"]["Width_of_HCAL_layers_in_Lambda_int"];
+    characters = configs["Geometry_definition"]["Detector_granularity"]["Width_of_HCAL_layers_in_Lambda_int"];
     Fill_1D_vector(characters, config_var.low_resolution.resolution_width_of_HCAL_layers_in_Lambda_int); //Low_resolution_width_of_HCAL_layers_in_Lambda_int
     characters = configs["Geometry_definition"]["Noise_in_ECAL"];
     Fill_1D_vector(characters, config_var.low_resolution.layer_noise_ECAL); //Low_layer_noise_ECAL
