@@ -340,6 +340,16 @@ void SteppingAction::UserSteppingAction(const G4Step *astep)
 		if (foundTraj)
 			break;
 	} // for(int iTraj = 0; iTraj < (int)trajectories.fAllTrajectoryInfo.size(); iTraj++)
+
+	// ==================================================
+	// Emulation of Energy Sampling : Use the user-defined
+	// sampling fraction to randomly decide whether an energy
+	// deposition is taken into account.
+	// ==================================================
+	float samplingFraction = ( volume_name.substr( 0, 1 ) == "E" ? config_json_var.samplingFraction_ECAL : config_json_var.samplingFraction_HCAL );
+	if ( gRandom->Uniform() > samplingFraction )
+	    edep = 0.0;
+	
 	if (foundTraj && edep > 0.)
 	{
 
@@ -378,10 +388,6 @@ void SteppingAction::UserSteppingAction(const G4Step *astep)
 		{
 			if ((*(Bin + 1) >= 0 && *(Bin + 1) < geometry.number_of_pixels_flatten.at(*Bin)) && (*(Bin + 2) >= 0 && *(Bin + 2) < geometry.number_of_pixels_flatten.at(*Bin)))
 			{
-				//* individ smearing
-			        Ech = gRandom->Gaus(Ech, sqrt(Ech));
-			        Enu = gRandom->Gaus(Enu, sqrt(Enu));
-				//* individ smearing end
 				Etot = Ech + Enu;
 				// runData->AddTotalEnergy(Ech, Enu);
 				Particle_dep_in_cell ptrc;
@@ -394,12 +400,12 @@ void SteppingAction::UserSteppingAction(const G4Step *astep)
 				if (config_json_var.Use_high_granularity)
 				{
 					Cells_data &cells_data = Cells_data::GetHigh();
-					cells_data.add_cell_info(*Bin, *(Bin + 1), *(Bin + 2), Ech, Enu, ptrc, conv_el);
+					cells_data.add_cell_info(*Bin, *(Bin + 1), *(Bin + 2), Ech / samplingFraction, Enu / samplingFraction, ptrc, conv_el);
 				}
 				else
 				{
 					Cells_data &cells_data = Cells_data::GetLow();
-					cells_data.add_cell_info(*Bin, *(Bin + 1), *(Bin + 2), Ech, Enu, ptrc, conv_el);
+					cells_data.add_cell_info(*Bin, *(Bin + 1), *(Bin + 2), Ech / samplingFraction, Enu / samplingFraction, ptrc, conv_el);
 				}
 			}
 			// runData->AddCaloCell(*Bin, *(Bin+1), *(Bin+2), Ech, Enu, ptrc);

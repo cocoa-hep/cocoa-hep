@@ -105,6 +105,8 @@ public:
     long double max_eta_barrel;
     long double max_eta_endcap;
     long double max_phi;
+    float       samplingFraction_ECAL;
+    float       samplingFraction_HCAL;
     G4Material *Material_ECAL;
     G4Material *Material_HCAL;
     Geometry_definition low_resolution;
