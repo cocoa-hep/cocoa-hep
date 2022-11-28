@@ -22,8 +22,8 @@
             "Width_of_ECAL_layers_in_X0":  [4,16,2],
             "Width_of_HCAL_layers_in_Lambda_int":  [1.5,4.1,1.8]
         },
-	"SamplingFraction_ECAL" : 0.02,
-	"SamplingFraction_HCAL" : 0.02,
+	"SamplingFraction_ECAL" : 0.07,
+	"SamplingFraction_HCAL" : 0.025,
         "Material_for_ECAL":["Liquid_Argon","G4_Pb"],
         "Material_for_HCAL":["G4_PLASTIC_SC_VINYLTOLUENE","G4_Fe"],
         "Characteristic_of_custom_material_for_ECAL":[[18,39.95,1.390]],
