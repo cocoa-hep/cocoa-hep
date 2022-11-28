@@ -9,7 +9,7 @@
         "Inner_calorimeter_layer" :1500,
         "Noise_in_ECAL":[0,0,0],
         "Noise_in_HCAL":[0,0,0],
-        "Low_Granularity_detector" : 
+        "Detector_granularity" : 
         {
             "Number_of_pixels_ECAL": [24,24,24],
             "Number_of_pixels_HCAL": [24,24,24],

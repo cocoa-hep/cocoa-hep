@@ -45,6 +45,8 @@
 #include "Jet_Builder_func.hh"
 #include "Jet_Builder_data.hh"
 
+#include <memory>
+
 using namespace std;
 
 EventAction::EventAction() : G4UserEventAction()
@@ -148,13 +150,15 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			Down_ptr.link_apply(cells_data_high.fCell_array, cells_data_low.fCell_array);
 			cells_data_low.fill_cells_in_topoclusters();
 			cells_data_high.fill_cells_in_topoclusters();
-			
-			Particle_flow_func pflow(tracks_list_low.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, pflow_obj.pflow_list, config_var.low_resolution, config_var.particle_flow);
+
+			if ( config_var.doPFlow )
+			    Particle_flow_func pflow(tracks_list_low.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, pflow_obj.pflow_list, config_var.low_resolution, config_var.particle_flow);
 
 			tracks_list_low.Fill_perigee_var();
 			cells_data_low.fill_cell_var();
 			cells_data_high.fill_cell_var();
-			pflow_obj.fill_cell_var();
+			if ( config_var.doPFlow )
+			    pflow_obj.fill_cell_var();
 			trajectories.fill_var();
 
 			std::vector<float> _particle_dep_energies;
@@ -163,10 +167,12 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			trajectories.SetParticleDepEnergy( _particle_dep_energies );
 			
 			Jet_Builder_func jets_build;
-			pflow_obj.make_pseudo_jet_particles();
-			jets_build.build_jets(pflow_obj.jets_objects, pflow_jets_obj.jets, config_var.jet_parameter);
-			pflow_jets_obj.fill_cell_var();
-			jets_build.reset();
+			if ( config_var.doPFlow ) {
+			    pflow_obj.make_pseudo_jet_particles();
+			    jets_build.build_jets(pflow_obj.jets_objects, pflow_jets_obj.jets, config_var.jet_parameter);
+			    pflow_jets_obj.fill_cell_var();
+			    jets_build.reset();
+			}
 			trajectories.make_pseudo_jet_particles();
 			jets_build.build_jets(trajectories.jets_objects, true_jets_obj.jets, config_var.jet_parameter);
 			true_jets_obj.fill_cell_var();
@@ -187,17 +193,21 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			Topo_clust_func clustering(cells_data_low.fCell_array, config_var.low_resolution, config_var.topological_clustering, "Standard");
 			clustering.topoclustering(topo_clusts.topo_clusts_list);
 			cells_data_low.fill_cells_in_topoclusters();
-			Particle_flow_func pflow(tracks_list_low.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, pflow_obj.pflow_list, config_var.low_resolution, config_var.particle_flow);
+			if ( config_var.doPFlow )
+			    Particle_flow_func pflow(tracks_list_low.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, pflow_obj.pflow_list, config_var.low_resolution, config_var.particle_flow);
 			tracks_list_low.Fill_perigee_var();
 			cells_data_low.fill_cell_var();
-			pflow_obj.fill_cell_var();
+			if ( config_var.doPFlow )
+			    pflow_obj.fill_cell_var();
 			trajectories.fill_var();
 			GraphConstructor graph_construct(cells_data_low.Cells_in_topoclusters, tracks_list_low.Tracks_list, trajectories.particle_to_track, graph_obj);
 			Jet_Builder_func jets_build;
-			pflow_obj.make_pseudo_jet_particles();
-			jets_build.build_jets(pflow_obj.jets_objects, pflow_jets_obj.jets, config_var.jet_parameter);
-			pflow_jets_obj.fill_cell_var();
-			jets_build.reset();
+			if ( config_var.doPFlow ) {
+			    pflow_obj.make_pseudo_jet_particles();
+			    jets_build.build_jets(pflow_obj.jets_objects, pflow_jets_obj.jets, config_var.jet_parameter);
+			    pflow_jets_obj.fill_cell_var();
+			    jets_build.reset();
+			}
 			trajectories.make_pseudo_jet_particles();
 			jets_build.build_jets(trajectories.jets_objects, true_jets_obj.jets, config_var.jet_parameter);
 			true_jets_obj.fill_cell_var();
