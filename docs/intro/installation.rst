@@ -32,3 +32,12 @@ From within `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory:
 
            ./build/SCDMain - run with Geant4 User Interface.
            ./build/SCDMain -h - show input options for batch-mode.
+           
+Example
+-------- 
+An example to run the code interactively:
+
+        .. code-block:: none 
+
+           ./build/SCDMain -path_to_script  /path/to/SCD/SCD/macro/Pythia8/ttbar.in -path_to_config  /path/to/SCD/SCD/config/config_doc.json  /path/to/outputdir/output_name.root -set_seed_value 5
+
