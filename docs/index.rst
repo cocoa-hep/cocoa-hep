@@ -17,3 +17,4 @@ SCD: Super Cool Detector is a library for generating realistic detector data for
    :caption: Get Started
 
    intro/introduction
+   intro/installation
