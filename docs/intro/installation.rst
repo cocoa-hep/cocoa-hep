@@ -23,3 +23,8 @@ Then in the `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory 
             cmake ../
             make -j<# cpu cores>
             cd ..
+
+Run
+--------
+From within `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory:
+.. code-block:: none ./build/SCDMain
