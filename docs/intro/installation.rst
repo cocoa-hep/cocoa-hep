@@ -14,3 +14,12 @@ To simplest way to prepare all dependencies is to mount the `CernVM File System 
     .. code-block:: none
     
             source SCD/setup.sh
+            
+Then in the `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory run the following commands (see `setup_cvfms.sh <https://github.com/scd-hep/scd-hep/blob/main/setup_cvmfs.sh>`_ ):
+    .. code-block:: none
+    
+            mkdir build
+            cd build
+            cmake ../
+            make -j<# cpu cores>
+            cd ..
