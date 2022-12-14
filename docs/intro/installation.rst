@@ -28,4 +28,5 @@ Run
 --------
 From within `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory:
     .. code-block:: none 
+    
         ./build/SCDMain
