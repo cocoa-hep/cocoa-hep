@@ -8,6 +8,9 @@
 SCD: Super Cool Detector Documentation
 ====================================
 
+.. image:: ../imgs/scd_logo_2.png
+   :width: 50%
+
 
 SCD: Super Cool Detector is a library for generating realistic detector data for doing research in machine learning.
 
