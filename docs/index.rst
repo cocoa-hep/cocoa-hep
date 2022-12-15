@@ -8,7 +8,7 @@
 SCD: Super Cool Detector Documentation
 ====================================
 
-.. image:: ../imgs/scd_logo_2.png
+.. image:: ../imgs/scd_logo_2.jpg
    :width: 50%
 
 
