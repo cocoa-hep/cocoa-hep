@@ -19,7 +19,11 @@ public:
     Particle_flow_var(Topo_clust topo_clust);
     ~Particle_flow_var();
     void subt_cell(Cell &cell, float fraction);
-    //if charge is 0, then labele coresonds to topo_clust, if not then to track
+    //if not isTrack && charge is not 0, then PFlow is TC from electron
+    //if not isTrack && charge is 0, then PFlow is TC 
+    //else isTrack, then PFlow is Track
+    //if not isTrack, then label coresonds to topo_clust, if not then to track
+    bool isTrack;
     float charge;
     int label;
     float eta;
@@ -31,6 +35,5 @@ public:
     int truth_link;
 
 };
-
 
 #endif // __PARTICLE_FLOW_VAR_H__
