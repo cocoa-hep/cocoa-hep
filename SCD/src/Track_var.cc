@@ -1,6 +1,8 @@
 #include "Track_var.hh"
 #include "TRandom.h"
 
+Track_struct::Track_struct(){};
+
 Track_struct::Track_struct(const Track_struct &orig) = default;
 
 Track_struct::Track_struct(int Pdgcode, int NFinalStateParticles, double Energy,

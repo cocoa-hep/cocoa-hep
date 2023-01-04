@@ -38,6 +38,7 @@
 #include "Topo_clust_func.hh"
 #include "Topo_clust_var.hh"
 #include "Topo_clusts_data.hh"
+#include "Superclustering.hh"
 #include "Full_trajectory_info_data.hh"
 #include "TruthRecordGraph.hh"
 #include "Particle_flow_func.hh"

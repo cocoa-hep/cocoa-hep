@@ -14,6 +14,7 @@ class Track_struct
     // private:
     // Config_reader_var& config_json_var = Config_reader_var::GetInstance();
 public:
+    Track_struct();
     Track_struct(const Track_struct &orig);
     Track_struct(int Pdgcode, int NFinalStateParticles, double Energy,
                  double Mass, double Charge,

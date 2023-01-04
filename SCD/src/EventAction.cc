@@ -40,6 +40,7 @@
 #include "Pythia8/Pythia.h"
 #include "ReduceResolution.hh"
 #include "Debug_Particle_Flow_func.hh"
+#include "Superclustering.hh"
 #include "GraphConstructor.hh"
 #include "Graph_construction_data.hh"
 #include "Jet_Builder_func.hh"
@@ -63,6 +64,7 @@ void EventAction::BeginOfEventAction(const G4Event *anEvent) //const G4Event* an
 	cells_data_low.clear();
 	cells_data_high.clear();
 	topo_clusts.clear();
+	//super_clusts.clear();
 	pflow_obj.clear();
 	trajectories.clear();
 	graph_obj.clear();
@@ -200,6 +202,8 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			if ( config_var.doPFlow )
 			    pflow_obj.fill_cell_var();
 			trajectories.fill_var();
+			if ( true )//TODO config_var.doSuperclusters)
+				Superclustering superclusters(tracks_list_low.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, config_var.low_resolution);
 			GraphConstructor graph_construct(cells_data_low.Cells_in_topoclusters, tracks_list_low.Tracks_list, trajectories.particle_to_track, graph_obj);
 			Jet_Builder_func jets_build;
 			if ( config_var.doPFlow ) {
