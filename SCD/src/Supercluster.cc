@@ -43,3 +43,8 @@ Topo_clust Supercluster::get_seed()
 {
     return topo_members[0];
 }
+
+Track_struct Supercluster::get_track()
+{
+    return track_assoc;
+}

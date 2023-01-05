@@ -38,7 +38,7 @@
 #include "Topo_clust_func.hh"
 #include "Topo_clust_var.hh"
 #include "Topo_clusts_data.hh"
-#include "Superclustering.hh"
+//#include "Superclustering_data.hh"
 #include "Full_trajectory_info_data.hh"
 #include "TruthRecordGraph.hh"
 #include "Particle_flow_func.hh"
@@ -61,6 +61,7 @@ private:
 	TruthRecordGraph &truth_record_graph = TruthRecordGraph::GetInstance();
 	Topo_clusts_data &topo_clusts = Topo_clusts_data::GetInstance();
 	Particle_flow_data &pflow_obj = Particle_flow_data::GetInstance();
+	Superclustering_data &superclustering_data = Superclustering_data::GetInstance();
 	Full_trajectory_info_data &trajectories = Full_trajectory_info_data::GetInstance();
 	Graph_construction_data &graph_obj = Graph_construction_data::GetLow();
 	Jet_Builder_data &pflow_jets_obj = Jet_Builder_data::Get_instance_pflow();

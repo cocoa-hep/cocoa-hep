@@ -54,6 +54,7 @@
 #include "Cells_data.hh"
 #include "Topo_clusts_data.hh"
 #include "Particle_flow_data.hh"
+#include "Superclustering_data.hh"
 #include "TruthRecordGraph.hh"
 #include "Full_trajectory_info_data.hh"
 #include "Graph_construction_data.hh"

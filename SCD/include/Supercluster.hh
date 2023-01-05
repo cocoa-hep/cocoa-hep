@@ -23,11 +23,13 @@ class Supercluster
     public:
         int n_clusters;
         float total_energy;
+        float distance_seed_track;
         Supercluster();
         void add_cluster(Topo_clust topo);
         void set_seed(Topo_clust seed);
         void set_track(Track_struct track);
         Topo_clust get_seed();
+        Track_struct get_track();
 };
 
 #endif //__SUPERCLUSTER_H__
