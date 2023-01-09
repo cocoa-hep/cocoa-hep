@@ -64,7 +64,7 @@ Particle_flow_func::Particle_flow_func(std::vector<Track_struct> &track_list, st
 
     for (int itrack = 0; itrack < size_track_list; itrack++)
     {
-        if (track_list.at(itrack).pdgcode!=11 && track_list.at(itrack).Is_Track_Useable() )
+        if (abs(track_list.at(itrack).pdgcode)!=11 && track_list.at(itrack).Is_Track_Useable() )
             pflow_list.emplace_back(track_list.at(itrack));
     }    
 }
