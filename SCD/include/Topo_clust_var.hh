@@ -30,6 +30,7 @@ public:
     float pz;
     int truth_link;
     float cell_energy;
+    int charge;
 
     void add_cell(Cell &cell);
     void subtract_cell(Cell &cell, float fraction);
