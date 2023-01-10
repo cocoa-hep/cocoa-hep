@@ -14,3 +14,6 @@ to support the development of machine learning algorithms
 in high energy physics that rely on realistic particle shower
 descriptions, such as reconstruction, fast simulation, and low-level analysis. 
 The package also includes Phoenix event display for visualizing events.
+
+.. image:: ../imgs/ttbar_event2_dark.png
+   :width: 100%
