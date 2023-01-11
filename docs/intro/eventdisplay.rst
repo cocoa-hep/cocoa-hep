@@ -6,6 +6,6 @@ The event information is stored in the output ROOT file. The cells within a topo
 The output ROOT file has the following branches
 ------------------------------------
 
-** cell_layer : ** which calorimeter layer the cell belongs to
+**cell_layer :** which calorimeter layer the cell belongs to
 
 
