@@ -50,4 +50,58 @@ The output ROOT file has the following branches, containing informations at per 
 
 **track_z_layer_i :** z-cordinate of the extrapolated track in the i-th calorimeter-layer
 
+**particle_pdgid :** vector storing PDG-ID of all the stable truth-particles in the event
+
+**particle_isIso :** vector storing if the particle is isolated. If true, the value is 1. 
+
+**particle_px :** x-component of the momentum 3-vector of the stable particles
+
+**particle_py :** y-component of the momentum 3-vector of the stable particles
+
+**particle_pz :** z-component of the momentum 3-vector of the stable particles
+
+**particle_e :** energy of the stable particles
+
+**particle_prod_x :** x-coordinate of the production vertex of the stable particles
+
+**particle_prod_y :** y-coordinate of the production vertex of the stable particles
+
+**particle_prod_z :** z-coordinate of the production vertex of the stable particles
+
+**particle_eta_layi :** extrapolated pseudo-rapidity of the particle in the i-th calorimeter layer
+
+**particle_phi_layi :** extrapolated azimuthal angle of the particle in the i-th calorimeter layer
+
+**pflow_eta :** pseudo-rapidity of the particle-flow object
+
+**pflow_phi :** azimuthal angle of the particle-flow object
+
+**pflow_px :** x-component of the momentum 3-vector of the particle-flow object
+
+**pflow_py :** y-component of the momentum 3-vector of the particle-flow object
+
+**pflow_pz :** z-component of the momentum 3-vector of the particle-flow object
+
+**pflow_e :** energy of the particle-flow object
+
+**pflow_charge :** electric charge of the particle-flow object
+
+**pflow_jet_pt :** transverse component of momentum 3-vector of the jet built from pflow constituents
+
+**pflow_jet_eta :** pseudo-rapidity of momentum 3-vector of the jet built from pflow constituents
+
+**pflow_jet_phi :** azimuthal angle of momentum 3-vector of the jet built from pflow constituents
+
+**pflow_jet_m :** mass of momentum 3-vector of the jet built from pflow constituents
+
+**topo_jet_pt :** transverse component of momentum 3-vector of the jet built from topoclusters
+
+**topo_jet_eta :** pseudo-rapidity of momentum 3-vector of the jet built from topoclusters
+
+**topo_jet_phi :** azimuthal angle of momentum 3-vector of the jet built from topoclusters
+
+**topo_jet_m :** mass of momentum 3-vector of the jet built from topoclusters
+
+
+
 
