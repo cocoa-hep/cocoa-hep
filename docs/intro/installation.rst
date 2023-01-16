@@ -15,7 +15,14 @@ To simplest way to prepare all dependencies is to mount the `CernVM File System 
     .. code-block:: none
     
             source scd-hep/setup_cvmfs.sh
-            
+
+After the environment setup, the following commands in the shell must return the environments properly : 
+    .. code-block:: none
+    
+            geant4-config --cflags
+            root-config --cflags
+            pythia8-config --cflags
+
 Then in the `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory run the following commands (see `setup_cvfms.sh <https://github.com/scd-hep/scd-hep/blob/main/setup_cvmfs.sh>`_ ):
     .. code-block:: none
     
