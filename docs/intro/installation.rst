@@ -9,7 +9,7 @@ The most convenient way to install SCD is to use its `Docker <https://github.com
 
 Non-Docker installation
 --------
-The COSA repository can be downloaded from git `_scd-hep <https://github.com/scd-hep/scd-hep.git>`
+The COSA repository can be downloaded from git `scd-hep <https://github.com/scd-hep/scd-hep.git>`_
 
 To simplest way to prepare all dependencies is to mount the `CernVM File System <https://cvmfs.readthedocs.io/en/stable/cpt-quickstart.html>`_  and run
     .. code-block:: none
