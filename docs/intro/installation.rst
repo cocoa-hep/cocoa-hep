@@ -36,7 +36,7 @@ Run
 --------
 From within `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory:
 
-        .. code-block:: xml 
+        .. code-block:: rst 
 
            **./build/SCDMain** run with Geant4 User Interface.
            **./build/SCDMain -h**  show input options for batch-mode with following options
