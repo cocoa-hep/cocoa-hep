@@ -38,12 +38,12 @@ From within `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory:
 
         .. code-block:: none 
 
-           :./build/SCDMain: run with Geant4 User Interface.
-           :./build/SCDMain -h:  show input options for batch-mode with following options
-           :-path_to_config: path to json configuration file
-           :-path_to_script: path to Geant4 macro file for particle gun (can be set in json configuration file)
-           :-path_to_output: destination and name of the output root file (can be set in json configuration file)
-           :-set_seed_value: set random seed
+           **./build/SCDMain** run with Geant4 User Interface.
+           **./build/SCDMain -h**  show input options for batch-mode with following options
+           **-path_to_config** path to json configuration file
+           **-path_to_script** path to Geant4 macro file for particle gun (can be set in json configuration file)
+           **-path_to_output** destination and name of the output root file (can be set in json configuration file)
+           **-set_seed_value** set random seed
 Example
 -------- 
 An example to run the code interactively:
