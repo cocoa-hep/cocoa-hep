@@ -5,14 +5,14 @@
    
 :github_url: https://github.com/scd-hep/scd-hep
 
-SCD: Super Cool Detector Documentation
+COSA : CalOrimeter Simulation for Ai applications
 ====================================
 
 .. image:: ./imgs/scd_logo_2.jpg
    :width: 50%
 
 
-SCD: Super Cool Detector is a library for generating realistic detector data for doing research in machine learning.
+COSA: CalOrimeter Simulation for Ai applications is a library for generating realistic detector data for doing research in machine learning.
 
 .. toctree::
    :glob:
