@@ -1,7 +1,7 @@
 Installation
 ======
 
-Please follow the steps below to install SCD-HEP.
+Please follow the steps below to install COSA.
 
 Install from Docker
 --------
