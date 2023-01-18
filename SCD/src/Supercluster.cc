@@ -15,7 +15,7 @@ void Supercluster::update()
     total_energy = 0;
     for (int itopo = 0; itopo < n_clusters; itopo++)
     {
-        total_energy += topo_members.at(itopo).total_energy;
+        total_energy += topo_members.at(itopo).EM_energy;
     }
 }
 
@@ -39,9 +39,9 @@ void Supercluster::set_track(Track_struct track)
     track_assoc = track;
 }
 
-Topo_clust Supercluster::get_seed()
+std::vector<Topo_clust> Supercluster::get_clusters()
 {
-    return topo_members[0];
+    return topo_members;
 }
 
 Track_struct Supercluster::get_track()

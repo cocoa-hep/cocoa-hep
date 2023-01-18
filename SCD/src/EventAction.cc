@@ -205,10 +205,20 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			trajectories.fill_var();
 			if ( true )//TODO config_var.doSuperclusters)
 			{
-				Superclustering superclusters(tracks_list_low.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, superclustering_data.super_list);
+				Tracking tracking_low_conv_el(trajectories.fAllConvElectrons, false, tracks_list_low_conv_el.Tracks_list, config_var.low_resolution);
+				tracks_list_low_conv_el.Fill_perigee_var();
+
+				//Superclustering superclusters(tracks_list_low.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, superclustering_data.super_list);
+				Superclustering superclusters(tracks_list_low_conv_el.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, superclustering_data.super_list);
+
 				superclustering_data.fill_supercluster_data();
 			}
-			GraphConstructor graph_construct(cells_data_low.Cells_in_topoclusters, tracks_list_low.Tracks_list, trajectories.particle_to_track, graph_obj);
+
+			std::vector<float> _particle_dep_energies;
+			GraphConstructor graph_construct(cells_data_low.Cells_in_topoclusters, tracks_list_low.Tracks_list, trajectories.particle_to_track, graph_obj, &_particle_dep_energies);
+
+			trajectories.SetParticleDepEnergy( _particle_dep_energies );
+
 			Jet_Builder_func jets_build;
 			if ( config_var.doPFlow ) {
 			    pflow_obj.make_pseudo_jet_particles();

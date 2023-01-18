@@ -13,6 +13,7 @@ public:
     // Topo_clust(const Topo_clust &orig) = default;
     int label;
     float total_energy;
+    float EM_energy;
     float abs_total_energy;
     float noise;
     float neutral_energy;
@@ -30,6 +31,7 @@ public:
     float pz;
     int truth_link;
     float cell_energy;
+    std::vector<std::pair<float,int>> closest_tracks;
 
     void add_cell(Cell &cell);
     void subtract_cell(Cell &cell, float fraction);

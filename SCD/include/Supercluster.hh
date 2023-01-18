@@ -9,7 +9,7 @@
 
 inline bool compare_e(const Topo_clust &topo_1, const Topo_clust &topo_2)
 {
-    return topo_1.total_energy > topo_2.total_energy; //TODO: use only energy in the ECAL
+    return topo_1.EM_energy > topo_2.EM_energy;
 }
 
 class Supercluster
@@ -28,7 +28,7 @@ class Supercluster
         void add_cluster(Topo_clust topo);
         void set_seed(Topo_clust seed);
         void set_track(Track_struct track);
-        Topo_clust get_seed();
+        std::vector<Topo_clust> get_clusters();
         Track_struct get_track();
 };
 

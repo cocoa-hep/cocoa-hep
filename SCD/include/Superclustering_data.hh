@@ -22,8 +22,11 @@ class Superclustering_data
     void clear();
     std::vector<Supercluster> super_list;
     std::vector<float> super_e;
-    std::vector<float> seed_idx;
-    std::vector<float> track_idx;
+    std::vector<float> seed_e;
+    std::vector<int> super_pdgid;
+    std::vector<int> super_N;
+    std::vector<std::vector<float>> topo_idx_list;
+    std::vector<int> track_idx;
 };
 
 #endif

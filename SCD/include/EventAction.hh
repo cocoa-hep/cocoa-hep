@@ -56,6 +56,7 @@ public:
 
 private:
 	Tracks_data &tracks_list_low = Tracks_data::GetLow();
+	Tracks_data &tracks_list_low_conv_el = Tracks_data::GetLow();
 	Cells_data &cells_data_high = Cells_data::GetHigh();
 	Cells_data &cells_data_low = Cells_data::GetLow();
 	TruthRecordGraph &truth_record_graph = TruthRecordGraph::GetInstance();
