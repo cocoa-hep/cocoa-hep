@@ -29,10 +29,12 @@ class Superclustering
         std::vector<Cell *> cells_in_topoclust;
         std::vector<Topo_clust> Topo_List;
         std::vector<Track_struct> Track_list;
+        std::vector<ConversionVertex> ConvVertex_list;
         void sort_by_energy(std::vector<Supercluster> &Super_list);
     public:
         Superclustering(std::vector<Track_struct> &_track_list, std::vector<Topo_clust> &_topo_list, std::vector<Cell *> &_cell_list, std::vector<Supercluster> &Super_list);
         void topo_match_to_tracks();
+        void find_conversion_vertices();
         void find_seed_clusters(std::vector<Supercluster> &Super_list);
         void add_neighbor_clusters(std::vector<Supercluster> &Super_list);
 };

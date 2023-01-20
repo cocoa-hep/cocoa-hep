@@ -149,6 +149,7 @@ void TrackingAction::PreUserTrackingAction(const G4Track*aTrack)
 
 	    FullTrajectoryInfo conv_el_tr;
 
+		conv_el_tr.is_conversion_track = true;
 		conv_el_tr.fPDGCharge = aTrack->GetDynamicParticle()->GetCharge();
 		conv_el_tr.fMomentumDir = aTrack->GetDynamicParticle()->GetMomentumDirection();
 		conv_el_tr.fEnergy = aTrack->GetDynamicParticle()->GetTotalEnergy();

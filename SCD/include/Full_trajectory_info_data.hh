@@ -19,17 +19,17 @@ struct FullTrajectoryInfo {
 	G4ThreeVector fMomentum;
 	G4ThreeVector fMomentumDir;
 	G4double    fEnergy ;
-        G4double    fMass ;
+    G4double    fMass ;
 	G4ThreeVector fVertexPosition;
 	G4double fGlobalTime;
         
-        float caloExtrapolMaxEkin;
-        float caloExtrapolEta;
-        float caloExtrapolPhi;
-        
-        float idExtrapolMaxEkin;
-        float idExtrapolEta;
-        float idExtrapolPhi;
+    float caloExtrapolMaxEkin;
+    float caloExtrapolEta;
+    float caloExtrapolPhi;
+    
+    float idExtrapolMaxEkin;
+    float idExtrapolEta;
+    float idExtrapolPhi;
         
 	std::vector<G4int> vTrackID;
 	std::vector<G4int> vParentID;
@@ -37,6 +37,9 @@ struct FullTrajectoryInfo {
 	std::vector<G4ThreeVector> vTrackPos;
 	std::vector<G4double> vTrackTime;
 	std::vector<G4double> vTrackPDGID;
+
+    bool is_conversion_track;
+
 	// fastjet::PseudoJet particle_object;
 };
 

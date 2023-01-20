@@ -42,7 +42,8 @@ void Tracking::Trajectory_finder(FullTrajectoryInfo FSP, int nParticle, std::vec
         Track_struct track(pdg, nParticle, energy,
                            FSP.fMass, FSP.fPDGCharge,
                            px, py, pz,
-                           verx, very, verz);
+                           verx, very, verz, 
+                           FSP.is_conversion_track);
         for (int lay = 0; lay < NLayers; lay++)
         {
             track.x_mid_layer.push_back(-1000000);
