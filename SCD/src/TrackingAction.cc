@@ -155,7 +155,7 @@ void TrackingAction::PreUserTrackingAction(const G4Track*aTrack)
 		conv_el_tr.fEnergy = aTrack->GetDynamicParticle()->GetTotalEnergy();
 		conv_el_tr.fMass = aTrack->GetDynamicParticle()->GetMass();
 		conv_el_tr.fTrackID        = aTrack->GetTrackID();
-		conv_el_tr.fPDGCode        = aTrack->GetDefinition()->GetPDGEncoding();
+		conv_el_tr.fPDGCode        = 22; //Choose to label conv. electron track as a photon //aTrack->GetDefinition()->GetPDGEncoding();
 		conv_el_tr.fMomentum       = aTrack->GetMomentum();
 		conv_el_tr.caloExtrapolMaxEkin = 0.0;
 		conv_el_tr.caloExtrapolEta     = conv_el_tr.fMomentum.getEta();

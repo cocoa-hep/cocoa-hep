@@ -150,6 +150,7 @@ void Superclustering::find_seed_clusters(std::vector<Supercluster> &Super_list)
 
             // Treatment for topoclusters matched to conversion tracks...
             int matched_conv_vertex = -1;
+            int track_friend_idx    = -1;
             if(Track_list.at(track_pos_in_list).is_conversion_track)
             {
                 //Check if the other track ("friend") of this conversion vertex was already used in a (higher pT) supercluster
@@ -157,7 +158,7 @@ void Superclustering::find_seed_clusters(std::vector<Supercluster> &Super_list)
                 int size_ConvVertex_list = ConvVertex_list.size();
                 for(int ivtx = 0; ivtx<size_ConvVertex_list; ivtx++)
                 {
-                    int track_friend_idx = ConvVertex_list.at(ivtx).get_friend(Track_list.at(track_pos_in_list));
+                    track_friend_idx = ConvVertex_list.at(ivtx).get_friend(Track_list.at(track_pos_in_list));
                     if(track_friend_idx > -1)
                     {
                         matched_conv_vertex = ivtx;
@@ -181,7 +182,10 @@ void Superclustering::find_seed_clusters(std::vector<Supercluster> &Super_list)
             sc.set_seed(topo);
             sc.set_track(Track_list.at(track_pos_in_list));
             if(matched_conv_vertex > -1)
+            {
+                sc.set_conv_track(Track_list.at(track_friend_idx));
                 sc.set_conv_vertex(ConvVertex_list.at(matched_conv_vertex));
+            }
             sc.distance_seed_track = topo.closest_tracks.at(itrack).first;
 
             Super_list.push_back(sc);

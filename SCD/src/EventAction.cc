@@ -203,7 +203,7 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			if ( config_var.doPFlow )
 			    pflow_obj.fill_cell_var();
 			trajectories.fill_var();
-			if ( true )//TODO config_var.doSuperclusters)
+			if ( config_var.doSuperclustering )
 			{
 				Tracking tracking_low_conv_el(trajectories.fAllConvElectrons, false, tracks_list_low_conv_el.Tracks_list, config_var.low_resolution);
 				tracks_list_low_conv_el.Fill_perigee_var();

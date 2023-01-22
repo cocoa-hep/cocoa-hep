@@ -144,6 +144,11 @@ void Supercluster::set_track(Track_struct track)
     track_assoc = track;
 }
 
+void Supercluster::set_conv_track(Track_struct track)
+{
+    track_conv = track;
+}
+
 void Supercluster::set_conv_vertex(ConversionVertex vtx)
 {
     conv_vertex = vtx;
@@ -157,6 +162,11 @@ std::vector<Topo_clust> Supercluster::get_clusters()
 Track_struct Supercluster::get_track()
 {
     return track_assoc;
+}
+
+Track_struct Supercluster::get_conv_track()
+{
+    return track_conv;
 }
 
 ConversionVertex Supercluster::get_conv_vertex()

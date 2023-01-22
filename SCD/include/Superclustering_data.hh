@@ -27,6 +27,7 @@ class Superclustering_data
     std::vector<int> super_N;
     std::vector<std::vector<float>> topo_idx_list;
     std::vector<int> track_idx;
+    std::vector<int> conv_track_idx;
 };
 
 #endif
