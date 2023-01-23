@@ -167,20 +167,20 @@ ENV G4INSTALL=${Geant4_InstallBaseDir}/geant4make
 ENV G4LIB=${Geant4_DIR}/lib64/Geant4-10.7.3
 ENV G4SYSTEM=Linux-g++
 
-#######
-# SCD #
-#######
+########
+# COSA #
+########
 
-ENV SCD_BASE_DIR=${WKDIR}/SCD
-ENV SCD_SRC_DIR=${SCD_BASE_DIR}/SCD
-ENV SCD_BUILD_DIR=${SCD_BASE_DIR}/build
-RUN mkdir ${SCD_BASE_DIR} ${SCD_BUILD_DIR}
-COPY . ${SCD_BASE_DIR}
-# RUN cd ${SCD_BASE_DIR} && git checkout -b SuperRes origin/SuperRes
-RUN cd ${SCD_BUILD_DIR} && \
-    cmake ${SCD_SRC_DIR}
+ENV COSA_BASE_DIR=${WKDIR}/COSA
+ENV COSA_SRC_DIR=${COSA_BASE_DIR}/COSA
+ENV COSA_BUILD_DIR=${COSA_BASE_DIR}/build
+RUN mkdir ${COSA_BASE_DIR} ${COSA_BUILD_DIR}
+COPY . ${COSA_BASE_DIR}
+# RUN cd ${COSA_BASE_DIR} && git checkout -b SuperRes origin/SuperRes
+RUN cd ${COSA_BUILD_DIR} && \
+    cmake ${COSA_SRC_DIR}
 RUN ln -s -f /usr/lib64/libGL.so.1 /usr/lib64/libGL.so && \
     ln -s -f /usr/lib64/libexpat.so.1 /usr/lib64/libexpat.so && \
     for libTag in Xmu ICE Xext X11 Xt SM; do ln -s -f /usr/lib64/lib${libTag}.so.6 /usr/lib64/lib${libTag}.so; done
-RUN cd ${SCD_BUILD_DIR} && \
+RUN cd ${COSA_BUILD_DIR} && \
     make -j4

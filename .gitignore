@@ -20,7 +20,7 @@
 *.1
 *.ckpt
 build*
-SCD/cmake-build-debug/
+COSA/cmake-build-debug/
 event_display/output/*
 event_display/*.html
 *.svg
