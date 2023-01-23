@@ -7,6 +7,13 @@ Install from Docker
 --------
 The most convenient way to install SCD is to use its `Docker <https://github.com/scd-hep/scd-hep/blob/main/Dockerfile>`_ image from the home area. 
 
+After installing docker execute the following commands
+    .. code-block:: none
+    
+            docker pull ghcr.io/scd-hep/scd-hep:main
+            docker image tag $(docker images | grep scd-hep | head -n 1 | awk '{print $3}') scd-hep
+            docker run -it scd-hep
+
 Non-Docker installation
 --------
 The COSA repository can be downloaded from git `scd-hep <https://github.com/scd-hep/scd-hep.git>`_
