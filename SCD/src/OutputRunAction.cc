@@ -115,7 +115,9 @@ void OutputRunAction::BeginOfRunAction(const G4Run *run)
 		    pflow_obj.set_tree_branches(outTree_low);
 		    pflow_jets_obj.set_tree_branches(outTree_low);
 		}
-		superclustering_data.set_tree_branches(outTree_low);
+		if ( config_var.doSuperclustering) {
+		    superclustering_data.set_tree_branches(outTree_low);
+		}
 		graph_obj.set_tree_branches(outTree_low);
 		true_jets_obj.set_tree_branches(outTree_low);
 		topo_jets_obj.set_tree_branches(outTree_low);
