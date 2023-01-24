@@ -5,7 +5,7 @@ Please follow the steps below to install COSA.
 
 Install from Docker
 --------
-The most convenient way to install SCD is to use its `Docker <https://github.com/scd-hep/scd-hep/blob/main/Dockerfile>`_ image from the home area. 
+The most convenient way to install COSA is to use its `Docker <https://github.com/scd-hep/scd-hep/blob/main/Dockerfile>`_ image from the home area. 
 
 After installing docker execute the following commands
     .. code-block:: none
@@ -57,5 +57,5 @@ An example to run the code interactively:
 
         .. code-block:: none 
 
-           ./build/SCDMain -path_to_script  /path/to/SCD/SCD/macro/Pythia8/ttbar.in -path_to_config  /path/to/SCD/SCD/config/config_doc.json  /path/to/outputdir/output_name.root -set_seed_value 5
+           ./build/SCDMain -path_to_script <path_to_COSA>/SCD/macro/Pythia8/ttbar.in   -path_to_config <path_to_COSA>/SCD/config/config_doc.json   -path_to_output <path_to_output>output_name.root -set_seed_value 1
 
