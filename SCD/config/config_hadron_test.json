@@ -1,5 +1,5 @@
 {
-    "Output_file_path":"./hadron.root",
+    "Output_file_path":"./hadron_test.root",
     "Script_file_path":"macro/Pythia8/ChargedPion_monochromatic_isotropic.in",
     "Type_of_running": "Standard",
     "run_hadron_test" : true,
@@ -17,7 +17,7 @@
         "Noise_in_HCAL":[75, 50, 25],
         "Detector_granularity" : 
         {
-            "Number_of_pixels_ECAL": [256,256,128],
+            "Number_of_pixels_ECAL": [128,128,128],
             "Number_of_pixels_HCAL": [64,64,32],
             "Width_of_ECAL_layers_in_X0":  [4,16,2],
             "Width_of_HCAL_layers_in_Lambda_int":  [1.5,4.1,1.8]
