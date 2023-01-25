@@ -9,7 +9,6 @@ Topo_clust::Topo_clust()
     neutral_energy = 0;
     charge_energy = 0;
 
-    charge = 0;
     eta_com = 0;
     phi_com = 0;
     R_com = 0;
@@ -36,7 +35,6 @@ Topo_clust::Topo_clust(int Label, Geometry_definition Geometry)
     neutral_energy = 0;
     charge_energy = 0;
 
-    charge = 0;
     eta_com = 0;
     phi_com = 0;
     R_com = 0;

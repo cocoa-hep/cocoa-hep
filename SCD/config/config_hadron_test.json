@@ -1,15 +1,15 @@
 {
-    "Output_file_path":"./hadron.root",
+    "Output_file_path":"./hadron_test.root",
     "Script_file_path":"macro/Pythia8/ChargedPion_monochromatic_isotropic.in",
     "Type_of_running": "Standard",
     "run_hadron_test" : true,
-    "Save_truth_particle_graph": false,
-    "Skip_unuseable_tracks": false,
+    "Save_truth_particle_graph": true,
+    "Skip_unuseable_tracks": true,
     "Geometry_definition":
     {
-        "Check_Geometry_overlap":false,
-        "Use_inner_detector":true,
-        "Use_ID_support":true,
+        "Check_Geometry_overlap": false,
+	"Use_inner_detector":true,
+	"Use_ID_support":true,
         "Max_eta_of_barrel_region": 1.5,
         "Max_eta_of_endcap_region": 3.0,
         "Inner_calorimeter_layer" :1500,
@@ -17,7 +17,7 @@
         "Noise_in_HCAL":[75, 50, 25],
         "Detector_granularity" : 
         {
-            "Number_of_pixels_ECAL": [256,256,128],
+            "Number_of_pixels_ECAL": [128,128,128],
             "Number_of_pixels_HCAL": [64,64,32],
             "Width_of_ECAL_layers_in_X0":  [4,16,2],
             "Width_of_HCAL_layers_in_Lambda_int":  [1.5,4.1,1.8]
@@ -49,25 +49,6 @@
         "cluster_negative_energy_cells": false,
         "local_max_seed_energy": 400 
 
-    },
-    "Jet_parameters":
-    {
-        "algorithm": "antikt_algorithm",
-        "radius": 0.6,
-        "recombination_scheme": "E_scheme", 
-        "ptmin": 10000
-    },
-    "Particle_flow":
-    {
-        "S_discriminant_threshold":-1,
-        "E_div_p_threshold": 0.1,
-        "delta_Rprime_threshold": [2.4, 1.25, 0.8],
-        "momentum_delta_Rprime_threshold": [2000, 5000],
-        "factor_sigma_E_div_p_template": 1.25,
-        "Moliere_radius": 0.035
-    },
-    "Fiducial_cuts":
-    {
-        "dR_cut": -1
-    }	
+    }   
+
 }

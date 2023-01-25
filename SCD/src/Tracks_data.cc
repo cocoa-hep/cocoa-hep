@@ -46,7 +46,7 @@ void Tracks_data::Fill_perigee_var()
         }
         for (int ipflow = 0; ipflow < size_pflow; ipflow++)
         {
-            if ((pflow_pbj.pflow_list.at(ipflow).isTrack))
+            if ((pflow_pbj.pflow_list.at(ipflow).charge != 0))
             {
                 track_pflow_object_idx.at(pflow_pbj.pflow_list.at(ipflow).label) = ipflow;
             }

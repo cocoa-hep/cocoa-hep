@@ -28,32 +28,21 @@ Particle_flow_func::Particle_flow_func(std::vector<Track_struct> &track_list, st
     layer_max = -1;
     int size_track_list = track_list.size();
     Topo_List = topo_list;
-
+    
     for (int itrack = 0; itrack < size_track_list; itrack++)
     {
-        if ((abs(track_list.at(itrack).pdgcode)!=13) && track_list.at(itrack).Is_Track_Useable())
+        if (((abs(track_list.at(itrack).pdgcode) != 11) || (abs(track_list.at(itrack).pdgcode) != 13) )&& track_list.at(itrack).Is_Track_Useable())
         {
             track_match_to_topoclusters(track_list.at(itrack));
             if (track_list.at(itrack).Rprime_to_closest_topoclusters.at(0) < delta_Rprime_threshold)
             {
-                if (abs(track_list.at(itrack).pdgcode)!=11)
-                {
-                    layer_max = LHED(track_list.at(itrack), geometry, cells_in_topoclust);
-                    track_list.at(itrack).SetLHED( layer_max );
-                    recovering_shower_split(track_list.at(itrack));
-                    cell_by_cell_subst(track_list.at(itrack));
-                }
-                else
-                {
-                    for (auto tc_idx : track_list.at(itrack).index_of_closest_topoclusters)
-		    {
-                        Topo_List.at(tc_idx-1).charge = track_list.at(itrack).charge;
-                    }
-                }
+                layer_max = LHED(track_list.at(itrack), geometry, cells_in_topoclust);
+		track_list.at(itrack).SetLHED( layer_max );
+                recovering_shower_split(track_list.at(itrack));
+                cell_by_cell_subst(track_list.at(itrack));
             }
         }
     }
-
     for (int itopo = 0; itopo < (int)Topo_List.size(); itopo++)
     {
         if (Topo_List.at(itopo).total_energy > 0)
@@ -64,7 +53,7 @@ Particle_flow_func::Particle_flow_func(std::vector<Track_struct> &track_list, st
 
     for (int itrack = 0; itrack < size_track_list; itrack++)
     {
-        if (abs(track_list.at(itrack).pdgcode)!=11 && track_list.at(itrack).Is_Track_Useable() )
+        if (abs(track_list.at(itrack).pdgcode) != 11 && track_list.at(itrack).Is_Track_Useable())
             pflow_list.emplace_back(track_list.at(itrack));
     }    
 }
