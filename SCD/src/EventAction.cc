@@ -189,6 +189,14 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 		}
 		else
 		{
+			if ( config_var.doSuperclustering )
+			{
+				//Append conversion tracks to primary tracks list so we can do 
+				//superclustering of both electrons and photon conversions in one go
+				for (int iconv=0; iconv < trajectories.fAllConvElectrons.size(); iconv++)
+					trajectories.fAllTrajectoryInfo.push_back(trajectories.fAllConvElectrons.at(iconv));
+			}
+
 			Tracking tracking_low(trajectories.fAllTrajectoryInfo, false, tracks_list_low.Tracks_list, config_var.low_resolution);
 
 			ReduceResolution noise_apply;
@@ -205,12 +213,7 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			trajectories.fill_var();
 			if ( config_var.doSuperclustering )
 			{
-				Tracking tracking_low_conv_el(trajectories.fAllConvElectrons, false, tracks_list_low_conv_el.Tracks_list, config_var.low_resolution);
-				tracks_list_low_conv_el.Fill_perigee_var();
-
-				//Superclustering superclusters(tracks_list_low.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, superclustering_data.super_list);
-				Superclustering superclusters(tracks_list_low_conv_el.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, superclustering_data.super_list);
-
+				Superclustering superclusters(tracks_list_low.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, superclustering_data.super_list);
 				superclustering_data.fill_supercluster_data();
 			}
 

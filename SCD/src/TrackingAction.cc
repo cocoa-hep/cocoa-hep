@@ -179,7 +179,6 @@ void TrackingAction::PreUserTrackingAction(const G4Track*aTrack)
 		}		    
 	    }
 
-	    //trajectories.fAllTrajectoryInfo.push_back( conv_el_tr );
 	    trajectories.fAllConvElectrons.push_back( conv_el_tr );
 	    
 	}
