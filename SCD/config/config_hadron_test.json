@@ -49,25 +49,5 @@
         "cluster_negative_energy_cells": false,
         "local_max_seed_energy": 400 
 
-    },
-   /* "Jet_parameters":
-    {
-        "algorithm": "antikt_algorithm",
-        "radius": 0.6,
-        "recombination_scheme": "E_scheme", 
-        "ptmin": 10000
-    },
-    "Particle_flow":
-    {
-        "S_discriminant_threshold":-1,
-        "E_div_p_threshold": 0.1,
-        "delta_Rprime_threshold": [2.4, 1.25, 0.8],
-        "momentum_delta_Rprime_threshold": [2000, 5000],
-        "factor_sigma_E_div_p_template": 1.25,
-        "Moliere_radius": 0.035
-    },
-    "Fiducial_cuts":
-    {
-        "dR_cut": -1
-    }	*/
+    }
 }
