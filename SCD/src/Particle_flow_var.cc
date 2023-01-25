@@ -3,6 +3,7 @@
 
 Particle_flow_var::Particle_flow_var() 
 {
+    isTrack = false;
     charge = 0;
     label  = 0;
     eta = 0;
@@ -16,6 +17,7 @@ Particle_flow_var::Particle_flow_var()
 
 Particle_flow_var::Particle_flow_var(Track_struct track)
 {
+    isTrack = true;
     charge = sgn(track.q_p);
     label  = track.position_in_list;
     float theta = track.theta;
@@ -31,7 +33,8 @@ Particle_flow_var::Particle_flow_var(Track_struct track)
 
 Particle_flow_var::Particle_flow_var(Topo_clust topo_clust)
 {
-    charge = 0;
+    isTrack = false;
+    charge = topo_clust.charge;
     label = topo_clust.label;
     eta = topo_clust.eta_com;
     phi = topo_clust.phi_com;

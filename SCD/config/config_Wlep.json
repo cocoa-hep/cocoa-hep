@@ -1,8 +1,8 @@
 {
-    "Output_file_path":"./hadron.root",
-    "Script_file_path":"macro/Pythia8/ChargedPion_monochromatic_isotropic.in",
+    "Output_file_path":"./Wlep.root",
+    "Script_file_path":"macro/Pythia8/W.in",
     "Type_of_running": "Standard",
-    "run_hadron_test" : true,
+    "run_hadron_test" : false,
     "Save_truth_particle_graph": false,
     "Skip_unuseable_tracks": false,
     "Geometry_definition":

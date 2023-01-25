@@ -32,6 +32,7 @@ public:
     int truth_link;
     float cell_energy;
     std::vector<std::pair<float,int>> closest_tracks;
+    int charge;
 
     void add_cell(Cell &cell);
     void subtract_cell(Cell &cell, float fraction);
