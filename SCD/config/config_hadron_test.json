@@ -15,9 +15,9 @@
         "Inner_calorimeter_layer" :1500,
         "Noise_in_ECAL":[13, 34, 41],
         "Noise_in_HCAL":[75, 50, 25],
-        "Detector_granularity" : 
+        "Detector_granularity" :
         {
-            "Number_of_pixels_ECAL": [128,128,128],
+            "Number_of_pixels_ECAL": [256,256,128],
             "Number_of_pixels_HCAL": [64,64,32],
             "Width_of_ECAL_layers_in_X0":  [4,16,2],
             "Width_of_HCAL_layers_in_Lambda_int":  [1.5,4.1,1.8]
@@ -47,7 +47,6 @@
         "sigma_threshold_for_neighboring_cells":2,
         "sigma_threshold_for_last_cells": 0,
         "cluster_negative_energy_cells": false,
-        "local_max_seed_energy": 400 
-
+        "local_max_seed_energy": 400
     }
 }
