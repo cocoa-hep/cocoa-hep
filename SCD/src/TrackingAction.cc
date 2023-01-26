@@ -62,6 +62,7 @@ void TrackingAction::PreUserTrackingAction(const G4Track*aTrack)
 	if (aTrack->GetParentID() == 0)
 	{
 	        FullTrajectoryInfo trjInfo;
+		trjInfo.is_conversion_track = false;
 		trjInfo.fParentID = aTrack->GetDynamicParticle()->GetPrimaryParticle()->GetTrackID();
 		trjInfo.fTrackID = aTrack->GetTrackID();
 		trjInfo.fPDGCharge = aTrack->GetDynamicParticle()->GetPrimaryParticle()->GetCharge();

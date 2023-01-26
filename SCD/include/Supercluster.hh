@@ -46,6 +46,9 @@ class Supercluster
         int n_clusters;
         float total_energy;
         float distance_seed_track;
+        std::vector<float> com;
+        float eta;
+        float phi;
         Supercluster();
         void add_cluster(Topo_clust topo);
         void set_seed(Topo_clust seed);
@@ -53,6 +56,7 @@ class Supercluster
         void set_conv_track(Track_struct track);
         void set_conv_vertex(ConversionVertex vtx);
         std::vector<Topo_clust> get_clusters();
+        Topo_clust get_merged_cluster();
         Track_struct get_track();
         Track_struct get_conv_track();
         ConversionVertex get_conv_vertex();

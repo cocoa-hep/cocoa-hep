@@ -37,6 +37,7 @@ class Superclustering
         void find_conversion_vertices();
         void find_seed_clusters(std::vector<Supercluster> &Super_list);
         void add_neighbor_clusters(std::vector<Supercluster> &Super_list);
+        void calc_merged_clusters(std::vector<Supercluster> &Super_list);
 };
 
 #endif //__SUPERCLUSTERING_H__

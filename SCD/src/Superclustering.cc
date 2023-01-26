@@ -1,9 +1,10 @@
 #include "Superclustering.hh"
 #include "Supercluster.hh"
 #include "Topo_clust_var.hh"
+#include "Cell_var.hh"
 
 
-bool in_eta_phi_window(const Topo_clust &topo_1, const Topo_clust &topo_2)
+bool in_eta_phi_window(const Topo_clust &topo_1, const Topo_clust &topo_2, std::string wp="tight")
 {
 
     float deta = fabs(topo_1.eta_com - topo_2.eta_com);
@@ -11,8 +12,8 @@ bool in_eta_phi_window(const Topo_clust &topo_1, const Topo_clust &topo_2)
     if (dphi > M_PI)
         dphi -= 2 * M_PI;
 
-    bool passeta = (deta < 0.125);
-    bool passphi = (dphi < 0.300);
+    bool passeta = (wp=="tight") ? (deta < 0.075) : (deta < 0.125);
+    bool passphi = (wp=="tight") ? (dphi < 0.125) : (dphi < 0.300);
  
     return (passeta && passphi);
 }
@@ -52,6 +53,7 @@ Superclustering::Superclustering(std::vector<Track_struct> &_track_list, std::ve
     find_seed_clusters(Super_list);
     sort_by_energy(Super_list);
     add_neighbor_clusters(Super_list);
+    calc_merged_clusters(Super_list);
 }
 
 void Superclustering::topo_match_to_tracks()
@@ -92,8 +94,11 @@ void Superclustering::find_conversion_vertices()
     int size_track_list = Track_list.size();
     for (int itrack = 0; itrack < size_track_list; itrack++)
     {
+        if(!Track_list.at(itrack).is_conversion_track)
+            continue;
+
         int n_added = 0;
-        ConversionVertex vtx;
+        ConversionVertex vtx = ConversionVertex();
 
         //Find the pair of tracks that came from this conversion
         if(vtx.try_add_track(Track_list.at(itrack)))
@@ -162,13 +167,11 @@ void Superclustering::find_seed_clusters(std::vector<Supercluster> &Super_list)
                     if(track_friend_idx > -1)
                     {
                         matched_conv_vertex = ivtx;
-                    }
-                    else continue;
-
-                    //Look if the friend is among the tracks that have already been used for superclusters
-                    if((std::find(used_tracks.begin(),used_tracks.end(),track_friend_idx) != used_tracks.end()) && (used_tracks.size() > 0))
-                    {
-                        friend_is_matched_to_seed = true;
+                        //Look if the friend is among the tracks that have already been used for superclusters
+                        if((std::find(used_tracks.begin(),used_tracks.end(),track_friend_idx) != used_tracks.end()) && (used_tracks.size() > 0))
+                            friend_is_matched_to_seed = true;
+                        else
+                            friend_is_matched_to_seed = false;
                         break;
                     }
                 }
@@ -212,25 +215,44 @@ void Superclustering::add_neighbor_clusters(std::vector<Supercluster> &Super_lis
         for(int itopo=0; itopo<Topo_List.size(); itopo++)
         {
             Topo_clust test = Topo_List.at(itopo);
-            
+
+            //Check EM energy            
             if (test.EM_energy <= 400)
                 continue;
 
+            //Check EM fraction
             if ((test.EM_energy/test.total_energy) <= 0.5)
                 continue;
 
+            //Check already-taken list
             if (std::count(taken_topos.begin(), taken_topos.end(), test.label) > 0)
                 continue;
 
+            //Check if test is the seed topocluster
             if (seed.label == test.label)
                 continue;
 
-            if (in_eta_phi_window(test,seed)){
+            //Check angular window
+            if (in_eta_phi_window(test,seed,"tight")){
                 Super_list.at(isuper).add_cluster(test);
                 taken_topos.push_back(test.label);
             }
-            else if(Super_list.at(isuper).get_track().is_conversion_track)
+            else if(!Super_list.at(isuper).get_track().is_conversion_track){
+                //For primary electrons (not photon conversions), 
+                if(test.closest_tracks.size()==0)
+                    continue;
+                //if test shares closest track with seed
+                if(test.closest_tracks.at(0).second != Super_list.at(isuper).get_track().position_in_list)
+                    continue;
+                //check in wider window if test shares closest track with seed
+                if(in_eta_phi_window(test,seed,"loose")){
+                    Super_list.at(isuper).add_cluster(test);
+                    taken_topos.push_back(test.label);
+                }
+            }
+            else //i.e. for a conversion track...
             {
+                //Check if associated with same conversion vertex as seed
                 if(Super_list.at(isuper).get_conv_vertex().contains(test))
                 {
                     Super_list.at(isuper).add_cluster(test);
@@ -238,5 +260,54 @@ void Superclustering::add_neighbor_clusters(std::vector<Supercluster> &Super_lis
                 }
             }
         }
+    }
+}
+
+void Superclustering::calc_merged_clusters(std::vector<Supercluster> &Super_list)
+{
+
+    //Loop over superclusters (still only seeds)
+    for(int isuper=0; isuper<Super_list.size(); isuper++)
+    {
+        float sum_cell_e_times_x = 0;
+        float sum_cell_e_times_y = 0;
+        float sum_cell_e_times_z = 0;
+        float sum_cell_e         = 0;
+
+        std::vector<Topo_clust> topo_members = Super_list.at(isuper).get_clusters();
+
+        for(int itopo=0; itopo<topo_members.size(); itopo++)
+        {
+            int topo_label = topo_members.at(itopo).label;        
+            int n_cells    = cells_in_topoclust.size();
+
+            for (int cell_i = 0; cell_i < n_cells; ++cell_i)
+            {
+                if (cells_in_topoclust.at(cell_i)->get_label() != topo_label)
+                    continue;
+                
+                Cell *cell = cells_in_topoclust.at(cell_i);
+                if (cell->get_layer() < 3)
+                {
+                    float en = cell->get_total_energy();
+                    sum_cell_e_times_x += en*cell->get_x();
+                    sum_cell_e_times_y += en*cell->get_y();
+                    sum_cell_e_times_z += en*cell->get_z();
+                    sum_cell_e         += en;
+                }
+            }
+        }
+
+        sum_cell_e_times_x /= sum_cell_e;
+        sum_cell_e_times_y /= sum_cell_e;
+        sum_cell_e_times_z /= sum_cell_e;
+
+        std::vector<float> com = {sum_cell_e_times_x,sum_cell_e_times_y,sum_cell_e_times_z};
+        Super_list.at(isuper).com = com;
+
+        float R                   = sqrtf(com[0]*com[0] + com[1]*com[1] + com[2]*com[2]);
+	    float theta               =  acos(com[2]/R);
+	    Super_list.at(isuper).phi =  atan(com[1]/com[0]);
+	    Super_list.at(isuper).eta = -1*log(tan(theta/2.));
     }
 }

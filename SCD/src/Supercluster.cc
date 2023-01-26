@@ -5,6 +5,8 @@
 
 ConversionVertex::ConversionVertex()
 {
+    track_list = {};
+    topo_list = {};
     x = 0;
     y = 0;
     z = 0;
@@ -46,9 +48,6 @@ bool ConversionVertex::try_add_track(Track_struct track)
             {
                 track_list.push_back(track.position_in_list);
                 success = true; //second track added
-            }
-            else{
-                G4cout << "DIST TOO BIG! " << sqrtf(dist2) << G4endl;
             }
         }
     }
@@ -107,7 +106,12 @@ int ConversionVertex::get_friend(Topo_clust topo)
 }
 
 
-Supercluster::Supercluster(){}
+Supercluster::Supercluster()
+{
+    com = {0,0,0};
+    eta = -999;
+    phi = -999;
+}
 
 void Supercluster::sort_by_energy()
 {

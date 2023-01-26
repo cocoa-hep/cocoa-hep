@@ -62,7 +62,12 @@ void Track_struct::smearing()
 void Track_struct::IsProductInsideRadius()
 {
     float Rtrack = sqrt(sqr(initX) + sqr(initY));
-    if ((Rtrack > r_inn_trkPix1) || (fabs(initZ) > pos_EndCap_trkPix1))
+    if (is_conversion_track){
+        //Allow for conversion tracks to originate as far out as between Str0 and Str1
+        if  ((Rtrack > r_inn_trkStr1) || (fabs(initZ) > pos_EndCap_trkStr1))
+            Is_inside_R = false;
+    }
+    else if ((Rtrack > r_inn_trkPix1) || (fabs(initZ) > pos_EndCap_trkPix1))
         Is_inside_R = false;
 }
 void Track_struct::IsTrackReconstructed()
