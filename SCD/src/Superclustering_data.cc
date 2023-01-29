@@ -47,7 +47,7 @@ void Superclustering_data::fill_supercluster_data()
         }
 
         Track_struct assoc_track = super_list.at(isuper).get_track();
-        float track_phi_i   = atan(assoc_track.py/assoc_track.px);
+        float track_phi_i   = atan2(assoc_track.py,assoc_track.px);
         float track_p_i     = sqrtf(assoc_track.px*assoc_track.px + assoc_track.py*assoc_track.py + assoc_track.pz*assoc_track.pz);
         float track_theta_i = acos(assoc_track.pz/track_p_i);
         float track_eta_i   = -1*log(tan(track_theta_i/2.));
