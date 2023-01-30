@@ -149,6 +149,10 @@ void Superclustering::find_seed_clusters(std::vector<Supercluster> &Super_list)
         {
             int track_pos_in_list = topo.closest_tracks.at(itrack).second;
 
+            // Check that this track is either from a photon conversion or from a primary electron (i.e. we are not doing electron ID)
+            if(!Track_list.at(track_pos_in_list).is_conversion_track && !(abs(Track_list.at(track_pos_in_list).pdgcode)==11))
+                continue;
+
             // Check if this track was already matched to a seed cluster (with higher energy)
             if((std::find(used_tracks.begin(),used_tracks.end(),track_pos_in_list) != used_tracks.end()) && (used_tracks.size() > 0))
                 continue;
