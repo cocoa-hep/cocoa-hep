@@ -307,7 +307,7 @@ void Superclustering::calc_merged_clusters(std::vector<Supercluster> &Super_list
 
         float R                   = sqrtf(com[0]*com[0] + com[1]*com[1] + com[2]*com[2]);
 	    float theta               =  acos(com[2]/R);
-	    Super_list.at(isuper).phi =  atan(com[1]/com[0]);
+	    Super_list.at(isuper).phi =  atan2(com[1],com[0]);
 	    Super_list.at(isuper).eta = -1*log(tan(theta/2.));
     }
 }
