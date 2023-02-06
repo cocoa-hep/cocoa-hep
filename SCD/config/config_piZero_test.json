@@ -17,7 +17,7 @@
         "Noise_in_HCAL":[75, 50, 25],
         "Detector_granularity" : 
         {
-            "Number_of_pixels_ECAL": [128,128,128],
+            "Number_of_pixels_ECAL": [256,256,128],
             "Number_of_pixels_HCAL": [64,64,32],
             "Width_of_ECAL_layers_in_X0":  [4,16,2],
             "Width_of_HCAL_layers_in_Lambda_int":  [1.5,4.1,1.8]
