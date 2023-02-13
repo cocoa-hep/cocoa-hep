@@ -1,9 +1,9 @@
 {
-    "Output_file_path":"./hadron_test.root",
+    "Output_file_path":"./piZero_response_test.root",
     "Script_file_path":"macro/Pythia8/PiZero_monochromatic_isotropic.in",
     "Type_of_running": "Standard",
     "run_piZero_test" : true,
-    "Save_truth_particle_graph": true,
+    "Save_truth_particle_graph": false,
     "Skip_unuseable_tracks": true,
     "Geometry_definition":
     {
