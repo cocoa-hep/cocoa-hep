@@ -336,10 +336,10 @@ void TruthRecordGraph::set_tree_branches(TTree *outTree)
 	outTree->Branch("node_prodx", &node_prodx);
 	outTree->Branch("node_prody", &node_prody);
 	outTree->Branch("node_prodz", &node_prodz);
-	outTree->Branch("final_idx", &final_idx);
+	outTree->Branch("node_final_state_idx", &final_idx); 
 	outTree->Branch("node_decx", &node_decx);
 	outTree->Branch("node_decy", &node_decy);
 	outTree->Branch("node_decz", &node_decz);
-	outTree->Branch("edge_start", &edge_start);
-	outTree->Branch("edge_end", &edge_end);
+	outTree->Branch("node_edge_start", &edge_start);
+	outTree->Branch("node_edge_end", &edge_end);
 }

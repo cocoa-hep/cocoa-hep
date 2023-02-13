@@ -75,10 +75,10 @@ void Full_trajectory_info_data::fill_var(){
 	float phi   = GetPhi( px, py );
 	
         particle_pdgid.push_back(fAllTrajectoryInfo.at(iparticle).fPDGCode);
-	particleisIso.push_back(DeltaR_iso(px, py, pz,iparticle,int(fAllTrajectoryInfo.at(iparticle).fPDGCode)));
-        particle_px.push_back(px);
-        particle_py.push_back(py);
-        particle_pz.push_back(pz);
+	    particleisIso.push_back(DeltaR_iso(px, py, pz,iparticle,int(fAllTrajectoryInfo.at(iparticle).fPDGCode)));
+        particle_pt.push_back(sqrtf(px*px + py*py));
+        particle_eta.push_back(eta);
+        particle_phi.push_back(phi);
         particle_e.push_back(fAllTrajectoryInfo.at(iparticle).fEnergy);
         particle_prod_x.push_back(fAllTrajectoryInfo.at(iparticle).fVertexPosition.x());
         particle_prod_y.push_back(fAllTrajectoryInfo.at(iparticle).fVertexPosition.y());
@@ -157,9 +157,9 @@ void Full_trajectory_info_data::clear()
     fAllConvElectrons.clear();
     particle_pdgid.clear();
     particleisIso.clear();
-    particle_px.clear();
-    particle_py.clear();
-    particle_pz.clear();
+    particle_pt.clear();
+    particle_eta.clear();
+    particle_phi.clear();
     particle_e.clear();
     particle_prod_x.clear();
     particle_prod_y.clear();
@@ -197,14 +197,14 @@ void Full_trajectory_info_data::set_tree_branches(TTree *outTree)
 {
     outTree->Branch("particle_pdgid"   ,           "vector<int>", &particle_pdgid);
     outTree->Branch("particle_isIso"   ,           "vector<int>", &particleisIso);
-    outTree->Branch("particle_px"  ,               "vector<float>", &particle_px);
-    outTree->Branch("particle_py"  ,               "vector<float>", &particle_py);
-    outTree->Branch("particle_pz"  ,               "vector<float>", &particle_pz);
+    outTree->Branch("particle_pt"  ,               "vector<float>", &particle_pt);
+    outTree->Branch("particle_eta"  ,               "vector<float>", &particle_eta);
+    outTree->Branch("particle_phi"  ,               "vector<float>", &particle_phi);
     outTree->Branch("particle_e"   ,               "vector<float>", &particle_e);
     outTree->Branch("particle_prod_x"  ,           "vector<float>", &particle_prod_x);
     outTree->Branch("particle_prod_y"  ,           "vector<float>", &particle_prod_y);
     outTree->Branch("particle_prod_z"  ,           "vector<float>", &particle_prod_z);
-    outTree->Branch("particle_to_track",           "vector<int>", &particle_to_track);
+    outTree->Branch("particle_track_idx",          "vector<int>", &particle_to_track);
     outTree->Branch("conv_el_pdgid",               "vector<int>",   &conv_el_pdgid);
     outTree->Branch("conv_el_fPrimaryPhotonIndex", "vector<int>",   &conv_el_fPrimaryPhotonIndex);
     outTree->Branch("conv_el_px",                  "vector<float>", &conv_el_px);

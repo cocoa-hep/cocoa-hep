@@ -62,9 +62,9 @@ void fill_var();
 private:
 	std::vector <int>	particle_pdgid;
         std::vector <int>   particleisIso;
-	std::vector <float> particle_px;
-	std::vector <float> particle_py;
-	std::vector <float> particle_pz;
+	std::vector <float> particle_pt;
+	std::vector <float> particle_eta;
+	std::vector <float> particle_phi;
 	std::vector <float> particle_e;
 	std::vector <float> particle_prod_x;
 	std::vector <float> particle_prod_y;
