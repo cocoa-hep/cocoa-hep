@@ -15,7 +15,7 @@ The most convenient way to install SCD is to use its docker image from <TO BE PR
 
 To simplest way to prepare all dependencies is to mount the [CernVM File System](https://cvmfs.readthedocs.io/en/stable/cpt-quickstart.html) and run
 ```
-source SCD/setup.sh
+source setup_cvmfs.sh
 ```
 Otherwise the dependencies need to be taken care of individually. The [Dockerfile](Dockerfile) can be used for guidance in this case.
 
