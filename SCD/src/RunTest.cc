@@ -66,7 +66,7 @@ int RunTest( test_t type ) {
 
     switch ( type ) {
         case kHADRON:
-            mean_expected = 0.57;
+            mean_expected = 0.5;
             std_expected  = 0.23;
             test_name     = "hadron";
             break;
