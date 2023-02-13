@@ -1,10 +1,10 @@
 {
-    "Output_file_path":"./hadron.root",
+    "Output_file_path":"./hadron_response_test.root",
     "Script_file_path":"macro/Pythia8/ChargedPion_monochromatic_isotropic.in",
     "Type_of_running": "Standard",
     "run_hadron_test" : true,
     "Save_truth_particle_graph": false,
-    "Skip_unuseable_tracks": false,
+    "Skip_unuseable_tracks": true,
     "Geometry_definition":
     {
         "Check_Geometry_overlap":false,
