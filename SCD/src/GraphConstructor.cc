@@ -10,11 +10,12 @@ GraphConstructor::GraphConstructor(std::vector<Cell*> &low_cells_in_topoclusters
 									 graph_obj.high_cell_to_low_cell_edge, graph_obj.low_cell_to_high_cell_edge);//! Probably some mistake
 }
 
-GraphConstructor::GraphConstructor(std::vector<Cell*> &low_cells_in_topoclusters, std::vector<Track_struct> &tracks_list, std::vector<G4int> &particle_to_track, Graph_construction_data &graph_obj) 
+GraphConstructor::GraphConstructor(std::vector<Cell*> &low_cells_in_topoclusters, std::vector<Track_struct> &tracks_list, std::vector<G4int> &particle_to_track, Graph_construction_data &graph_obj,
+				     std::vector<float> *_particle_dep_energies)
 {
 	fill_cell_to_cell_edges(low_cells_in_topoclusters, graph_obj.cell_to_cell_edge_start, graph_obj.cell_to_cell_edge_end);
 	fill_track_to_cell_edges(low_cells_in_topoclusters, tracks_list, graph_obj.track_to_cell_edge_start, graph_obj.track_to_cell_edge_end);
-	fill_particle_to_node_edges(low_cells_in_topoclusters, particle_to_track, graph_obj.particle_to_node_idx, graph_obj.particle_to_node_weight);
+	fill_particle_to_node_edges(low_cells_in_topoclusters, particle_to_track, graph_obj.particle_to_node_idx, graph_obj.particle_to_node_weight, _particle_dep_energies);
 }
 
 void GraphConstructor::fill_cell_to_cell_edges(std::vector<Cell*> &cell,
@@ -123,7 +124,7 @@ void GraphConstructor::fill_cell_to_cell_edges(std::vector<Cell*> &cell,
 		//int found_edges = 0;
 		size_t n_edges_to_add = pq.size();
         if(n_edges_to_add > config_json_var.graph_construction.max_samelayer_edges[layer_i]){
-        	std::cout << "I dont' know why, but n_edges_to_add = " << n_edges_to_add << " for layer " << layer_i << std::endl;
+        	std::cout << "WARNING: n_edges_to_add = " << n_edges_to_add << " for layer " << layer_i << " (expected " << config_json_var.graph_construction.max_samelayer_edges[layer_i] << ")" << std::endl;
         }
 
         // Add (incoming) edges to cell_i based on the ordering of the priority queue
@@ -172,13 +173,9 @@ void GraphConstructor::fill_cell_to_cell_edges(std::vector<Cell*> &cell,
 
 	for (auto &[a, b] : edge_list)
 	{
-		//HACK messy -- already swapped in dataloader
-		//swapped way:
-		cell_to_cell_edge_end.push_back( a.second);
-		cell_to_cell_edge_start.push_back( a.first );
-		//logical way (given variable names):
-		//cell_to_cell_edge_start.push_back( a.second);
-		//cell_to_cell_edge_end.push_back( a.first );
+		//start = source node index (j), end = destination node index (i)
+		cell_to_cell_edge_start.push_back( a.second);
+		cell_to_cell_edge_end.push_back( a.first );
 	}
 }
 

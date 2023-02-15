@@ -60,9 +60,6 @@ void Tracks_data::set_tree_branches(TTree *outTree, int NLayers, std::string Typ
     nLayers = NLayers;
     if (Type_of_running != "PFlow_debug_E_p_template")
     {
-	Config_reader_var &config_var = Config_reader_var::GetInstance();
-        if ( config_var.doPFlow )
-	    outTree->Branch("track_pflow_object_idx", "vector<int>", &track_pflow_object_idx);
         outTree->Branch("track_pdgid"           , "vector<int>", &TrckPDGID        );
         outTree->Branch("track_parent_idx"      , "vector<int>", &TrckPosInRealList   );
         outTree->Branch("track_d0"              , "vector<float>", &PerigeeA0   );
@@ -72,7 +69,13 @@ void Tracks_data::set_tree_branches(TTree *outTree, int NLayers, std::string Typ
         outTree->Branch("track_pt"              , "vector<float>", &PerigeePt  );
         outTree->Branch("track_reconstructed"   , "vector<int>", &track_reconstructed);
         outTree->Branch("track_in_acceptance"   , "vector<int>", &track_accepted);
-        outTree->Branch("track_lhed"            , "vector<int>", &track_LHED );
+
+	    Config_reader_var &config_var = Config_reader_var::GetInstance();
+        if ( config_var.doPFlow )
+        {
+            outTree->Branch("track_pflow_object_idx", "vector<int>", &track_pflow_object_idx);
+            outTree->Branch("track_lhed"            , "vector<int>", &track_LHED );
+        }
     }
     for (int i = 0; i < nLayers; i++)
     {

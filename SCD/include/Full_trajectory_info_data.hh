@@ -19,17 +19,17 @@ struct FullTrajectoryInfo {
 	G4ThreeVector fMomentum;
 	G4ThreeVector fMomentumDir;
 	G4double    fEnergy ;
-        G4double    fMass ;
+    G4double    fMass ;
 	G4ThreeVector fVertexPosition;
 	G4double fGlobalTime;
         
-        float caloExtrapolMaxEkin;
-        float caloExtrapolEta;
-        float caloExtrapolPhi;
-        
-        float idExtrapolMaxEkin;
-        float idExtrapolEta;
-        float idExtrapolPhi;
+    float caloExtrapolMaxEkin;
+    float caloExtrapolEta;
+    float caloExtrapolPhi;
+    
+    float idExtrapolMaxEkin;
+    float idExtrapolEta;
+    float idExtrapolPhi;
         
 	std::vector<G4int> vTrackID;
 	std::vector<G4int> vParentID;
@@ -69,35 +69,20 @@ private:
 	std::vector <float> particle_prod_x;
 	std::vector <float> particle_prod_y;
 	std::vector <float> particle_prod_z;
-        std::vector<float>  particle_dep_energy;
-        std::vector<int>    conv_el_pdgid;
-        std::vector<int>    conv_el_fPrimaryPhotonIndex;
-        std::vector<float>  conv_el_px;
-        std::vector<float>  conv_el_py;
-        std::vector<float>  conv_el_pz;
-        std::vector<float>  conv_el_prod_x;
-        std::vector<float>  conv_el_prod_y;
-        std::vector<float>  conv_el_prod_z;
-    
+    std::vector<float>  particle_dep_energy;
+    std::vector<int>    conv_el_fPrimaryPhotonIndex;
+    std::vector<float>  conv_el_px;
+    std::vector<float>  conv_el_py;
+    std::vector<float>  conv_el_pz;
+    std::vector<float>  conv_el_prod_x;
+    std::vector<float>  conv_el_prod_y;
+    std::vector<float>  conv_el_prod_z;
 
-        std::vector<float> caloExtrapolEta;     // pseudorapidity of the same-pdgid daughter track of maximum kinetic energy in the calorimeter
-        std::vector<float> caloExtrapolPhi;     // phi of the same-pdgid daughter track of maximum kinetic energy in the calorimeter
+    std::vector<float> caloExtrapolEta;     // pseudorapidity of the same-pdgid daughter track of maximum kinetic energy in the calorimeter
+    std::vector<float> caloExtrapolPhi;     // phi of the same-pdgid daughter track of maximum kinetic energy in the calorimeter
 
-        std::vector<float> idExtrapolEta;     // pseudorapidity of the same-pdgid daughter track of maximum kinetic energy in the outermost id layer
-        std::vector<float> idExtrapolPhi;     // phi of the same-pdgid daughter track of maximum kinetic energy in the outermost id layer
-
-        std::vector <float> particle_eta_lay0;
-        std::vector <float> particle_eta_lay1;
-        std::vector <float> particle_eta_lay2;
-        std::vector <float> particle_eta_lay3;
-        std::vector <float> particle_eta_lay4;
-        std::vector <float> particle_eta_lay5;
-        std::vector <float> particle_phi_lay0;
-        std::vector <float> particle_phi_lay1;
-        std::vector <float> particle_phi_lay2;
-        std::vector <float> particle_phi_lay3;
-        std::vector <float> particle_phi_lay4;
-        std::vector <float> particle_phi_lay5;
+    std::vector<float> idExtrapolEta;     // pseudorapidity of the same-pdgid daughter track of maximum kinetic energy in the outermost id layer
+    std::vector<float> idExtrapolPhi;     // phi of the same-pdgid daughter track of maximum kinetic energy in the outermost id layer
 };
 
 #endif // __FULL_TRAJECTORY_INFO_VAR_H__
