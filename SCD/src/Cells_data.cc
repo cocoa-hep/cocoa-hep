@@ -31,7 +31,6 @@ void Cells_data::clear()
 	Cells_in_topoclusters.clear();
 	fCell_array.clear();
 	cell_pflow_object_idx.clear();
-	cell_particle_target.clear();
 	cell_layer.clear();
 	cell_x.clear();
 	cell_y.clear();
@@ -87,7 +86,6 @@ void Cells_data::set_tree_branches(TTree *outTree)
 	//* cell branches
         if ( config_var.doPFlow )
 	    outTree->Branch("cell_pflow_object_idx"   , "vector<int>",   &cell_pflow_object_idx);
-	outTree->Branch("cell_particle_target", "vector<int>", &cell_particle_target);
 	outTree->Branch("cell_layer", "vector<int>", &cell_layer);
 	outTree->Branch("cell_x", "vector<float>", &cell_x);
 	outTree->Branch("cell_y", "vector<float>", &cell_y);
@@ -110,9 +108,6 @@ void Cells_data::fill_cell_var()
 	Particle_flow_data &pflow_obj = Particle_flow_data::GetInstance();
 	int size_fsp_obj = fsp_obj.fAllTrajectoryInfo.size();
 	int size_pflow = pflow_obj.pflow_list.size();
-	std::vector<float> cell_particle_target_energy;
-	std::vector<int> particle_to_selected_cell_idx(size_fsp_obj, -1);
-	std::vector<float> particle_to_max_energy(size_fsp_obj, -1);
 	int cell_counter = 0;
 	int size_Cells_in_topoclusters = Cells_in_topoclusters.size();
 	for (int icell = 0; icell < size_Cells_in_topoclusters; icell++)
@@ -185,19 +180,6 @@ void Cells_data::fill_cell_var()
 		std::vector<float> cell_parents;
 		std::vector<float> cell_i_parent_energy;
 
-		cell_particle_target.push_back(-1);
-		cell_particle_target_energy.push_back(-1);
-
-		if(parent_idx > -1)
-		{
-			float current_max_energy = particle_to_max_energy.at(parent_idx);
-
-			if(local_cell->get_total_energy() > current_max_energy){
-				particle_to_selected_cell_idx.at(parent_idx) = cell_counter;
-				particle_to_max_energy.at(parent_idx) = local_cell->get_total_energy();
-			}
-		}
-
 		for (int parent_i = 0; parent_i < n_parents; parent_i++)
 		{
 			float parent_energy = valueE.at(parent_i);
@@ -212,18 +194,6 @@ void Cells_data::fill_cell_var()
 		cell_parent_list.push_back(cell_parents);
 		cell_parent_energy.push_back(cell_i_parent_energy);
 		cell_counter++;
-	}
-	for (int iparticle = 0; iparticle < size_fsp_obj; iparticle++)
-	{
-		int sel_cell_idx = particle_to_selected_cell_idx.at(iparticle);
-		float max_e = particle_to_max_energy.at(iparticle);
-		if (sel_cell_idx < 0) continue;
-		if (max_e > cell_particle_target_energy.at(sel_cell_idx))
-		{
-			cell_particle_target.at(sel_cell_idx) = iparticle;
-			cell_particle_target_energy.at(sel_cell_idx) = max_e;
-		}
-
 	}
 }
 

@@ -14,7 +14,6 @@ private:
     std::vector<int> Number_Pixel_Flatten;
     Config_reader_var &config_var = Config_reader_var::GetInstance();
     std::vector<int> cell_pflow_object_idx;
-    std::vector<int> cell_particle_target;
     std::vector<int> cell_layer;
     std::vector<float> cell_x;
     std::vector<float> cell_y;
