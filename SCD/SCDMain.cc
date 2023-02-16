@@ -54,10 +54,11 @@ static void show_usage(std::string name)
 {
 	std::cerr << "Usage: \n" << name << " <option(s)> "
 			  << "Options:\n"
-			  << "\t-path_to_config\t path to json configuration file\n"
-			  << "\t-path_to_script\t path to Geant4 macro file for particle gun (can be set in json configuration file)\n"
-			  << "\t-path_to_output\t destination and name of the output root file (can be set in json configuration file)\n"
-			  << "\t-set_seed_value\t set random seed\n"
+			  << "\t--config (-c) <str>\t path to json configuration file\n"
+			  << "\t--macro (-m) <str>\t path to Geant4 or Pythia8 macro file for event generation (can be set in json configuration file)\n"
+			  << "\t--output (-o) <str>\t path (incl. name) of output ROOT file to be written (can be set in json configuration file)\n"
+			  << "\t--seed (-s) <int>\t set random seed\n"
+			  << "\t--help (-h)\t show this message\n"
 			  << "no <option(s)> will call UI interactive command submission\n" 
 			  << std::endl;
 }
@@ -82,7 +83,7 @@ int main(int argc, char **argv)
 	else if (argc == 2)
 	{
 		std::string arg = argv[1];
-		if ((arg == "-h") || (arg == "-help"))
+		if (arg == "--help" || arg == "-h")
 		{
 			show_usage(argv[0]);
 			return 0;
@@ -99,7 +100,7 @@ int main(int argc, char **argv)
 		for (int i = 1; i < argc; ++i)
 		{
 			std::string arg = argv[i];
-			if (arg == "-path_to_output")
+			if (arg == "--output" || arg == "-o")
 			{
 				if (i + 1 < argc) // Make sure we aren't at the end of argv
 				{
@@ -108,11 +109,11 @@ int main(int argc, char **argv)
 				}
 				else
 				{
-					std::cerr << "-path_to_output option requires one argument." << std::endl;
+					std::cerr << "--output option requires one argument." << std::endl;
 					return 1;
 				}
 			}
-			else if (arg == "-path_to_script")
+			else if (arg == "--macro" || arg == "-m")
 			{
 				if (i + 1 < argc) // Make sure we aren't at the end of argv
 				{
@@ -121,11 +122,11 @@ int main(int argc, char **argv)
 				}
 				else
 				{
-					std::cerr << "-path_to_script option requires one argument." << std::endl;
+					std::cerr << "--macro option requires one argument." << std::endl;
 					return 1;
 				}
 			}
-			else if (arg == "-set_seed_value")
+			else if (arg == "--seed" || arg == "-s")
 			{
 				if (i + 1 < argc) // Make sure we aren't at the end of argv
 				{
@@ -134,11 +135,11 @@ int main(int argc, char **argv)
 				}
 				else
 				{
-					std::cerr << "-set_seed_value option requires one argument." << std::endl;
+					std::cerr << "--seed option requires one argument." << std::endl;
 					return 1;
 				}
 			}
-			else if (arg == "-path_to_config")
+			else if (arg == "--config" || arg == "-c")
 			{
 				if (i + 1 < argc) // Make sure we aren't at the end of argv
 				{
@@ -147,7 +148,7 @@ int main(int argc, char **argv)
 				}
 				else
 				{
-					std::cerr << "-path_to_config option requires one argument." << std::endl;
+					std::cerr << "--config option requires one argument." << std::endl;
 					return 1;
 				}
 			}

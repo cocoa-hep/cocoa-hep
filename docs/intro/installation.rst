@@ -47,15 +47,15 @@ From within `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory:
 
            **./build/SCDMain** run with Geant4 User Interface.
            **./build/SCDMain -h**  show input options for batch-mode with following options
-           **-path_to_config** path to json configuration file
-           **-path_to_script** path to Geant4 macro file for particle gun (can be set in json configuration file)
-           **-path_to_output** destination and name of the output root file (can be set in json configuration file)
-           **-set_seed_value** set random seed
+           **--config (-c) <str>** path to json configuration file
+           **--macro (-m) <str>** path to Geant4 or Pythia8 macro file for event generation (can be set in json configuration file
+           **--output (-o) <str>** path (incl. name) of output ROOT file to be written (can be set in json configuration file)
+           **--seed (-s) <int>** set random seed
 Example
 -------- 
 An example to run the code interactively:
 
         .. code-block:: none 
 
-           ./build/SCDMain -path_to_script  /path/to/SCD/SCD/macro/Pythia8/ttbar.in -path_to_config  /path/to/SCD/SCD/config/config_doc.json  /path/to/outputdir/output_name.root -set_seed_value 5
+           ./build/SCDMain --macro  /path/to/SCD/SCD/macro/Pythia8/ttbar.in --config  /path/to/SCD/SCD/config/config_doc.json  /path/to/outputdir/output_name.root --seed 5
 
