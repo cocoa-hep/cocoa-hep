@@ -24,6 +24,9 @@
 // ********************************************************************
 
 #include <cstdlib>
+#include <iostream>
+#include <fstream>
+#include <string> 
 #include "OutputRunAction.hh"
 #include "DetectorConstruction.hh"
 #include "PrimaryGeneratorAction.hh"
@@ -58,6 +61,7 @@ static void show_usage(std::string name)
 			  << "\t--macro (-m) <str>\t path to Geant4 or Pythia8 macro file for event generation (can be set in json configuration file)\n"
 			  << "\t--output (-o) <str>\t path (incl. name) of output ROOT file to be written (can be set in json configuration file)\n"
 			  << "\t--seed (-s) <int>\t set random seed\n"
+			  << "\t--nevents (-n) <int>\t number of events to generate (default is taken from macro).\n"
 			  << "\t--help (-h)\t show this message\n"
 			  << "no <option(s)> will call UI interactive command submission\n" 
 			  << std::endl;
@@ -66,15 +70,13 @@ static void show_usage(std::string name)
 
 int main(int argc, char **argv)
 {
-	//TODO:implement better options
-	// Instantiate G4UIExecutive if there are no arguments (interactive mode)
-
 	std::string path_to_config = "./config/config_lowres.json";
 	time_t systime = time(NULL);
 	G4long seed = (long)systime;
 	G4UIExecutive *ui = nullptr;
 	std::string root_file_path = "";
 	std::string script_file_path = "";
+	int nEvents = -1;
 
 	if (argc == 1)
 	{
@@ -136,6 +138,19 @@ int main(int argc, char **argv)
 				else
 				{
 					std::cerr << "--seed option requires one argument." << std::endl;
+					return 1;
+				}
+			}
+			else if (arg == "--nevents" || arg == "-n")
+			{
+				if (i + 1 < argc) // Make sure we aren't at the end of argv
+				{
+					i++;
+					nEvents = stoi(argv[i]);
+				}
+				else
+				{
+					std::cerr << "--nevents option requires one argument." << std::endl;
 					return 1;
 				}
 			}
@@ -236,10 +251,26 @@ int main(int argc, char **argv)
 		}
 		
 		visManager->SetVerboseLevel("quiet");
-		G4String command = "/control/execute ";
-		// G4String fileName = argv[1];
 		UImanager->ApplyCommand("/generator/pythia8/setSeed " + std::to_string(seed));
-		UImanager->ApplyCommand(command + script_file_path);
+		//UImanager->ApplyCommand(G4String("/control/execute ") + script_file_path);
+
+		ifstream filestream(script_file_path);
+		string line;
+
+		//Parse the file line by line in order to overwrite with user input (e.g. nEvents)
+		while ( std::getline(filestream, line) )
+		{
+			if      (line.at(0) == '#') continue;
+			else if ( (nEvents > 0) && (line.find( "/run/beamOn" ) != std::string::npos) )
+			{
+				runManager->BeamOn(nEvents);
+			}
+			else if ( !line.empty())
+			{
+				G4cout << "Applying command: " <<  line << G4endl;
+				UImanager->ApplyCommand(G4String(line));
+			}
+		}
 	}
 	else
 	{ // interactive mode : define UI session

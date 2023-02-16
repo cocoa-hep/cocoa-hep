@@ -48,9 +48,10 @@ From within `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory:
            **./build/SCDMain** run with Geant4 User Interface.
            **./build/SCDMain -h**  show input options for batch-mode with following options
            **--config (-c) <str>** path to json configuration file
-           **--macro (-m) <str>** path to Geant4 or Pythia8 macro file for event generation (can be set in json configuration file
+           **--macro (-m) <str>** path to Geant4 or Pythia8 macro file for event generation (can be set in json configuration file)
            **--output (-o) <str>** path (incl. name) of output ROOT file to be written (can be set in json configuration file)
            **--seed (-s) <int>** set random seed
+           **--nevents (-n) <int>** number of events to generate (default is read from macro)
 Example
 -------- 
 An example to run the code interactively:

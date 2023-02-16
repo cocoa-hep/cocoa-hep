@@ -41,6 +41,8 @@ From within `SCD` directory:
 - `--macro (-m) <str>` – path to Geant4 or Pythia8 macro file for event generation (can be set in json configuration file.
 - `--output (-o) <str>`  – path (incl. name) of output ROOT file to be written (can be set in json configuration file).
 - `--seed (-s) <int>` –   set random seed.
+- `--nevents (-n) <int>` - number of events to generate (default is taken from macro).
+
 
 **Example:**
 ```
