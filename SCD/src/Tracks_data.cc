@@ -16,8 +16,6 @@ void Tracks_data::Fill_perigee_var()
     {
         for (int ilay = 0; ilay < nLayers; ilay++)
         {
-            track_extrap_branches["track_eta_layer_" + std::to_string(ilay)]->clear();
-            track_extrap_branches["track_phi_layer_" + std::to_string(ilay)]->clear();
             track_extrap_branches["track_x_layer_" + std::to_string(ilay)]->clear();
             track_extrap_branches["track_y_layer_" + std::to_string(ilay)]->clear();
             track_extrap_branches["track_z_layer_" + std::to_string(ilay)]->clear();
@@ -38,8 +36,6 @@ void Tracks_data::Fill_perigee_var()
 	        track_LHED.push_back( Tracks_list.at(track).GetLHED() );
             for (int ilay = 0; ilay < nLayers; ilay++)
             {
-                track_extrap_branches["track_eta_layer_" + std::to_string(ilay)]->push_back(Tracks_list.at(track).eta.at(ilay));
-                track_extrap_branches["track_phi_layer_" + std::to_string(ilay)]->push_back(Tracks_list.at(track).phi.at(ilay));
                 track_extrap_branches["track_x_layer_" + std::to_string(ilay)]->push_back(Tracks_list.at(track).x_mid_layer.at(ilay));
                 track_extrap_branches["track_y_layer_" + std::to_string(ilay)]->push_back(Tracks_list.at(track).y_mid_layer.at(ilay));
                 track_extrap_branches["track_z_layer_" + std::to_string(ilay)]->push_back(Tracks_list.at(track).z_mid_layer.at(ilay));
@@ -79,20 +75,14 @@ void Tracks_data::set_tree_branches(TTree *outTree, int NLayers, std::string Typ
     }
     for (int i = 0; i < nLayers; i++)
     {
-        std::vector<float>* temp_eta_vec = new std::vector<float>();
-        std::vector<float>* temp_phi_vec = new std::vector<float>();
         std::vector<float>* temp_x_vec = new std::vector<float>();
         std::vector<float>* temp_y_vec = new std::vector<float>();
         std::vector<float>* temp_z_vec = new std::vector<float>();
-        track_extrap_branches["track_eta_layer_" + std::to_string(i)] = temp_eta_vec;
         if (Type_of_running != "PFlow_debug_E_p_template")
         {
-            track_extrap_branches["track_phi_layer_" + std::to_string(i)] = temp_phi_vec;
             track_extrap_branches["track_x_layer_" + std::to_string(i)] = temp_x_vec;
             track_extrap_branches["track_y_layer_" + std::to_string(i)] = temp_y_vec;
             track_extrap_branches["track_z_layer_" + std::to_string(i)] = temp_z_vec;
-            outTree->Branch(TString("track_eta_layer_" + std::to_string(i)), "vector<float>", temp_eta_vec);
-            outTree->Branch(TString("track_phi_layer_" + std::to_string(i)), "vector<float>", temp_phi_vec);
             outTree->Branch(TString("track_x_layer_" + std::to_string(i)), "vector<float>", temp_x_vec);
             outTree->Branch(TString("track_y_layer_" + std::to_string(i)), "vector<float>", temp_y_vec);
             outTree->Branch(TString("track_z_layer_" + std::to_string(i)), "vector<float>", temp_z_vec);
