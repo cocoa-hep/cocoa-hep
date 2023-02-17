@@ -260,12 +260,12 @@ int main(int argc, char **argv)
 		//Parse the file line by line in order to overwrite with user input (e.g. nEvents)
 		while ( std::getline(filestream, line) )
 		{
-			if      (line.at(0) == '#') continue;
+			if      (line.empty()) continue;
 			else if ( (nEvents > 0) && (line.find( "/run/beamOn" ) != std::string::npos) )
 			{
 				runManager->BeamOn(nEvents);
 			}
-			else if ( !line.empty())
+			else if (line.at(0)!='#')
 			{
 				G4cout << "Applying command: " <<  line << G4endl;
 				UImanager->ApplyCommand(G4String(line));
