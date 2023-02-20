@@ -15,7 +15,7 @@
 
 inline bool compare_topo_e(const Topo_clust &topo_1, const Topo_clust &topo_2)
 {
-    return topo_1.total_energy > topo_2.total_energy; //TODO: change to EM energy only!
+    return topo_1.EM_energy > topo_2.EM_energy;
 }
 
 inline bool compare_super_e(const Supercluster &super_1, const Supercluster &super_2)
@@ -32,7 +32,7 @@ class Superclustering
         std::vector<ConversionVertex> ConvVertex_list;
         void sort_by_energy(std::vector<Supercluster> &Super_list);
     public:
-        Superclustering(std::vector<Track_struct> &_track_list, std::vector<Topo_clust> &_topo_list, std::vector<Cell *> &_cell_list, std::vector<Supercluster> &Super_list);
+        Superclustering(const std::vector<Track_struct> &_track_list, const std::vector<Topo_clust> &_topo_list, const std::vector<Cell *> &_cell_list, std::vector<Supercluster> &Super_list);
         void topo_match_to_tracks();
         void find_conversion_vertices();
         void find_seed_clusters(std::vector<Supercluster> &Super_list);

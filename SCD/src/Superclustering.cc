@@ -42,7 +42,7 @@ float R_distance_func(float phi_1, float eta_1, float phi_2, float eta_2)
     return sqrtf(sqr(dphi) + sqr(deta));
 }
 
-Superclustering::Superclustering(std::vector<Track_struct> &_track_list, std::vector<Topo_clust> &_topo_list, std::vector<Cell *> &_cell_list, std::vector<Supercluster> &Super_list)
+Superclustering::Superclustering(const std::vector<Track_struct> &_track_list, const std::vector<Topo_clust> &_topo_list, const std::vector<Cell *> &_cell_list, std::vector<Supercluster> &Super_list)
 {
     cells_in_topoclust = _cell_list;
     Topo_List = _topo_list;
