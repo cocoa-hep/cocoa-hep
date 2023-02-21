@@ -103,6 +103,7 @@ void Full_trajectory_info_data::fill_var(){
     
     for( const FullTrajectoryInfo& conv_el_tr : fAllConvElectrons ) {
         conv_el_fPrimaryPhotonIndex.push_back( conv_el_tr.fParentID );
+        conv_el_q.push_back( conv_el_tr.fPDGCharge );
         conv_el_px.push_back( conv_el_tr.fMomentum.x() );
         conv_el_py.push_back( conv_el_tr.fMomentum.y() );
         conv_el_pz.push_back( conv_el_tr.fMomentum.z() );
@@ -129,6 +130,7 @@ void Full_trajectory_info_data::clear()
     particle_prod_y.clear();
     particle_prod_z.clear();
     conv_el_fPrimaryPhotonIndex.clear();
+    conv_el_q.clear();
     conv_el_px.clear();
     conv_el_py.clear();
     conv_el_pz.clear();
@@ -163,6 +165,7 @@ void Full_trajectory_info_data::set_tree_branches(TTree *outTree)
     outTree->Branch("particle_dep_energy"  ,       "vector<float>", &particle_dep_energy);
 
     outTree->Branch("conv_el_primary_photon_idx",  "vector<int>",   &conv_el_fPrimaryPhotonIndex);
+    outTree->Branch("conv_el_q",                   "vector<int>",   &conv_el_q);
     outTree->Branch("conv_el_px",                  "vector<float>", &conv_el_px);
     outTree->Branch("conv_el_py",                  "vector<float>", &conv_el_py);
     outTree->Branch("conv_el_pz",                  "vector<float>", &conv_el_pz);

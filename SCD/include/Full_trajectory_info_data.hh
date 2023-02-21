@@ -71,6 +71,7 @@ private:
 	std::vector <float> particle_prod_z;
     std::vector<float>  particle_dep_energy;
     std::vector<int>    conv_el_fPrimaryPhotonIndex;
+    std::vector<int>    conv_el_q;
     std::vector<float>  conv_el_px;
     std::vector<float>  conv_el_py;
     std::vector<float>  conv_el_pz;

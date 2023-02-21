@@ -27,9 +27,9 @@ void Tracks_data::Fill_perigee_var()
             TrckPosInRealList.push_back(Tracks_list.at(track).nFinal_State_Particles);
             PerigeeA0.push_back(Tracks_list.at(track).a0);
             PerigeeZ0.push_back(Tracks_list.at(track).z0);
-            PerigeeEta.push_back( -1.0 * log( tan( 0.5 * Tracks_list.at(track).theta ) ));
+            PerigeeTheta.push_back(Tracks_list.at(track).theta);
             PerigeePhi.push_back(Tracks_list.at(track).phiHelix);
-            PerigeePt.push_back(abs(1./Tracks_list.at(track).q_p)*sin(Tracks_list.at(track).theta));
+            PerigeeQ_P.push_back(Tracks_list.at(track).q_p);
             track_pflow_object_idx.push_back(-1);
             track_reconstructed.push_back(1*Tracks_list.at(track).Is_track_reconstracted);
             track_accepted.push_back(1*Tracks_list.at(track).Is_reach_calorimeter*Tracks_list.at(track).Is_inside_R);
@@ -60,9 +60,9 @@ void Tracks_data::set_tree_branches(TTree *outTree, int NLayers, std::string Typ
         outTree->Branch("track_parent_idx"      , "vector<int>", &TrckPosInRealList   );
         outTree->Branch("track_d0"              , "vector<float>", &PerigeeA0   );
         outTree->Branch("track_z0"              , "vector<float>", &PerigeeZ0   );
-        outTree->Branch("track_eta"             , "vector<float>", &PerigeeEta);
+        outTree->Branch("track_theta"           , "vector<float>", &PerigeeTheta);
         outTree->Branch("track_phi"             , "vector<float>", &PerigeePhi  );
-        outTree->Branch("track_pt"              , "vector<float>", &PerigeePt  );
+        outTree->Branch("track_qoverp"          , "vector<float>", &PerigeeQ_P  );
         outTree->Branch("track_reconstructed"   , "vector<int>", &track_reconstructed);
         outTree->Branch("track_in_acceptance"   , "vector<int>", &track_accepted);
 
@@ -98,9 +98,9 @@ void Tracks_data::Clear()
     Tracks_list.clear();
     PerigeeA0.clear();
     PerigeeZ0.clear();
-    PerigeeEta.clear();
+    PerigeeTheta.clear();
     PerigeePhi.clear();
-    PerigeePt.clear();
+    PerigeeQ_P.clear();
     track_reconstructed.clear();
     track_accepted.clear();
     TrckPDGID.clear();

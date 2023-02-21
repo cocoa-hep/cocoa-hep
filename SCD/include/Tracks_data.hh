@@ -31,9 +31,9 @@ class Tracks_data
         std::vector <Track_struct> Tracks_list;
         std::vector <float> PerigeeA0;
         std::vector <float> PerigeeZ0;
-        std::vector <float> PerigeeEta;
+        std::vector <float> PerigeeTheta;
         std::vector <float> PerigeePhi;
-        std::vector <float> PerigeePt;
+        std::vector <float> PerigeeQ_P;
         std::vector <int>   track_reconstructed;
         std::vector <int>   track_accepted;
         std::vector <int>   TrckPDGID;
