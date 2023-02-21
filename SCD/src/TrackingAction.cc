@@ -62,6 +62,7 @@ void TrackingAction::PreUserTrackingAction(const G4Track*aTrack)
 	if (aTrack->GetParentID() == 0)
 	{
 	        FullTrajectoryInfo trjInfo;
+		trjInfo.is_conversion_track = false;
 		trjInfo.fParentID = aTrack->GetDynamicParticle()->GetPrimaryParticle()->GetTrackID();
 		trjInfo.fTrackID = aTrack->GetTrackID();
 		trjInfo.fPDGCharge = aTrack->GetDynamicParticle()->GetPrimaryParticle()->GetCharge();
@@ -148,17 +149,29 @@ void TrackingAction::PreUserTrackingAction(const G4Track*aTrack)
 	     IsInnerDetectorTrack( aTrack ) ) {
 
 	    FullTrajectoryInfo conv_el_tr;
-	    conv_el_tr.fTrackID        = aTrack->GetTrackID();
-	    conv_el_tr.fPDGCode        = aTrack->GetDefinition()->GetPDGEncoding();
-	    conv_el_tr.fMomentum       = aTrack->GetMomentum();
-	    conv_el_tr.fVertexPosition = aTrack->GetVertexPosition();
-	    conv_el_tr.fGlobalTime     = aTrack->GetGlobalTime();
-	    conv_el_tr.vTrackMomentumDir.push_back(aTrack->GetMomentum());
-	    conv_el_tr.vParentID.push_back(aTrack->GetParentID());
-	    conv_el_tr.vTrackID.push_back(aTrack->GetTrackID());
-	    conv_el_tr.vTrackPos.push_back(aTrack->GetPosition());
-	    conv_el_tr.vTrackTime.push_back(aTrack->GetGlobalTime());
-	    conv_el_tr.vTrackPDGID.push_back(aTrack->GetDefinition()->GetPDGEncoding());
+
+		conv_el_tr.is_conversion_track = true;
+		conv_el_tr.fPDGCharge = aTrack->GetDynamicParticle()->GetCharge();
+		conv_el_tr.fMomentumDir = aTrack->GetDynamicParticle()->GetMomentumDirection();
+		conv_el_tr.fEnergy = aTrack->GetDynamicParticle()->GetTotalEnergy();
+		conv_el_tr.fMass = aTrack->GetDynamicParticle()->GetMass();
+		conv_el_tr.fTrackID        = aTrack->GetTrackID();
+		conv_el_tr.fPDGCode        = 22; //Choose to label conv. electron track as a photon //aTrack->GetDefinition()->GetPDGEncoding();
+		conv_el_tr.fMomentum       = aTrack->GetMomentum();
+		conv_el_tr.caloExtrapolMaxEkin = 0.0;
+		conv_el_tr.caloExtrapolEta     = conv_el_tr.fMomentum.getEta();
+		conv_el_tr.caloExtrapolPhi     = GetPhi( conv_el_tr.fMomentum.x(),conv_el_tr.fMomentum.y() );
+		conv_el_tr.idExtrapolMaxEkin = conv_el_tr.caloExtrapolMaxEkin;
+		conv_el_tr.idExtrapolEta     = conv_el_tr.caloExtrapolEta;
+		conv_el_tr.idExtrapolPhi     = conv_el_tr.caloExtrapolPhi;
+		conv_el_tr.fVertexPosition = aTrack->GetVertexPosition();
+		conv_el_tr.fGlobalTime     = aTrack->GetGlobalTime();
+		conv_el_tr.vTrackMomentumDir.push_back(aTrack->GetMomentum());
+		conv_el_tr.vParentID.push_back(aTrack->GetParentID());
+		conv_el_tr.vTrackID.push_back(aTrack->GetTrackID());
+		conv_el_tr.vTrackPos.push_back(aTrack->GetPosition());
+		conv_el_tr.vTrackTime.push_back(aTrack->GetGlobalTime());
+		conv_el_tr.vTrackPDGID.push_back(aTrack->GetDefinition()->GetPDGEncoding());
 
 	    for( size_t i_primary_tr = 0; i_primary_tr < trajectories.fAllTrajectoryInfo.size(); ++i_primary_tr ) {
 		if ( trajectories.fAllTrajectoryInfo[i_primary_tr].fTrackID == aTrack->GetParentID() ) {

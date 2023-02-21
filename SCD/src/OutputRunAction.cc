@@ -89,6 +89,7 @@ void OutputRunAction::BeginOfRunAction(const G4Run *run)
 	
 	TruthRecordGraph &truth_record_graph = TruthRecordGraph::GetInstance();
 	Full_trajectory_info_data &final_state_particle = Full_trajectory_info_data::GetInstance();
+	Superclustering_data &superclustering_data = Superclustering_data::GetInstance();
 	Graph_construction_data &graph_obj = Graph_construction_data::GetLow();
 	Jet_Builder_data &pflow_jets_obj = Jet_Builder_data::Get_instance_pflow();
 	Jet_Builder_data &topo_jets_obj  = Jet_Builder_data::Get_instance_topo();
@@ -113,6 +114,9 @@ void OutputRunAction::BeginOfRunAction(const G4Run *run)
 		if ( config_var.doPFlow ) {
 		    pflow_obj.set_tree_branches(outTree_low);
 		    pflow_jets_obj.set_tree_branches(outTree_low);
+		}
+		if ( config_var.doSuperclustering) {
+		    superclustering_data.set_tree_branches(outTree_low);
 		}
 		graph_obj.set_tree_branches(outTree_low);
 		true_jets_obj.set_tree_branches(outTree_low);

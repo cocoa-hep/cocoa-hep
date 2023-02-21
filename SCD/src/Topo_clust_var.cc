@@ -4,6 +4,7 @@ Topo_clust::Topo_clust()
 {
     label = 0;
     total_energy = 0;
+    EM_energy = 0;
     abs_total_energy = 0;
     noise = 0;
     neutral_energy = 0;
@@ -31,6 +32,7 @@ Topo_clust::Topo_clust(int Label, Geometry_definition Geometry)
     geometry = Geometry;
     label = Label;
     total_energy = 0;
+    EM_energy = 0;
     abs_total_energy = 0;
     noise = 0;
     neutral_energy = 0;
@@ -76,6 +78,8 @@ void Topo_clust::cell_update(Cell &cell ,int add_subtract, float fraction)
         {
             total_energy += fraction*add_subtract*cell.get_1st_local_max_weight() * cell_energy;
             abs_total_energy += fraction*add_subtract*cell.get_1st_local_max_weight() * fabs(cell_energy);
+            if (cell.get_layer() < 3)
+                EM_energy += fraction*add_subtract*cell.get_1st_local_max_weight() * cell_energy;
             noise += add_subtract*cell.get_1st_local_max_weight() * cell.get_noise_signal();
             neutral_energy += add_subtract*cell.get_1st_local_max_weight() * cell.get_neutral_energy();
             charge_energy += add_subtract*cell.get_1st_local_max_weight() * cell.get_charge_energy();
@@ -94,6 +98,8 @@ void Topo_clust::cell_update(Cell &cell ,int add_subtract, float fraction)
         {
             total_energy += fraction*add_subtract*cell.get_2nd_local_max_weight() * cell_energy;
             abs_total_energy += fraction*add_subtract*cell.get_2nd_local_max_weight() * fabs(cell_energy);
+            if (cell.get_layer() < 3)
+                EM_energy += fraction*add_subtract*cell.get_2nd_local_max_weight() * cell_energy;
             noise += add_subtract*cell.get_2nd_local_max_weight() * cell.get_noise_signal();
             neutral_energy += add_subtract*cell.get_2nd_local_max_weight() * cell.get_neutral_energy();
             charge_energy += add_subtract*cell.get_2nd_local_max_weight() * cell.get_charge_energy();
@@ -119,6 +125,8 @@ void Topo_clust::cell_update(Cell &cell ,int add_subtract, float fraction)
         {
             total_energy += fraction*add_subtract*cell_energy;
             abs_total_energy += fraction*add_subtract*fabs(cell_energy);
+            if (cell.get_layer() < 3)
+                EM_energy += fraction*add_subtract*cell_energy;
             noise += add_subtract*cell.get_noise_signal();
             neutral_energy += add_subtract*cell.get_neutral_energy();
             charge_energy += add_subtract*cell.get_charge_energy();

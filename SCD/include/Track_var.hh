@@ -14,11 +14,13 @@ class Track_struct
     // private:
     // Config_reader_var& config_json_var = Config_reader_var::GetInstance();
 public:
+    Track_struct();
     Track_struct(const Track_struct &orig);
     Track_struct(int Pdgcode, int NFinalStateParticles, double Energy,
                  double Mass, double Charge,
                  double Px, double Py, double Pz,
-                 double InitX, double InitY, double InitZ);
+                 double InitX, double InitY, double InitZ,
+                 bool _is_conversion_track=false);
     int pdgcode;                //code of particle
     int nFinal_State_Particles; //where particle in the list of FinalStateParticles
     double energy;
@@ -83,6 +85,7 @@ public:
     double theta_end_barrel;
     double theta_end_endcap;
     bool is_in_endcap;
+    bool is_conversion_track;
     double rho;
 
     int  GetLHED() const { return m_lhed; }

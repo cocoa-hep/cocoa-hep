@@ -23,7 +23,7 @@ private:
 public:
     GraphConstructor(std::vector<Cell*> &low_cells_in_topoclusters, std::vector<Cell*> &high_cells_in_topoclusters, std::vector<Track_struct> &tracks_list, std::vector<G4int> &particle_to_track, Graph_construction_data &graph_obj,
 		     std::vector<float> *_particle_dep_energies = NULL);
-    GraphConstructor(std::vector<Cell*> &low_cells_in_topoclusters, std::vector<Track_struct> &tracks_list, std::vector<G4int> &particle_to_track, Graph_construction_data &graph_obj);
+    GraphConstructor(std::vector<Cell*> &low_cells_in_topoclusters, std::vector<Track_struct> &tracks_list, std::vector<G4int> &particle_to_track, Graph_construction_data &graph_obj, std::vector<float> *_particle_dep_energies = NULL);
     void fill_cell_to_cell_edges(std::vector<Cell*> &cell,
                                  std::vector<int> &cell_to_cell_edge_start, std::vector<int> &cell_to_cell_edge_end);
     void fill_track_to_cell_edges(std::vector<Cell*> &cell,

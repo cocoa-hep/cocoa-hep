@@ -1,15 +1,18 @@
 #include "Track_var.hh"
 #include "TRandom.h"
 
+Track_struct::Track_struct(){};
+
 Track_struct::Track_struct(const Track_struct &orig) = default;
 
 Track_struct::Track_struct(int Pdgcode, int NFinalStateParticles, double Energy,
                            double Mass, double Charge,
                            double Px, double Py, double Pz,
-                           double InitX, double InitY, double InitZ) :
+                           double InitX, double InitY, double InitZ, bool _is_conversion_track) :
     m_lhed( -1 )
 {
     is_in_endcap = false;
+    is_conversion_track = _is_conversion_track;
     pdgcode = Pdgcode;
     nFinal_State_Particles = NFinalStateParticles;
     energy = Energy;
@@ -59,7 +62,12 @@ void Track_struct::smearing()
 void Track_struct::IsProductInsideRadius()
 {
     float Rtrack = sqrt(sqr(initX) + sqr(initY));
-    if ((Rtrack > r_inn_trkPix1) || (fabs(initZ) > pos_EndCap_trkPix1))
+    if (is_conversion_track){
+        //Allow for conversion tracks to originate as far out as between Str0 and Str1
+        if  ((Rtrack > r_inn_trkStr1) || (fabs(initZ) > pos_EndCap_trkStr1))
+            Is_inside_R = false;
+    }
+    else if ((Rtrack > r_inn_trkPix1) || (fabs(initZ) > pos_EndCap_trkPix1))
         Is_inside_R = false;
 }
 void Track_struct::IsTrackReconstructed()

@@ -229,7 +229,7 @@ void Full_trajectory_info_data::set_tree_branches(TTree *outTree)
     outTree->Branch("particle_phi_lay3",           "vector<float>", &particle_phi_lay3);
     outTree->Branch("particle_phi_lay4",           "vector<float>", &particle_phi_lay4);
     outTree->Branch("particle_phi_lay5",           "vector<float>", &particle_phi_lay5);
-    outTree->Branch("particle_dep_energy"  ,    &particle_dep_energy);
+    outTree->Branch("particle_dep_energy"  ,       "vector<float>", &particle_dep_energy);
 }
 
 void Full_trajectory_info_data::SetParticleDepEnergy( const std::vector<float> &_particle_dep_energies) {

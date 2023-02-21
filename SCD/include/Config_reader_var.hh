@@ -118,6 +118,8 @@ public:
     Jet_parameters jet_parameter;
     Fiducial_cuts fiducial_cuts;
 
+    bool doSuperclustering;
+
     bool run_hadron_test;
     bool run_piZero_test;
     bool run_jets_test;

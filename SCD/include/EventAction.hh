@@ -60,6 +60,7 @@ private:
 	TruthRecordGraph &truth_record_graph = TruthRecordGraph::GetInstance();
 	Topo_clusts_data &topo_clusts = Topo_clusts_data::GetInstance();
 	Particle_flow_data &pflow_obj = Particle_flow_data::GetInstance();
+	Superclustering_data &superclustering_data = Superclustering_data::GetInstance();
 	Full_trajectory_info_data &trajectories = Full_trajectory_info_data::GetInstance();
 	Graph_construction_data &graph_obj = Graph_construction_data::GetLow();
 	Jet_Builder_data &pflow_jets_obj = Jet_Builder_data::Get_instance_pflow();
