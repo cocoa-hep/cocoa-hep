@@ -165,7 +165,7 @@ void Full_trajectory_info_data::set_tree_branches(TTree *outTree)
     outTree->Branch("particle_dep_energy"  ,       "vector<float>", &particle_dep_energy);
 
     outTree->Branch("conv_el_primary_photon_idx",  "vector<int>",   &conv_el_fPrimaryPhotonIndex);
-    outTree->Branch("conv_el_q",                   "vector<int>",   &conv_el_q);
+    outTree->Branch("conv_el_q",                   "vector<float>", &conv_el_q);
     outTree->Branch("conv_el_px",                  "vector<float>", &conv_el_px);
     outTree->Branch("conv_el_py",                  "vector<float>", &conv_el_py);
     outTree->Branch("conv_el_pz",                  "vector<float>", &conv_el_pz);

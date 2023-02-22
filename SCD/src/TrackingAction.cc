@@ -150,6 +150,7 @@ void TrackingAction::PreUserTrackingAction(const G4Track*aTrack)
 	    FullTrajectoryInfo conv_el_tr;
 	    conv_el_tr.fTrackID        = aTrack->GetTrackID();
 	    conv_el_tr.fPDGCode        = aTrack->GetDefinition()->GetPDGEncoding();
+	    conv_el_tr.fPDGCharge      = aTrack->GetDynamicParticle()->GetCharge();
 	    conv_el_tr.fMomentum       = aTrack->GetMomentum();
 	    conv_el_tr.fVertexPosition = aTrack->GetVertexPosition();
 	    conv_el_tr.fGlobalTime     = aTrack->GetGlobalTime();
