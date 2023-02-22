@@ -40,6 +40,7 @@
 #include "Pythia8/Pythia.h"
 #include "ReduceResolution.hh"
 #include "Debug_Particle_Flow_func.hh"
+#include "Superclustering.hh"
 #include "GraphConstructor.hh"
 #include "Graph_construction_data.hh"
 #include "Jet_Builder_func.hh"
@@ -63,7 +64,9 @@ void EventAction::BeginOfEventAction(const G4Event *anEvent) //const G4Event* an
 	cells_data_low.clear();
 	cells_data_high.clear();
 	topo_clusts.clear();
+	//super_clusts.clear();
 	pflow_obj.clear();
+	superclustering_data.clear();
 	trajectories.clear();
 	graph_obj.clear();
 	true_jets_obj.clear();
@@ -186,6 +189,14 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 		}
 		else
 		{
+			if ( config_var.doSuperclustering )
+			{
+				//Append conversion tracks to primary tracks list so we can do 
+				//superclustering of both electrons and photon conversions in one go
+				for (int iconv=0; iconv < trajectories.fAllConvElectrons.size(); iconv++)
+					trajectories.fAllTrajectoryInfo.push_back(trajectories.fAllConvElectrons.at(iconv));
+			}
+
 			Tracking tracking_low(trajectories.fAllTrajectoryInfo, false, tracks_list_low.Tracks_list, config_var.low_resolution);
 
 			ReduceResolution noise_apply;
@@ -202,6 +213,11 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			if ( config_var.doPFlow )
 			    pflow_obj.fill_cell_var();
 			trajectories.fill_var();
+			if ( config_var.doSuperclustering )
+			{
+				Superclustering superclusters(tracks_list_low.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, superclustering_data.super_list);
+				superclustering_data.fill_supercluster_data();
+			}
 
 			std::vector<float> _particle_dep_energies;
 			GraphConstructor graph_construct(cells_data_low.Cells_in_topoclusters, tracks_list_low.Tracks_list, trajectories.particle_to_track, graph_obj, &_particle_dep_energies);

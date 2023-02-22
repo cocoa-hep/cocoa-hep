@@ -37,6 +37,9 @@ struct FullTrajectoryInfo {
 	std::vector<G4ThreeVector> vTrackPos;
 	std::vector<G4double> vTrackTime;
 	std::vector<G4double> vTrackPDGID;
+
+    bool is_conversion_track;
+
 	// fastjet::PseudoJet particle_object;
 };
 
@@ -70,6 +73,7 @@ private:
 	std::vector <float> particle_prod_y;
 	std::vector <float> particle_prod_z;
     std::vector<float>  particle_dep_energy;
+
     std::vector<int>    conv_el_fPrimaryPhotonIndex;
     std::vector<float>  conv_el_q;
     std::vector<float>  conv_el_px;
@@ -78,12 +82,12 @@ private:
     std::vector<float>  conv_el_prod_x;
     std::vector<float>  conv_el_prod_y;
     std::vector<float>  conv_el_prod_z;
-
+    
     std::vector<float> caloExtrapolEta;     // pseudorapidity of the same-pdgid daughter track of maximum kinetic energy in the calorimeter
     std::vector<float> caloExtrapolPhi;     // phi of the same-pdgid daughter track of maximum kinetic energy in the calorimeter
-
     std::vector<float> idExtrapolEta;     // pseudorapidity of the same-pdgid daughter track of maximum kinetic energy in the outermost id layer
     std::vector<float> idExtrapolPhi;     // phi of the same-pdgid daughter track of maximum kinetic energy in the outermost id layer
+
 };
 
 #endif // __FULL_TRAJECTORY_INFO_VAR_H__

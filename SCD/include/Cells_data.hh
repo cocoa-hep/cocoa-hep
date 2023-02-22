@@ -43,9 +43,7 @@ public:
         return cells_low;
     };
 
-    // hack
     const std::vector<int>& GetConvElIdx() { return cell_conv_el_idx; }
-    // hack end
     
     std::vector<std::vector<std::vector<Cell>>> fCell_array;
     std::vector<Cell*> Cells_in_topoclusters;
