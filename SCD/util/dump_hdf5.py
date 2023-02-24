@@ -21,29 +21,57 @@ def reader(input_path, nevents=-1, firstevent=0, tree_name=""):
     data_array = {}
 
     for branch_name in tree.keys():
-        if branch_name in ["cell_parent_list","particle_to_node_idx","particle_to_node_weight","cell_parent_energy","topo_jet_constituents_list","true_jet_constituents_list","supercluster_topos"]:
-            continue
         arr = tree[branch_name].array(library="np", entry_stop=lastevent,entry_start=firstevent)
+        if isinstance(arr[0],uproot.STLVector):
+
+            arr = np.array([ #events
+                        np.array([ #rows
+                            np.array( #columns
+                                row.tolist()
+                            )
+                            for row in event
+                        ],dtype=object)
+                    for event in arr
+                ],dtype=object)
+
         data_array[branch_name] = arr
     
     return data_array
 
-def pad_branch(branch_array):
+def pad_array(arr,max_length = (-1,-1)):
 
-    lengths = [event.shape[0] for event in branch_array]
-    pad_with = np.NaN if isinstance(branch_array.flat[0], np.floating) else -9999
-    output_list = []
-    padded_branch_array = np.stack([
-        np.pad(
-            event, 
-            (0, max(lengths) - lengths[idx]),
-            "constant",
-            constant_values = pad_with
-        )
-        for idx, event in enumerate(branch_array)
-    ])
+    if arr[0].dtype==object: #array of 2-dimensional arrays
+        lengths_0 = [len(event) for event in arr]
+        lengths_1 = [ [len(node) for node in event] for event in arr]
+        max_length_0 = max(lengths_0) if max_length[0] < 0 else max_length[0]
+        max_length_1 = max([max(node_lengths) if len(node_lengths)!=0 else 0 for node_lengths in lengths_1]) if max_length[1] < 0 else max_length[1]
+        pad_with = np.NaN if isinstance(type(arr.flat), np.floating) else -9999
 
-    return padded_branch_array
+        padded_arr = np.stack([
+            np.pad(
+                pad_array(event,max_length=(max_length_1,-1)),
+                [(0, max_length_0 - lengths_0[idx]),(0,0)],
+                "constant",
+                constant_values = pad_with
+            )
+            if len(event)!=0 else np.full((max_length_0,max_length_1), pad_with)
+            for idx, event in enumerate(arr)
+        ])
+    else:
+        lengths = [len(event) for event in arr]
+        max_length = max(lengths) if max_length[0] < 0 else max_length[0]
+        pad_with = np.NaN if isinstance(type(arr.flat), np.floating) else -9999
+        padded_arr = np.stack([
+            np.pad(
+                event, 
+                (0, max_length - lengths[idx]),
+                "constant",
+                constant_values = pad_with
+            )
+            for idx, event in enumerate(arr)
+        ])
+
+    return padded_arr
 
 def writer(output_path,data_array,save_jagged=True):
 
@@ -52,14 +80,13 @@ def writer(output_path,data_array,save_jagged=True):
     print("Writing branches...")
     for branch_name, branch_array in tqdm(data_array.items()):
 
-        if not isinstance(branch_array[0],np.ndarray):
-            continue
-
         num_entries = len(branch_array)
 
-        if save_jagged: # see https://docs.h5py.org/en/stable/special.html#arbitrary-vlen-data
-            dt = h5py.vlen_dtype(np.dtype('float32'))
+        # for saving jagged arrays, see https://docs.h5py.org/en/stable/special.html#arbitrary-vlen-data
+        # (not supported for branches storing 2D arrays)
+        if save_jagged and branch_array[0].dtype!=object:
             shape = (num_entries, )
+            dt = h5py.vlen_dtype(np.dtype('float32'))
 
             dataset = file.create_dataset(
                 branch_name,
@@ -70,9 +97,10 @@ def writer(output_path,data_array,save_jagged=True):
 
             for idx,event in enumerate(branch_array):
                 dataset[idx] = event
+
         else:
             dt = 'f'
-            branch_array = pad_branch(branch_array)
+            branch_array = pad_array(branch_array)
             dataset = file.create_dataset(
                 branch_name,
                 branch_array.shape,
@@ -94,7 +122,6 @@ def main():
     parser.add_argument("-n","--nevents", dest="nevents",       type=int,  help="number of events to parse", default=-1)
     parser.add_argument("-s","--start",   dest="start",         type=int,  help="event to start on", default=0)
     parser.add_argument("-j","--jagged",  dest="save_jagged",   type=int,  help="save output as jagged array (alternative is padded array)", default=1)
-    parser.set_defaults(save_jagged=False)
     args = parser.parse_args()
 
     if args.output == "":
