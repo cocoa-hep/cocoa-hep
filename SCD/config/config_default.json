@@ -1,6 +1,6 @@
 {
-    "Output_file_path":"./High_Low_Resolution.root",
-    "Script_file_path":"macro/Pythia8/ttbar.in",
+    "Output_file_path":"./cocoa_output_default.root",
+    "Macro_file_path":"macro/Pythia8/ttbar.in",
     "Type_of_running": "Standard",
     "Save_truth_particle_graph": true,
     "Skip_unuseable_tracks": true,

@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 	G4long seed = (long)systime;
 	G4UIExecutive *ui = nullptr;
 	std::string root_file_path = "";
-	std::string script_file_path = "";
+	std::string macro_file_path = "";
 	int nEvents = -1;
 
 	if (argc == 1)
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 				if (i + 1 < argc) // Make sure we aren't at the end of argv
 				{
 					i++;
-					script_file_path = argv[i];
+					macro_file_path = argv[i];
 				}
 				else
 				{
@@ -239,22 +239,22 @@ int main(int argc, char **argv)
 	if (!ui)
 	{ // batch mode
 
-		if ((script_file_path == ""))
+		if ((macro_file_path == ""))
 		{
-			if (config_var.Script_file_path!="")
-				script_file_path = config_var.Script_file_path;
+			if (config_var.Macro_file_path!="")
+				macro_file_path = config_var.Macro_file_path;
 			else 
 			{
-				G4cout<<"script_file_path is not given!"<<G4endl;
+				G4cout<<"macro_file_path is not given!"<<G4endl;
 				return 1;
 			}
 		}
 		
 		visManager->SetVerboseLevel("quiet");
 		UImanager->ApplyCommand("/generator/pythia8/setSeed " + std::to_string(seed));
-		//UImanager->ApplyCommand(G4String("/control/execute ") + script_file_path);
+		//UImanager->ApplyCommand(G4String("/control/execute ") + macro_file_path);
 
-		ifstream filestream(script_file_path);
+		ifstream filestream(macro_file_path);
 		string line;
 
 		//Parse the file line by line in order to overwrite with user input (e.g. nEvents)
