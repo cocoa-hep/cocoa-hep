@@ -41,11 +41,11 @@ def reader(input_path, nevents=-1, firstevent=0, tree_name=""):
 def pad_array(arr,max_length = (-1,-1)):
 
     if arr[0].dtype==object: #array of 2-dimensional arrays
+        pad_with = np.NaN if arr[0][0].dtype.kind == 'f' else -9999
         lengths_0 = [len(event) for event in arr]
         lengths_1 = [ [len(node) for node in event] for event in arr]
         max_length_0 = max(lengths_0) if max_length[0] < 0 else max_length[0]
         max_length_1 = max([max(node_lengths) if len(node_lengths)!=0 else 0 for node_lengths in lengths_1]) if max_length[1] < 0 else max_length[1]
-        pad_with = np.NaN if isinstance(type(arr.flat), np.floating) else -9999
 
         padded_arr = np.stack([
             np.pad(
@@ -58,9 +58,9 @@ def pad_array(arr,max_length = (-1,-1)):
             for idx, event in enumerate(arr)
         ])
     else:
+        pad_with = np.NaN if arr[0].dtype.kind == 'f' else -9999
         lengths = [len(event) for event in arr]
         max_length = max(lengths) if max_length[0] < 0 else max_length[0]
-        pad_with = np.NaN if isinstance(type(arr.flat), np.floating) else -9999
         padded_arr = np.stack([
             np.pad(
                 event, 
@@ -99,7 +99,7 @@ def writer(output_path,data_array,save_jagged=True):
                 dataset[idx] = event
 
         else:
-            dt = 'f'
+            dt = np.dtype('float32')
             branch_array = pad_array(branch_array)
             dataset = file.create_dataset(
                 branch_name,
