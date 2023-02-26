@@ -48,3 +48,10 @@ From within `SCD` directory:
 ```
 ./build/SCDMain --macro  /path/to/SCD/SCD/macro/Pythia8/ttbar.in --config  /path/to/SCD/SCD/config/config_doc.json  /path/to/outputdir/output_name.root --seed 5
 ```
+
+## Convert
+To convert the output files from SCD from ROOT to hdf5 format, the `util/dump_hdf5.py` can be used as follows:
+```
+python util/dump_hdf5.py -i path/to/input.root -o path/to/output.h5
+```
+To see more options, pass the `-h` argument.
