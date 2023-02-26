@@ -29,7 +29,7 @@
         "ECAL_material_mixing_in_volume_proportion":[4.6,1.2],
         "HCAL_material_mixing_in_volume_proportion":[1.0,1.1],
         "Layer_gap": 80,
-        "Magnetic_field":0.0
+        "Magnetic_field":3.8
     },
     "Graph_construction" :
     {
