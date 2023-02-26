@@ -27,7 +27,7 @@ def reader(input_path, nevents=-1, firstevent=0, tree_name=""):
             arr = np.array([ #events
                         np.array([ #rows
                             np.array( #columns
-                                row.tolist()
+                                np.array(row.tolist() if len(row)!=0 else [np.NaN])
                             )
                             for row in event
                         ],dtype=object)
@@ -38,29 +38,29 @@ def reader(input_path, nevents=-1, firstevent=0, tree_name=""):
     
     return data_array
 
-def pad_array(arr,max_length = (-1,-1)):
+def pad_array(arr,_max_length = (-1,-1)):
 
-    if arr[0].dtype==object: #array of 2-dimensional arrays
+    if arr[0].dtype==object and hasattr(arr[0][0], '__iter__'): #array of 2-dimensional arrays
         pad_with = np.NaN if arr[0][0].dtype.kind == 'f' else -9999
         lengths_0 = [len(event) for event in arr]
         lengths_1 = [ [len(node) for node in event] for event in arr]
-        max_length_0 = max(lengths_0) if max_length[0] < 0 else max_length[0]
-        max_length_1 = max([max(node_lengths) if len(node_lengths)!=0 else 0 for node_lengths in lengths_1]) if max_length[1] < 0 else max_length[1]
+        max_length_0 = max(lengths_0) if _max_length[0] < 0 else _max_length[0]
+        max_length_1 = max([max(node_lengths) if len(node_lengths)!=0 else 0 for node_lengths in lengths_1]) if _max_length[1] < 0 else _max_length[1]
 
         padded_arr = np.stack([
             np.pad(
-                pad_array(event,max_length=(max_length_1,-1)),
+                pad_array(event,(max_length_1,-1)),
                 [(0, max_length_0 - lengths_0[idx]),(0,0)],
                 "constant",
                 constant_values = pad_with
             )
-            if len(event)!=0 else np.full((max_length_0,max_length_1), pad_with)
             for idx, event in enumerate(arr)
-        ])
+        ]).astype('float32')
     else:
         pad_with = np.NaN if arr[0].dtype.kind == 'f' else -9999
         lengths = [len(event) for event in arr]
-        max_length = max(lengths) if max_length[0] < 0 else max_length[0]
+        max_length = max(lengths) if _max_length[0] < 0 else _max_length[0]
+
         padded_arr = np.stack([
             np.pad(
                 event, 
@@ -79,7 +79,6 @@ def writer(output_path,data_array,save_jagged=True):
 
     print("Writing branches...")
     for branch_name, branch_array in tqdm(data_array.items()):
-
         num_entries = len(branch_array)
 
         # for saving jagged arrays, see https://docs.h5py.org/en/stable/special.html#arbitrary-vlen-data
@@ -87,27 +86,21 @@ def writer(output_path,data_array,save_jagged=True):
         if save_jagged and branch_array[0].dtype!=object:
             shape = (num_entries, )
             dt = h5py.vlen_dtype(np.dtype('float32'))
-
-            dataset = file.create_dataset(
-                branch_name,
-                shape,
-                dtype=dt,
-                compression="gzip",
-                chunks=True)
-
-            for idx,event in enumerate(branch_array):
-                dataset[idx] = event
-
         else:
-            dt = np.dtype('float32')
             branch_array = pad_array(branch_array)
-            dataset = file.create_dataset(
-                branch_name,
-                branch_array.shape,
-                data=branch_array,
-                dtype=dt,
-                compression="gzip",
-                chunks=True)
+            shape = branch_array.shape
+            dt = type(branch_array[0][0][0])
+
+
+        dataset = file.create_dataset(
+            branch_name,
+            shape,
+            dtype=dt,
+            compression="gzip",
+            chunks=True)
+
+        for idx,event in enumerate(branch_array):
+            dataset[idx] = event
 
     file.close()
     print("Output written to ",output_path)
