@@ -5,14 +5,14 @@
    
 :github_url: https://github.com/scd-hep/scd-hep
 
-COSA : CalOrimeter Simulation for Ai applications
+COCOA : COnfigurable CalOrimeter simulation for Ai
 ====================================
 
 .. image:: ./imgs/scd_logo_2.jpg
    :width: 50%
 
 
-COSA: CalOrimeter Simulation for Ai applications is a library for generating realistic detector data for doing research in machine learning.
+COCOA: COnfigurable CalOrimeter simulation for Ai applications is a library for generating realistic detector data for doing research in machine learning.
 
 .. toctree::
    :glob:
