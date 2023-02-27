@@ -21,4 +21,5 @@ COSA: CalOrimeter Simulation for Ai applications is a library for generating rea
 
    intro/introduction
    intro/installation
-   intro/eventdisplay
+   intro/output_description
+   intro/event_display
