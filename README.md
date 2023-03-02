@@ -1,3 +1,5 @@
+<img src="https://github.com/scd-hep/scd-hep/blob/main/docs/imgs/cocoa_v1.png" height="250">
+
 # COCOA
 Configurable Calorimeter simulatiOn for Ai 
 
