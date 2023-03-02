@@ -1,10 +1,13 @@
 Event Description
 ====================================
 
-The event information is stored in the output ROOT file. The cells within a topocluster are only stored.
+The information in each event is stored as a row in a TTree object in the output ROOT file, with the branches documented in the following.
 
-The output ROOT file has the following branches, containing informations at per event level.
+
+Cells
 ------------------------------------
+
+**Note :** only cells contained in topoclusters are stored in the output.
 
 **cell_layer :** Which calorimeter layer the cell belongs to. 0 corresponds to ECAL1 and 5 corresponds to HCAL3
 
@@ -26,7 +29,18 @@ The output ROOT file has the following branches, containing informations at per 
 
 **cell_topo_idx :** Topocluster label to which the cell belongs
 
-**track_pflow_object_idx :** the index of pflow object to a given track
+**cell_parent_idx :** index of parent particle which contributed the largest fraction of this cell's energy
+
+**cell_conv_el_idx :** index of conversion electron which contributed energy to this cell
+
+**cell_parent_list :** list of parent particles which contributed to this cell's energy in decreasing order of contribution
+
+**cell_parent_energy :** list of energies that parent particles contributed to this cell in decreasing order of contribution
+
+Tracks
+------------------------------------
+
+**track_parent_idx :** index of parent particle corresponding to this track
 
 **track_pdgid :** the PDG ID of the charged particle which creates the track
 
@@ -40,9 +54,9 @@ The output ROOT file has the following branches, containing informations at per 
 
 **track_qoverp :** track perigee parameter q/p
 
-**track_eta_layer_i :** pseudo-rapidity of the extrapolated track in the i-th calorimeter-layer
+**track_reconstructed :** track passes reconstruction efficiency cut
 
-**track_phi_layer_i :** azimuthal angle of the extrapolated track in the i-th calorimeter-layer
+**track_in_acceptance :** track is inside the detector acceptance (reaches calorimeter and production vertex is inside ITS pixel layer 1)
 
 **track_x_layer_i :** x-cordinate of the extrapolated track in the i-th calorimeter-layer
 
@@ -50,15 +64,23 @@ The output ROOT file has the following branches, containing informations at per 
 
 **track_z_layer_i :** z-cordinate of the extrapolated track in the i-th calorimeter-layer
 
+Nodes (of truth particle record)
+------------------------------------
+
+**node_{} :** values for constructing the graph describing the truth particle record
+
+Particles
+------------------------------------
+
 **particle_pdgid :** vector storing PDG-ID of all the stable truth-particles in the event
 
 **particle_isIso :** vector storing if the particle is isolated. If true, the value is 1. 
 
-**particle_px :** x-component of the momentum 3-vector of the stable particles
+**particle_pt :** transverse momentum of the stable particles
 
-**particle_py :** y-component of the momentum 3-vector of the stable particles
+**particle_eta :** pseudo-rapidity of the stable particles
 
-**particle_pz :** z-component of the momentum 3-vector of the stable particles
+**particle_phi :** azimuthal angle of the stable particles
 
 **particle_e :** energy of the stable particles
 
@@ -68,31 +90,94 @@ The output ROOT file has the following branches, containing informations at per 
 
 **particle_prod_z :** z-coordinate of the production vertex of the stable particles
 
-**particle_eta_layi :** extrapolated pseudo-rapidity of the particle in the i-th calorimeter layer
+**particle_track_idx :** index of the track corresponding to this particle
 
-**particle_phi_layi :** extrapolated azimuthal angle of the particle in the i-th calorimeter layer
+**particle_eta_extrap_calo :** pseudo-rapidity value at the point where the particle enters the calorimeter
 
-**pflow_eta :** pseudo-rapidity of the particle-flow object
+**particle_phi_extrap_calo :** azimuthal angle at the point where the particle enters the calorimeter
 
-**pflow_phi :** azimuthal angle of the particle-flow object
+**particle_eta_extrap_its :** same as above, for the end of the ITS
 
-**pflow_px :** x-component of the momentum 3-vector of the particle-flow object
+**particle_phi_extrap_its :** same as above, for the end of the ITS
 
-**pflow_py :** y-component of the momentum 3-vector of the particle-flow object
+**particle_dep_energy :** amount of energy deposited by this particle in the detector
 
-**pflow_pz :** z-component of the momentum 3-vector of the particle-flow object
+Conversion electrons
+------------------------------------
 
-**pflow_e :** energy of the particle-flow object
+**conv_el_primary_photon_idx :** index of the primary photon which conversion produced this electron
 
-**pflow_charge :** electric charge of the particle-flow object
+**conv_el_q :** charge of the conversion electron
 
-**pflow_jet_pt :** transverse component of momentum 3-vector of the jet built from pflow constituents
+**conv_el_p{} :** momentum in {x,y,z} direction of the conversion electron
 
-**pflow_jet_eta :** pseudo-rapidity of momentum 3-vector of the jet built from pflow constituents
+**conv_el_prod_{} :** {x,y,z}-coordinate of the conversion vertex associated with this electron
 
-**pflow_jet_phi :** azimuthal angle of momentum 3-vector of the jet built from pflow constituents
+Topoclusters
+------------------------------------
 
-**pflow_jet_m :** mass of momentum 3-vector of the jet built from pflow constituents
+**topo_idx :** index of topocluster (starts at 1)
+
+**topo_bary_eta :** pseudo-rapidity of the topocluster barycenter
+
+**topo_bary_phi :** azimuthal angle of the topocluster barycenter
+
+**topo_bary_rho :** radius in transverse plane of the topocluster barycenter
+
+**topo_bary_sigma_eta :** width of topocluster in eta dimension
+
+**topo_bary_sigma_phi :** width of topocluster in phi dimension
+
+**topo_e :** total energy of topocluster
+
+Superclusters
+------------------------------------
+
+**supercluster_e :** total energy of supercluster
+
+**supercluster_phi :** azimuthal angle of supercluster
+
+**supercluster_eta :** pseudo-rapidity of supercluster
+
+**supercluster_seed_e :** energy of topocluster used as seed for the supercluster
+
+**supercluster_track_{} :** properties of the track associated with the seed used for the supercluster
+
+**supercluster_topos :** list of topoclusters included in this supercluster
+
+**supercluster_track :** index of track associated with supercluster seed
+
+**supercluster_conv_track :** index of conversion track in case of supercluster for photon conversion
+
+**supercluster_pdgid :** either 22 or +/-11 depending on the truth link of the track or the conversion vertex
+
+**supercluster_N :** number of clusters included in this supercluster
+
+Graph edges
+------------------------------------
+
+**track_to_cell_edge_start :** list of track indices used as source nodes in track-to-cell edges
+
+**track_to_cell_edge_end :** list of cell indices used as destination nodes in track-to-cell edges
+
+**cell_to_cell_edge_start :** list of cell indices used as source nodes in cell-to-cell edges
+
+**cell_to_cell_edge_end :** list of cell indices used as destination nodes in cell-to-cell edges
+
+**particle_to_node_idx :** list of truth links to node j which particle i contributed energy to
+
+**particle_to_node_weight :** list of the fractions of node j's energy which particle i contributed
+
+Jets
+------------------------------------
+
+**true_jet_pt :** transverse component of momentum 3-vector of the jet built from truth particle
+
+**true_jet_eta :** pseudo-rapidity of momentum 3-vector of the jet built from truth particles
+
+**true_jet_phi :** azimuthal angle of momentum 3-vector of the jet built from truth particles
+
+**true_jet_m :** mass of momentum 3-vector of the jet built from truth particles
 
 **topo_jet_pt :** transverse component of momentum 3-vector of the jet built from topoclusters
 
@@ -102,6 +187,4 @@ The output ROOT file has the following branches, containing informations at per 
 
 **topo_jet_m :** mass of momentum 3-vector of the jet built from topoclusters
 
-
-
-
+**topo_jet_constituents_list :** list of topoclusters comprising the topo jet
