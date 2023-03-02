@@ -11,6 +11,13 @@ class Topo_clusts_data
 public:
     Topo_clusts_data(std::string prefix = "");
     std::vector<Topo_clust> topo_clusts_list;
+    std::vector<float> topo_idx;
+    std::vector<float> topo_bary_eta;
+    std::vector<float> topo_bary_phi;
+    std::vector<float> topo_bary_R;
+    std::vector<float> topo_bary_sigma_eta;
+    std::vector<float> topo_bary_sigma_phi;
+    std::vector<float> topo_e;
     void set_tree_branches(TTree *outTree);
     void fill_topo_var();
     void make_pseudo_jet_particles();

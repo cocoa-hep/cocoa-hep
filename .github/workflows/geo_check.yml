@@ -38,5 +38,5 @@ jobs:
 
       - name: Check Geometry Overlaps
         run: |
-          ./SCD/build/SCDMain -path_to_config ./SCD/config/config_check_geo.json | tee run.log 2>&1
+          ./SCD/build/SCDMain --config ./SCD/config/config_check_geo.json | tee run.log 2>&1
           exit $(grep "Checking overlaps for volume" run.log | grep -c -v OK\!)

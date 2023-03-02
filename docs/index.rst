@@ -21,4 +21,5 @@ COCOA: COnfigurable CalOrimeter simulation for Ai applications is a library for 
 
    intro/introduction
    intro/installation
-   intro/eventdisplay
+   intro/output_description
+   intro/event_display

@@ -20,6 +20,7 @@ public:
     float charge_energy;
     float eta_com;
     float phi_com;
+    float R_com;
     float x_com;
     float y_com;
     float z_com;
@@ -39,7 +40,6 @@ public:
 
 private:
     Geometry_definition geometry;
-    float R_com;
     float cos_phi;
     float sin_phi;
     float sigma_eta_buf;

@@ -39,9 +39,9 @@ jobs:
       - name: Hadron Response Test
         run: |
           cd SCD
-          ./build/SCDMain -path_to_config ./config/config_hadron_test.json -set_seed_value 1
+          ./build/SCDMain --config ./config/config_hadron_test.json --seed 1
 
       - name: Neutral Pion Response Test
         run: |
           cd SCD
-          ./build/SCDMain -path_to_config ./config/config_piZero_test.json -set_seed_value 1
+          ./build/SCDMain --config ./config/config_piZero_test.json --seed 1

@@ -204,6 +204,8 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			Topo_clust_func clustering(cells_data_low.fCell_array, config_var.low_resolution, config_var.topological_clustering, "Standard");
 			clustering.topoclustering(topo_clusts.topo_clusts_list);
 			cells_data_low.fill_cells_in_topoclusters();
+			topo_clusts.fill_topo_var();
+
 			if ( config_var.doPFlow )
 			    Particle_flow_func pflow(tracks_list_low.Tracks_list, topo_clusts.topo_clusts_list, cells_data_low.Cells_in_topoclusters, pflow_obj.pflow_list, config_var.low_resolution, config_var.particle_flow);
 			tracks_list_low.Fill_perigee_var();

@@ -12,7 +12,7 @@ Config_reader_func::Config_reader_func(std::string path, Config_reader_var &conf
     
     config_var.Output_file_path = configs["Output_file_path"].asString();
     config_var.Type_of_running = configs["Type_of_running"].asString();
-    config_var.Script_file_path = configs["Script_file_path"].asString();
+    config_var.Macro_file_path = configs["Macro_file_path"].asString();
     config_var.Save_truth_particle_graph = configs["Save_truth_particle_graph"].asBool();
     config_var.Use_high_granularity = configs["Use_high_granularity"].asBool();
     config_var.Skip_unuseable_tracks = configs["Skip_unuseable_tracks"].asBool();

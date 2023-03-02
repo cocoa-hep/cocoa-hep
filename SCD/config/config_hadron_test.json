@@ -1,6 +1,6 @@
 {
     "Output_file_path":"./hadron_response_test.root",
-    "Script_file_path":"macro/Pythia8/ChargedPion_monochromatic_isotropic.in",
+    "Macro_file_path":"macro/Pythia8/ChargedPion_monochromatic_isotropic.in",
     "Type_of_running": "Standard",
     "run_hadron_test" : true,
     "Save_truth_particle_graph": false,

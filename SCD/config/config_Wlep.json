@@ -1,6 +1,6 @@
 {
     "Output_file_path":"./Wlep.root",
-    "Script_file_path":"macro/Pythia8/W.in",
+    "Macro_file_path":"macro/Pythia8/W.in",
     "Type_of_running": "Standard",
     "run_hadron_test" : false,
     "Save_truth_particle_graph": false,

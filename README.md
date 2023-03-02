@@ -37,12 +37,37 @@ From within `SCD` directory:
 `./build/SCDMain -h` - show input options for batch-mode.
 
 **List of options:**
-- `-path_to_config <path>` – path to json configuration file.
-- `-path_to_script <path>` – path to Geant4 macro file for particle gun (can be set in json configuration file).
-- `-path_to_output <path>`  – destination and name of the output root file (can be set in json configuration file).
-- `-set_seed_value <int>` –   set random seed.
+- `--config (-c) <str>` – path to json configuration file.
+- `--macro (-m) <str>` – path to Geant4 or Pythia8 macro file for event generation (can be set in json configuration file.
+- `--output (-o) <str>`  – path (incl. name) of output ROOT file to be written (can be set in json configuration file).
+- `--seed (-s) <int>` –   set random seed.
+- `--nevents (-n) <int>` - number of events to generate (default is taken from macro).
+
 
 **Example:**
 ```
-./build/SCDMain -path_to_script  /path/to/SCD/SCD/macro/Pythia8/ttbar.in -path_to_config  /path/to/SCD/SCD/config/config_doc.json  /path/to/outputdir/output_name.root -set_seed_value 5
+./build/SCDMain --macro  /path/to/SCD/SCD/macro/Pythia8/ttbar.in --config  /path/to/SCD/SCD/config/config_doc.json  /path/to/outputdir/output_name.root --seed 5
 ```
+
+## Convert
+To convert the output files from SCD from ROOT to hdf5 format, the `util/dump_hdf5.py` can be used as follows:
+```
+python util/dump_hdf5.py -i path/to/input.root -o path/to/output.h5
+```
+To see more options, pass the `-h` argument.
+
+## Phoenix event display
+
+The `phoenix` directory contains the ingredients for displaying SCD events using the [HSF Phoenix software](https://github.com/HSF/phoenix). 
+- `event` subdirectory: scripts for dumping SCD output ROOT files into the suitable json format.
+- `packages` subdirectory: the changed files with respect to the Phoenix repository, with directory structure preserved. Note that this builds the SCD geometry.
+
+Steps to get it fired up:
+1. clone and follow the README on the Phoenix repository to get it set up locally.
+2. replace the cloned files with the ones in the `SCD/phoenix/packages`. Note that this has only been tested at [a specific snapshot](https://github.com/HSF/phoenix/pull/536) in the Phoenix code history.
+3. (this step can be skipped in favor of using the default event files provided). Use the `dump_phoenix_eventdata.py` script to parse a SCD output file, for example:
+```
+python phoenix/event/dump_hdf5.py -i path/to/input_SCD_file.root -o path/to/output_event_file.json -n 1
+```
+4. Copy the json event file to `packages/phoenix-ng/projects/phoenix-app/src/assets/files/scd/` and edit the `eventFile` field in `packages/phoenix-ng/projects/phoenix-app/src/app/sections/scd/scd.component.ts` appropriately.
+5. Compile phoenix with yarn and open in browser window!

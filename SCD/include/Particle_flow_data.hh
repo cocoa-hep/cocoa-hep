@@ -10,7 +10,6 @@
 class Particle_flow_data
 {
 private:
-    std::vector<int> track_pflow_object_idx;
     std::vector<int> cell_pflow_object_idx;
     std::vector<float> pflow_eta;
     std::vector<float> pflow_phi;

@@ -54,7 +54,6 @@ void Particle_flow_data::fill_cell_var()
 
 void Particle_flow_data::set_tree_branches(TTree *outTree)
 {
-    outTree->Branch("track_pflow_object_idx"  , "vector<int>",   &track_pflow_object_idx);
     outTree->Branch("pflow_eta"               , "vector<float>", &pflow_eta);
     outTree->Branch("pflow_phi"               , "vector<float>", &pflow_phi);
     outTree->Branch("pflow_px"                , "vector<float>", &pflow_px);

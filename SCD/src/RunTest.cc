@@ -23,7 +23,7 @@ int RunTest( test_t type ) {
     Config_reader_var config_var = Config_reader_var::GetInstance();
 
     TFile rootFile(config_var.Output_file_path.c_str(), "READ");
-    TTree *outTreeLowRes = (TTree*)rootFile.Get("Low_Tree");
+    TTree *outTreeLowRes = (TTree*)rootFile.Get("Out_Tree");
     std::vector<float> *cell_energies            = nullptr;
     std::vector<float> *particle_energies        = nullptr;
     TBranch            *branch_cell_energies     = nullptr;

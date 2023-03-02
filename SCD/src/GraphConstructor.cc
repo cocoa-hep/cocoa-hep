@@ -124,7 +124,7 @@ void GraphConstructor::fill_cell_to_cell_edges(std::vector<Cell*> &cell,
 		//int found_edges = 0;
 		size_t n_edges_to_add = pq.size();
         if(n_edges_to_add > config_json_var.graph_construction.max_samelayer_edges[layer_i]){
-        	std::cout << "I dont' know why, but n_edges_to_add = " << n_edges_to_add << " for layer " << layer_i << std::endl;
+        	std::cout << "WARNING: n_edges_to_add = " << n_edges_to_add << " for layer " << layer_i << " (expected " << config_json_var.graph_construction.max_samelayer_edges[layer_i] << ")" << std::endl;
         }
 
         // Add (incoming) edges to cell_i based on the ordering of the priority queue
@@ -173,13 +173,9 @@ void GraphConstructor::fill_cell_to_cell_edges(std::vector<Cell*> &cell,
 
 	for (auto &[a, b] : edge_list)
 	{
-		//HACK messy -- already swapped in dataloader
-		//swapped way:
-		cell_to_cell_edge_end.push_back( a.second);
-		cell_to_cell_edge_start.push_back( a.first );
-		//logical way (given variable names):
-		//cell_to_cell_edge_start.push_back( a.second);
-		//cell_to_cell_edge_end.push_back( a.first );
+		//start = source node index (j), end = destination node index (i)
+		cell_to_cell_edge_start.push_back( a.second);
+		cell_to_cell_edge_end.push_back( a.first );
 	}
 }
 

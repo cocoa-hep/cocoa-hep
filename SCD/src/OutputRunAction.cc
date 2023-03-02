@@ -100,7 +100,8 @@ void OutputRunAction::BeginOfRunAction(const G4Run *run)
 	G4String fileName = "PFlowNtuple";
 	//analysisManager->OpenFile(fileName);
 	outf = new TFile(TString(m_outputfilename), "RECREATE");
-	outTree_low = new TTree("Low_Tree", "Low_Tree");
+	TString outTree_name =  config_var.Use_high_granularity ? "Low_Tree" : "Out_Tree";
+	outTree_low = new TTree(outTree_name, outTree_name);
 
 
 	if (config_var.Type_of_running == "Standard")
