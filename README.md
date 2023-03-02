@@ -5,7 +5,7 @@ The Calorimeter simulatiOn for Ai (COCOA)  is a simulated calorimeter system bas
 
 For more details, see [wiki](https://gitlab.com/anton70406/master/-/wikis/Simplified-Cylindrical-Detector).
 
-# publication
+# Publication
 [![DOI](https://sandbox.zenodo.org/badge/563008933.svg)](https://sandbox.zenodo.org/badge/latestdoi/563008933)
 
 ## Install
