@@ -1,9 +1,12 @@
-# scd-hep
-SCD Super Cool Detector
+# COCOA
+Calorimeter simulatiOn for Ai 
 
-The Simplified Cylindrical Detector (SCD) is a simulated calorimeter system based on Geant4. Primary particles can be generated with Pythia8 within SCD. The detector consists of a barrel and endcap calorimeter system with adjustable granularity. An inner detector consisting of silicon and iron layers can be included as an option. The detector layout is similar to the one of the ATLAS detector. Postprocessing algorithms, namely topological clustering of calorimeter cells, particle flow and jet clustering algorithms are provided.
+The Calorimeter simulatiOn for Ai (COCOA)  is a simulated calorimeter system based on Geant4. Primary particles can be generated with Pythia8 within SCD. The detector consists of a barrel and endcap calorimeter system with adjustable granularity. An inner detector consisting of silicon and iron layers can be included as an option. The detector layout is similar to the one of the ATLAS detector. Postprocessing algorithms, namely topological clustering of calorimeter cells, particle flow and jet clustering algorithms are provided.
 
 For more details, see [wiki](https://gitlab.com/anton70406/master/-/wikis/Simplified-Cylindrical-Detector).
+
+# publication
+[![DOI](https://sandbox.zenodo.org/badge/563008933.svg)](https://sandbox.zenodo.org/badge/latestdoi/563008933)
 
 ## Install
 
