@@ -27,8 +27,8 @@
 // ********************************************************************
 //
 //
-/// \file SCD/include/DetectorGeometryDefinitions.hh
-/// \brief Definition of detector constants used in SCD project.
+/// \file COCOA/include/DetectorGeometryDefinitions.hh
+/// \brief Definition of detector constants used in COCOA project.
 
 #include "G4SystemOfUnits.hh"
 

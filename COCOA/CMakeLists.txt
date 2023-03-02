@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------
 # Setup the project
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-project(SCDMain)
+project(COCOA)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_compile_options(-Wno-shadow)
     add_compile_options(-Wc++17-extensions)
@@ -61,7 +61,7 @@ target_link_libraries(Event ${ROOT_LIBRARIES})
 #
 find_package(Pythia8 REQUIRED)
 if(Pythia8_FOUND)
-  message(STATUS "G4 Examples: Pythia8 found. --> SCDMain example with Pythia8 enabled.") 
+  message(STATUS "G4 Examples: Pythia8 found. --> COCOA example with Pythia8 enabled.") 
   add_definitions(-DG4LIB_USE_PYTHIA8)
 else()
   set(PYTHIA8_LIBRARIES "")
@@ -90,12 +90,12 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #find_package(UUID REQUIRED uuid)
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(SCDMain SCDMain.cc ${sources} ${headers})
+add_executable(COCOA COCOAMain.cc ${sources} ${headers})
 
 
-target_include_directories(SCDMain PUBLIC ${UUID_INCLUDE_DIRS})
+target_include_directories(COCOA PUBLIC ${UUID_INCLUDE_DIRS})
 
-target_link_libraries(SCDMain ${Geant4_LIBRARIES}
+target_link_libraries(COCOA ${Geant4_LIBRARIES}
                       ${HEPMC_LIBRARIES}
                       ${HEPMC_FIO_LIBRARIES}
                       ${PYTHIA6_LIBRARIES}
@@ -120,19 +120,19 @@ target_link_libraries(SCDMain ${Geant4_LIBRARIES}
                      )
 
 # if pythia is compiled with g77, link with -lg2c instead.
-#target_link_libraries(SCDMain ${Geant4_LIBRARIES}
+#target_link_libraries(COCOA ${Geant4_LIBRARIES}
 #                      ${HEPMC_LIBRARIES} ${HEPMC_FIO_LIBRARIES}
 #                      ${PYTHIA6_LIBRARIES} g2c)
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
-# build SCDMain. This is so that we can run the executable directly because it
+# build COCOA. This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
 #
-# set(SCDMain_SCRIPTS 
+# set(COCOA_SCRIPTS 
 # #    macro/Pythia8/hepmc_pythia8_qcd.in macro/Pythia8/QuarkMacro.in macro/Pythia8/GluonMacro.in
 #     )
-set(SCDMain_SCRIPTS 
+set(COCOA_SCRIPTS 
     # macro
     init_vis.mac
     vis.mac
@@ -151,7 +151,7 @@ add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/config/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/config)
 
-foreach(_script ${SCDMain_SCRIPTS})
+foreach(_script ${COCOA_SCRIPTS})
   configure_file(
     ${PROJECT_SOURCE_DIR}/${_script}
     ${PROJECT_BINARY_DIR}/${_script}
@@ -162,5 +162,5 @@ endforeach()
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-install(TARGETS SCDMain DESTINATION bin)
+install(TARGETS COCOA DESTINATION bin)
 

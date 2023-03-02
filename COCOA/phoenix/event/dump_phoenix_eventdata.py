@@ -12,11 +12,6 @@ cmap_topos = sns.color_palette("Set3", as_cmap=True)
 
 class TrackHelix(object):
     
-    '''
-    Taken from
-    https://github.com/wisroma-pflow/SCD/blob/main/event_display/source_py/track_utils.py#L9
-    '''
-    
     def __init__(self,d0,z0,theta,phi0,qoverp,vertex):
         
         self.theta = theta
@@ -545,7 +540,7 @@ def cocoa_to_phoenix(ntuple_path, cell_path, output_path, nevents=-1, firstevent
 
         
         #
-        # SCDCaloCells
+        # COCOACaloCells
         #------------------
         
         scc = {}

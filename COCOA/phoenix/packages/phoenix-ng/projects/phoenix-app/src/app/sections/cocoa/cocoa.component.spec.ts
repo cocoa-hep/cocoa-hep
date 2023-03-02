@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ScdComponent } from './scd.component';
+import { ScdComponent } from './cocoa.component';
 
 describe('ScdComponent', () => {
   let component: ScdComponent;

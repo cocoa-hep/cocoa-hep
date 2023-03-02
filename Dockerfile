@@ -168,19 +168,19 @@ ENV G4LIB=${Geant4_DIR}/lib64/Geant4-10.7.3
 ENV G4SYSTEM=Linux-g++
 
 #######
-# SCD #
+# COCOA #
 #######
 
-ENV SCD_BASE_DIR=${WKDIR}/SCD
-ENV SCD_SRC_DIR=${SCD_BASE_DIR}/SCD
-ENV SCD_BUILD_DIR=${SCD_BASE_DIR}/build
-RUN mkdir ${SCD_BASE_DIR} ${SCD_BUILD_DIR}
-COPY . ${SCD_BASE_DIR}
-# RUN cd ${SCD_BASE_DIR} && git checkout -b SuperRes origin/SuperRes
-RUN cd ${SCD_BUILD_DIR} && \
-    cmake ${SCD_SRC_DIR}
+ENV COCOA_BASE_DIR=${WKDIR}/COCOA
+ENV COCOA_SRC_DIR=${COCOA_BASE_DIR}/COCOA
+ENV COCOA_BUILD_DIR=${COCOA_BASE_DIR}/build
+RUN mkdir ${COCOA_BASE_DIR} ${COCOA_BUILD_DIR}
+COPY . ${COCOA_BASE_DIR}
+# RUN cd ${COCOA_BASE_DIR} && git checkout -b SuperRes origin/SuperRes
+RUN cd ${COCOA_BUILD_DIR} && \
+    cmake ${COCOA_SRC_DIR}
 RUN ln -s -f /usr/lib64/libGL.so.1 /usr/lib64/libGL.so && \
     ln -s -f /usr/lib64/libexpat.so.1 /usr/lib64/libexpat.so && \
     for libTag in Xmu ICE Xext X11 Xt SM; do ln -s -f /usr/lib64/lib${libTag}.so.6 /usr/lib64/lib${libTag}.so; done
-RUN cd ${SCD_BUILD_DIR} && \
+RUN cd ${COCOA_BUILD_DIR} && \
     make -j4

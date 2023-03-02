@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/scd-hep/scd-hep:main
+      image: ghcr.io/cocoa-hep/cocoa-hep:main
 
     steps:
 
@@ -30,13 +30,13 @@ jobs:
           ln -s -f /usr/lib64/libGL.so.1 /usr/lib64/libGL.so
           ln -s -f /usr/lib64/libexpat.so.1 /usr/lib64/libexpat.so
           for libTag in Xmu ICE Xext X11 Xt SM; do ln -s -f /usr/lib64/lib${libTag}.so.6 /usr/lib64/lib${libTag}.so; done
-          mkdir -p SCD/build
-          cd SCD/build
+          mkdir -p COCOA/build
+          cd COCOA/build
           cmake ..
           make -j4
           cd ..
 
       - name: Check Geometry Overlaps
         run: |
-          ./SCD/build/SCDMain --config ./SCD/config/config_check_geo.json | tee run.log 2>&1
+          ./COCOA/build/COCOA --config ./COCOA/config/config_check_geo.json | tee run.log 2>&1
           exit $(grep "Checking overlaps for volume" run.log | grep -c -v OK\!)
