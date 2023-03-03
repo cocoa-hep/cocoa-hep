@@ -1,6 +1,7 @@
 Installation
 ======
 
+The COCOA repository can be downloaded from git `cocoa-hep <https://github.com/cocoa-hep/cocoa-hep.git>`_
 Please follow the steps below to install COCOA.
 
 Install from Docker
@@ -16,7 +17,6 @@ After installing docker execute the following commands
 
 Non-Docker installation
 --------
-The COCOA repository can be downloaded from git `cocoa-hep <https://github.com/cocoa-hep/cocoa-hep.git>`_
 
 To simplest way to prepare all dependencies is to mount the `CernVM File System <https://cvmfs.readthedocs.io/en/stable/cpt-quickstart.html>`_  and run
     .. code-block:: none
