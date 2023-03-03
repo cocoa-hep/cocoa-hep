@@ -5,14 +5,14 @@
    
 :github_url: https://github.com/cocoa-hep/cocoa-hep
 
-COCOA : COnfigurable CalOrimeter simulation for Ai
+COCOA : COnfigurable Calorimeter simulatiOn for Ai
 ====================================
 
 .. image:: ./imgs/cocoa_v3.png
    :width: 50%
 
 
-A package for generating realistic detector data for developing machine learning applications in high energy physics.
+A package for generating realistic calorimeter data for developing machine learning applications in high energy physics.
 
 .. toctree::
    :glob:
