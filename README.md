@@ -3,7 +3,7 @@
 # COCOA
 Configurable Calorimeter simulatiOn for Ai 
 
-The COnfigurable Calorimeter simulatiOn for Ai (COCOA)  is a simulated calorimeter system based on Geant4. Primary particles can be generated with Pythia8 within COCOA. The detector consists of a barrel and endcap calorimeter system with adjustable granularity. An inner detector consisting of silicon and iron layers can be included as an option. The detector layout is similar to the one of the ATLAS detector. Postprocessing algorithms, namely topological clustering of calorimeter cells, particle flow and jet clustering algorithms are provided.
+The COnfigurable Calorimeter simulatiOn for Ai (COCOA) is a nearly-hermetic calorimeter simulated with [Geant4](https://geant4.web.cern.ch) and interfaced to the [Pythia8](https://www.pythia.org) event generator. The COCOA project is meant to support the development of machine learning applications to low-level collider-detector data in high energy physics.
 
 For more details, see [Read the Docs page](https://cocoa-hep.readthedocs.io/en/latest/index.html).
 
@@ -25,7 +25,7 @@ source setup_cvmfs.sh
 Otherwise the dependencies need to be taken care of individually. The [Dockerfile](Dockerfile) can be used for guidance in this case.
 
 
-Then in the `COCOA` directory run the following commands (see `make.sh`):
+Then in the `COCOA` directory run the following commands:
 ```
 mkdir build
 cd build
@@ -62,6 +62,8 @@ python util/dump_hdf5.py -i path/to/input.root -o path/to/output.h5
 To see more options, pass the `-h` argument.
 
 ## Phoenix event display
+
+<img src="https://github.com/scd-hep/scd-hep/blob/main/docs/imgs/ttbar.png" height="250">
 
 The `phoenix` directory contains the ingredients for displaying COCOA events using the [HSF Phoenix software](https://github.com/HSF/phoenix). 
 - `event` subdirectory: scripts for dumping COCOA output ROOT files into the suitable json format.
