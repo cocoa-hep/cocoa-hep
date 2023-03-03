@@ -12,7 +12,7 @@ COCOA : COnfigurable CalOrimeter simulation for Ai
    :width: 50%
 
 
-COCOA: COnfigurable CalOrimeter simulation for Ai applications is a library for generating realistic detector data for doing research in machine learning.
+A package for generating realistic detector data for developing machine learning applications in high energy physics.
 
 .. toctree::
    :glob:

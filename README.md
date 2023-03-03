@@ -1,14 +1,14 @@
 <img src="https://github.com/scd-hep/scd-hep/blob/main/docs/imgs/cocoa_v1.png" height="250">
 
 # COCOA
-Configurable Calorimeter simulatiOn for Ai 
+The COnfigurable Calorimeter simulatiOn for Ai (COCOA) is a nearly-hermetic calorimeter simulated with [Geant4](https://geant4.web.cern.ch) and interfaced to the [Pythia8](https://www.pythia.org) event generator. This open-source simulation is aimed to support the development of machine learning algorithms in high energy physics that rely on realistic particle shower modeling, such as reconstruction, fast simulation, and low-level analysis.
 
-The COnfigurable Calorimeter simulatiOn for Ai (COCOA) is a nearly-hermetic calorimeter simulated with [Geant4](https://geant4.web.cern.ch) and interfaced to the [Pythia8](https://www.pythia.org) event generator. The COCOA project is meant to support the development of machine learning applications to low-level collider-detector data in high energy physics.
+The COCOA calorimeter comprises a barrel and endcap system with configurable granularity, and with nearly uniform material depth distribution in pseudorapidity. An inner tracker system consisting of silicon and iron layers immersed in a magnetic field can be included optionally, along with basic tracking emulation. Output data are processed using on-board algorithms for topological clustering of calorimeter cells, graph creation, and jet clustering. The COCOA geometry is also provided in a format supporting event visualization with [Phoenix](https://github.com/HSF/phoenix).
 
-For more details, see [Read the Docs page](https://cocoa-hep.readthedocs.io/en/latest/index.html).
-
-# Publication
+## Publication
 [![DOI](https://sandbox.zenodo.org/badge/563008933.svg)](https://sandbox.zenodo.org/badge/latestdoi/563008933)
+
+[![Docs](https://img.shields.io/badge/Docs-cocoa--hep-green.svg)](https://cocoa-hep.readthedocs.io/en/latest/index.html) [![arXiv](https://img.shields.io/badge/arXiv-TBD-red.svg)](https://arxiv.org)
 
 ## Install
 
