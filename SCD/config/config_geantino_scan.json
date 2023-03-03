@@ -1,4 +1,4 @@
-// Configuration for COCOA example
+// Configuration for SCD example
 {
     "Output_file_path":"./Geantino.root",
     "Macro_file_path":"./macro/Geant4Gun/geantino_scan.in",

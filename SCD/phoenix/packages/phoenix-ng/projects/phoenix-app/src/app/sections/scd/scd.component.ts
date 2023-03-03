@@ -19,9 +19,9 @@ import eventConfig from '../../../../event-config.json';
 import phoenixMenuConfig from '../../../assets/files/config/atlas-config.json';
 
 @Component({
-  selector: 'app-cocoa',
-  templateUrl: './cocoa.component.html',
-  styleUrls: ['./cocoa.component.scss'],
+  selector: 'app-scd',
+  templateUrl: './scd.component.html',
+  styleUrls: ['./scd.component.scss'],
 })
 export class ScdComponent implements OnInit {
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
@@ -45,8 +45,8 @@ export class ScdComponent implements OnInit {
       defaultEvent = eventConfig;
     } else {
       defaultEvent = {
-        //eventFile: 'assets/files/cocoa/events_ttbar_layercolors.json',
-        eventFile: 'assets/files/cocoa/events_Wlep_layercolors.json',
+        //eventFile: 'assets/files/scd/events_ttbar_layercolors.json',
+        eventFile: 'assets/files/scd/events_Wlep_layercolors.json',
         eventType: 'json',
       };
     }
@@ -74,7 +74,7 @@ export class ScdComponent implements OnInit {
 
     // Electromagentic calorimeters
     this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/COCOA/ECAL1.obj',
+      'assets/geometry/SCD/ECAL1.obj',
       'ECAL1',
       0x6ede8a,
       'ECAL > ECAL1',
@@ -83,7 +83,7 @@ export class ScdComponent implements OnInit {
       false
     );
     this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/COCOA/ECAL2.obj',
+      'assets/geometry/SCD/ECAL2.obj',
       'ECAL2',
       0x92e6a7,
       'ECAL > ECAL2',
@@ -92,7 +92,7 @@ export class ScdComponent implements OnInit {
       false
     );
     this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/COCOA/ECAL3.obj',
+      'assets/geometry/SCD/ECAL3.obj',
       'ECAL3',
       0xb7efc5,
       'ECAL > ECAL3',
@@ -103,7 +103,7 @@ export class ScdComponent implements OnInit {
 
     // Hadronic Calorimeters
     this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/COCOA/HCAL1.obj',
+      'assets/geometry/SCD/HCAL1.obj',
       'HCAL1',
       0x8189ff,
       'HCAL > HCAL1',
@@ -112,7 +112,7 @@ export class ScdComponent implements OnInit {
       false
     );
     this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/COCOA/HCAL2.obj',
+      'assets/geometry/SCD/HCAL2.obj',
       'HCAL2',
       0x96a2ff,
       'HCAL > HCAL2',
@@ -121,7 +121,7 @@ export class ScdComponent implements OnInit {
       false
     );
     this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/COCOA/HCAL3.obj',
+      'assets/geometry/SCD/HCAL3.obj',
       'HCAL3',
       0xaeb8ff,
       'HCAL > HCAL3',

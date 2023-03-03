@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
    
-:github_url: https://github.com/cocoa-hep/cocoa-hep
+:github_url: https://github.com/scd-hep/scd-hep
 
 COCOA : COnfigurable CalOrimeter simulation for Ai
 ====================================
