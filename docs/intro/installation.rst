@@ -1,7 +1,8 @@
 Installation
 ======
 
-The COCOA repository can be downloaded from git `cocoa-hep <https://github.com/cocoa-hep/cocoa-hep.git>`_
+The COCOA repository can be downloaded from git `cocoa-hep <https://github.com/cocoa-hep/cocoa-hep.git>`_ . 
+
 Please follow the steps below to install COCOA.
 
 Install from Docker
