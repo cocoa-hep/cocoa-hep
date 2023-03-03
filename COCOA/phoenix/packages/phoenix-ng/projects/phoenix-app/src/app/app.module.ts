@@ -15,7 +15,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PlaygroundComponent } from './sections/playground/playground.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
-import { ScdComponent } from './sections/scd/scd.component';
+import { ScdComponent } from './sections/cocoa/cocoa.component';
 
 let routes: Routes;
 
@@ -31,7 +31,7 @@ if (environment?.singleEvent) {
     { path: 'cms', component: CMSComponent },
     { path: 'trackml', component: TrackmlComponent },
     { path: 'playground', component: PlaygroundComponent },
-    { path: 'scd', component: ScdComponent },
+    { path: 'cocoa', component: ScdComponent },
   ];
 }
 

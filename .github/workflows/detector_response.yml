@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/scd-hep/scd-hep:main
+      image: ghcr.io/cocoa-hep/cocoa-hep:main
 
     steps:
 
@@ -30,18 +30,18 @@ jobs:
           ln -s -f /usr/lib64/libGL.so.1 /usr/lib64/libGL.so
           ln -s -f /usr/lib64/libexpat.so.1 /usr/lib64/libexpat.so
           for libTag in Xmu ICE Xext X11 Xt SM; do ln -s -f /usr/lib64/lib${libTag}.so.6 /usr/lib64/lib${libTag}.so; done
-          mkdir -p SCD/build
-          cd SCD/build
+          mkdir -p COCOA/build
+          cd COCOA/build
           cmake ..
           make -j4
           cd ..
 
       - name: Hadron Response Test
         run: |
-          cd SCD
-          ./build/SCDMain --config ./config/config_hadron_test.json --seed 1
+          cd COCOA
+          ./build/COCOA --config ./config/config_hadron_test.json --seed 1
 
       - name: Neutral Pion Response Test
         run: |
-          cd SCD
-          ./build/SCDMain --config ./config/config_piZero_test.json --seed 1
+          cd COCOA
+          ./build/COCOA --config ./config/config_piZero_test.json --seed 1

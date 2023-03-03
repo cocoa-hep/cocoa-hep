@@ -5,23 +5,23 @@ Please follow the steps below to install COSA.
 
 Install from Docker
 --------
-The most convenient way to install SCD is to use its `Docker <https://github.com/scd-hep/scd-hep/blob/main/Dockerfile>`_ image from the home area. 
+The most convenient way to install COCOA is to use its `Docker <https://github.com/cocoa-hep/cocoa-hep/blob/main/Dockerfile>`_ image from the home area. 
 
 After installing docker execute the following commands
     .. code-block:: none
     
-            docker pull ghcr.io/scd-hep/scd-hep:main
-            docker image tag $(docker images | grep scd-hep | head -n 1 | awk '{print $3}') scd-hep
-            docker run -it scd-hep
+            docker pull ghcr.io/cocoa-hep/cocoa-hep:main
+            docker image tag $(docker images | grep cocoa-hep | head -n 1 | awk '{print $3}') cocoa-hep
+            docker run -it cocoa-hep
 
 Non-Docker installation
 --------
-The COSA repository can be downloaded from git `scd-hep <https://github.com/scd-hep/scd-hep.git>`_
+The COSA repository can be downloaded from git `cocoa-hep <https://github.com/cocoa-hep/cocoa-hep.git>`_
 
 To simplest way to prepare all dependencies is to mount the `CernVM File System <https://cvmfs.readthedocs.io/en/stable/cpt-quickstart.html>`_  and run
     .. code-block:: none
     
-            source scd-hep/setup_cvmfs.sh
+            source cocoa-hep/setup_cvmfs.sh
 
 After the environment setup, the following commands in the shell must return the environments properly : 
     .. code-block:: none
@@ -30,7 +30,7 @@ After the environment setup, the following commands in the shell must return the
             root-config --cflags
             pythia8-config --cflags
 
-Then in the `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory run the following commands (see `setup_cvfms.sh <https://github.com/scd-hep/scd-hep/blob/main/setup_cvmfs.sh>`_ ):
+Then in the `COCOA <https://github.com/cocoa-hep/cocoa-hep/tree/main/COCOA>`_ directory run the following commands (see `setup_cvfms.sh <https://github.com/cocoa-hep/cocoa-hep/blob/main/setup_cvmfs.sh>`_ ):
     .. code-block:: none
     
             mkdir build
@@ -41,12 +41,12 @@ Then in the `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory 
 
 Run
 --------
-From within `SCD <https://github.com/scd-hep/scd-hep/tree/main/SCD>`_ directory:
+From within `COCOA <https://github.com/cocoa-hep/cocoa-hep/tree/main/COCOA>`_ directory:
 
         .. code-block:: rst 
 
-           **./build/SCDMain** run with Geant4 User Interface.
-           **./build/SCDMain -h**  show input options for batch-mode with following options
+           **./build/COCOA** run with Geant4 User Interface.
+           **./build/COCOA -h**  show input options for batch-mode with following options
            **--config (-c) <str>** path to json configuration file
            **--macro (-m) <str>** path to Geant4 or Pythia8 macro file for event generation (can be set in json configuration file)
            **--output (-o) <str>** path (incl. name) of output ROOT file to be written (can be set in json configuration file)
@@ -58,11 +58,11 @@ An example to run the code interactively:
 
         .. code-block:: none 
 
-           ./build/SCDMain --macro  /path/to/SCD/SCD/macro/Pythia8/ttbar.in --config  /path/to/SCD/SCD/config/config_doc.json  /path/to/outputdir/output_name.root --seed 5
+           ./build/COCOA --macro  /path/to/COCOA/COCOA/macro/Pythia8/ttbar.in --config  /path/to/COCOA/COCOA/config/config_doc.json  /path/to/outputdir/output_name.root --seed 5
 
 Convert
 -------- 
-To convert the output files from SCD from ROOT to hdf5 format, the `util/dump_hdf5.py` can be used as follows:
+To convert the output files from COCOA from ROOT to hdf5 format, the `util/dump_hdf5.py` can be used as follows:
 
         .. code-block:: none 
 
