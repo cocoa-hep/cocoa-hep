@@ -8,7 +8,7 @@
 COCOA : COnfigurable Calorimeter simulatiOn for Ai
 ====================================
 
-.. image:: ./imgs/cocoa_v3.png
+.. image:: ./imgs/cocoa.png
    :width: 50%
 
 

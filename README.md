@@ -1,4 +1,4 @@
-<img src="https://github.com/scd-hep/scd-hep/blob/main/docs/imgs/cocoa_v1.png" height="250">
+<img src="https://github.com/scd-hep/scd-hep/blob/main/docs/imgs/cocoa.png" height="250">
 
 # COCOA
 The COnfigurable Calorimeter simulatiOn for Ai (COCOA) is a nearly-hermetic calorimeter simulated with [Geant4](https://geant4.web.cern.ch) and interfaced to the [Pythia8](https://www.pythia.org) event generator. This open-source simulation is aimed to support the development of machine learning algorithms in high energy physics that rely on realistic particle shower modeling, such as reconstruction, fast simulation, and low-level analysis.
