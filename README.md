@@ -8,7 +8,7 @@ The COCOA calorimeter comprises a barrel and endcap system with configurable gra
 ## Publication
 [![DOI](https://zenodo.org/badge/563008933.svg)](https://zenodo.org/badge/latestdoi/563008933)
 
-[![Docs](https://img.shields.io/badge/Docs-cocoa--hep-green.svg)](https://cocoa-hep.readthedocs.io/en/latest/index.html) [![arXiv](https://img.shields.io/badge/arXiv-TBD-red.svg)](https://arxiv.org/abs/2303.02101)
+[![Docs](https://img.shields.io/badge/Docs-cocoa--hep-green.svg)](https://cocoa-hep.readthedocs.io/en/latest/index.html) [![arXiv](2303.02101)](https://arxiv.org/abs/2303.02101)
 
 ## Install
 
