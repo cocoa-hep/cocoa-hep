@@ -6,9 +6,9 @@ The COnfigurable Calorimeter simulatiOn for Ai (COCOA) is a nearly-hermetic calo
 The COCOA calorimeter comprises a barrel and endcap system with configurable granularity, and with nearly uniform material depth distribution in pseudorapidity. An inner tracker system consisting of silicon and iron layers immersed in a magnetic field can be included optionally, along with basic tracking emulation. Output data are processed using on-board algorithms for topological clustering of calorimeter cells, graph creation, and jet clustering. The COCOA geometry is also provided in a format supporting event visualization with [Phoenix](https://github.com/HSF/phoenix).
 
 ## Publication
-[![DOI](https://sandbox.zenodo.org/badge/563008933.svg)](https://sandbox.zenodo.org/badge/latestdoi/563008933)
+[![DOI](https://zenodo.org/badge/563008933.svg)](https://zenodo.org/badge/latestdoi/563008933)
 
-[![Docs](https://img.shields.io/badge/Docs-cocoa--hep-green.svg)](https://cocoa-hep.readthedocs.io/en/latest/index.html) [![arXiv](https://img.shields.io/badge/arXiv-TBD-red.svg)](https://arxiv.org)
+[![Docs](https://img.shields.io/badge/Docs-cocoa--hep-green.svg)](https://cocoa-hep.readthedocs.io/en/latest/index.html) [![arXiv](https://img.shields.io/badge/arXiv-TBD-red.svg)](https://arxiv.org/abs/2303.02101)
 
 ## Install
 
