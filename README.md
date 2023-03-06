@@ -14,7 +14,12 @@ The COCOA calorimeter comprises a barrel and endcap system with configurable gra
 
 ### Docker
 
-The most convenient way to install COCOA is to use its docker image from <TO BE PROVIDED ONCE THE IMAGE IS PUBLIC>.
+The most convenient way to install COCOA is to use its docker image:
+```
+docker pull ghcr.io/cocoa-hep/cocoa-hep:main
+docker image tag $(docker images | grep cocoa-hep | head -n 1 | awk '{print $3}') cocoa-hep
+docker run -it cocoa-hep
+```
 
 ### Non-Docker
 
