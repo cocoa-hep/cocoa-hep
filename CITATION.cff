@@ -1,0 +1,66 @@
+cff-version: 1.2.0
+message: "Please cite the following works when using this software."
+type: software
+authors:
+- family-names: "Etienne"
+  given-names: "Dreyer"
+  orcid: "https://orcid.org/0000-0001-8955-9510"
+  affiliation: "Weizmann Institute of Science"
+- family-names: "Ganguly"
+  given-names: "Sanmay"
+  orcid: "https://orcid.org/0000-0003-1285-9261"
+  affiliation: "ICEPP, University of Tokyo"
+- family-names: "Rieck"
+  given-names: "Patrick"
+  orcid: "https://orcid.org/0000-0001-6616-3433"
+  affiliation: "NewYork University"
+title: "cocoa-hep: v0.1.1"
+version: 0.1.1
+doi: 10.5281/zenodo.7700475
+repository-code: "https://github.com/cocoa-hep/cocoa-hep/releases/tag/0.1.1"
+url: "https://cocoa-hep.readthedocs.io/en/latest/"
+keywords:
+  - python
+  - physics
+  - Geant4
+  - Opendata Calorimeter
+  - Machine Learning
+  - Pythia
+  - Configurable
+license: "GNU General Public License v3.0"
+abstract: |
+  A configurable calorimeter simulation for AI (COCOA) applications is presented, 
+  based on the GEANT4 toolkit and interfaced with the PYTHIA event generator.
+  This open-source project is aimed to support the development of
+  machine learning algorithms in high energy physics that rely
+  on realistic particle shower descriptions, such as reconstruction, fast-simulation,
+  and low level analysis. Specifications such as the granularity and material of 
+  its nearly hermetic geometry are user-configurable. The tool is supplemented
+  with simple event processing including topological clustering, jet-algorithms,
+  and a nearest-neighbors graph construction. Formatting is also provided to visualise events using
+  the Phoenix event display software.
+references:
+  - type: article
+    - family-names: "Etienne"
+      given-names: "Dreyer"
+      orcid: "https://orcid.org/0000-0001-8955-9510"
+      affiliation: "Weizmann Institute of Science"
+    - family-names: "Ganguly"
+      given-names: "Sanmay"
+      orcid: "https://orcid.org/0000-0003-1285-9261"
+      affiliation: "ICEPP, University of Tokyo"
+    - family-names: "Rieck"
+      given-names: "Patrick"
+      orcid: "https://orcid.org/0000-0001-6616-3433"
+      affiliation: "New York University"
+    title: "Configurable calorimeter simulation for AI applications"
+    doi: 10.5281/zenodo.7700475
+    url: "https://arxiv.org/abs/2303.02101"
+    year: 2023
+    publisher:
+      name: ""
+    volume: 
+    number: 
+    pages: 
+    journal: 
+Footer
