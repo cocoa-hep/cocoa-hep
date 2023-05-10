@@ -22,73 +22,49 @@
 // * use  in  resulting  scientific  publications,  and indicate your *
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
+//
+/// \file eventgenerator/HepMC/HepMCEx01/src/HepMCG4AsciiReader.cc
+/// \brief Implementation of the HepMCG4AsciiReader class
+//
+//
 
-#ifndef H02_PRIMARY_GENERATOR_ACTION_H
-#define H02_PRIMARY_GENERATOR_ACTION_H
+#include "HepMCG4AsciiReader.hh"
+#include "HepMCG4AsciiReaderMessenger.hh"
 
-#include <map>
-#include "globals.hh"
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
-#include "Detector_analysis_var.hh"
+#include <iostream>
+#include <fstream>
 
-#include "TRandom.h"
-
-class G4Event;
-class G4VPrimaryGenerator;
-class PrimaryGeneratorMessenger;
-
-
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
-public:
-  PrimaryGeneratorAction();
-  ~PrimaryGeneratorAction();
-
-  virtual void GeneratePrimaries(G4Event* anEvent);
-
-  void SetGenerator(G4VPrimaryGenerator* gen);
-  void SetGenerator(G4String genname);
-
-  G4VPrimaryGenerator* GetGenerator() const;
-  G4String GetGeneratorName() const;
-
-private:
-  G4VPrimaryGenerator* fParticleGun;
-  G4VPrimaryGenerator* fPythiaGen;
-  G4VPrimaryGenerator* fHepMCGen;
-
-  G4ParticleGun *fParticleGun_ ;
-  G4VPrimaryGenerator* fCurrentGenerator;
-  G4String fCurrentGeneratorName;
-  std::map<G4String, G4VPrimaryGenerator*> fGentypeMap;
-
-  PrimaryGeneratorMessenger* fMessenger;
-
-};
-
-inline void PrimaryGeneratorAction::SetGenerator(G4VPrimaryGenerator* gen)
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMCG4AsciiReader::HepMCG4AsciiReader()
+  :  filename("xxx.dat"), verbose(0)
 {
-  fCurrentGenerator= gen;
+  asciiInput= new HepMC::IO_GenEvent(filename.c_str(), std::ios::in);
+
+  messenger= new HepMCG4AsciiReaderMessenger(this);
 }
 
-inline void PrimaryGeneratorAction::SetGenerator(G4String genname)
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMCG4AsciiReader::~HepMCG4AsciiReader()
 {
-  std::map<G4String, G4VPrimaryGenerator*>::iterator
-  pos = fGentypeMap.find(genname);
-  if(pos != fGentypeMap.end()) {
-    fCurrentGenerator= pos->second;
-    fCurrentGeneratorName= genname;
-  }
+  delete asciiInput;
+  delete messenger;
 }
 
-inline G4VPrimaryGenerator* PrimaryGeneratorAction::GetGenerator() const
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void HepMCG4AsciiReader::Initialize()
 {
-  return fCurrentGenerator;
+  delete asciiInput;
+
+  asciiInput= new HepMC::IO_GenEvent(filename.c_str(), std::ios::in);
 }
 
-inline G4String PrimaryGeneratorAction::GetGeneratorName() const
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMC::GenEvent* HepMCG4AsciiReader::GenerateHepMCEvent()
 {
-  return fCurrentGeneratorName;
-}
+  HepMC::GenEvent* evt= asciiInput-> read_next_event();
+  if(!evt) return 0; // no more event
 
-#endif
+  if(verbose>0) evt-> print();
+
+  return evt;
+}
