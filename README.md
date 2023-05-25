@@ -21,6 +21,8 @@ docker image tag $(docker images | grep cocoa-hep | head -n 1 | awk '{print $3}'
 docker run -it cocoa-hep
 ```
 
+Please note that in this container cocoa and its dependencies are installed in /root .
+
 ### Non-Docker
 
 To simplest way to prepare all dependencies is to mount the [CernVM File System](https://cvmfs.readthedocs.io/en/stable/cpt-quickstart.html) and run
