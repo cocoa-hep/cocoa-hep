@@ -43,6 +43,7 @@ protected:
   HepMC::IO_GenEvent*          asciiInput;
   G4int                        verbose;
   HepMCG4AsciiReaderMessenger* messenger;
+  int                          i_first_event;
 
   virtual HepMC::GenEvent* GenerateHepMCEvent();
 
@@ -55,8 +56,10 @@ public:
   G4String GetFileName() const;
 
   void  SetVerboseLevel(G4int i);
-  G4int GetVerboseLevel() const; 
+  G4int GetVerboseLevel() const;
 
+  void SetFirstEventIndex( int idx ) { i_first_event = idx; }
+  
   // methods...
   void Initialize();
 };

@@ -52,6 +52,11 @@ HepMCG4AsciiReaderMessenger::HepMCG4AsciiReaderMessenger
   open= new G4UIcmdWithAString("/generator/hepmcAscii/open", this);
   open-> SetGuidance("(re)open data file (HepMC Ascii format)");
   open-> SetParameterName("input ascii file", true, true);
+
+  first_event = new G4UIcmdWithAnInteger("/generator/hepmcAscii/first_event", this);
+  first_event->SetGuidance("Index of the first event to analyse.");
+  first_event->SetParameterName("first_event", true, true);
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -74,6 +79,10 @@ void HepMCG4AsciiReaderMessenger::SetNewValue(G4UIcommand* command,
     gen-> SetFileName(newValues);
     G4cout << "HepMC Ascii inputfile: "
            << gen-> GetFileName() << G4endl;
+    gen-> Initialize();
+  } else if ( command == first_event ) {
+    int i_first_event = first_event->GetNewIntValue( newValues );
+    gen->SetFirstEventIndex( i_first_event );
     gen-> Initialize();
   }
 }

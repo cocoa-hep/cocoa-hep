@@ -36,13 +36,13 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 HepMCG4AsciiReader::HepMCG4AsciiReader()
-  :  filename("xxx.dat"), verbose(0)
+  :  filename("xxx.dat"), verbose(0), i_first_event(0)
 {
   asciiInput= new HepMC::IO_GenEvent(filename.c_str(), std::ios::in);
 
   messenger= new HepMCG4AsciiReaderMessenger(this);
+  
 }
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 HepMCG4AsciiReader::~HepMCG4AsciiReader()
 {
@@ -54,8 +54,12 @@ HepMCG4AsciiReader::~HepMCG4AsciiReader()
 void HepMCG4AsciiReader::Initialize()
 {
   delete asciiInput;
-
+  
   asciiInput= new HepMC::IO_GenEvent(filename.c_str(), std::ios::in);
+
+  for ( int i_event = 0; i_event < i_first_event; ++i_event )
+    asciiInput->read_next_event();
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

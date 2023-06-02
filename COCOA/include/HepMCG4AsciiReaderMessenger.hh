@@ -50,9 +50,10 @@ public:
 private:
   HepMCG4AsciiReader* gen;
 
-  G4UIdirectory* dir;
+  G4UIdirectory*        dir;
   G4UIcmdWithAnInteger* verbose;
-  G4UIcmdWithAString* open;
+  G4UIcmdWithAString*   open;
+  G4UIcmdWithAnInteger* first_event;
 
 };
 
