@@ -14,7 +14,7 @@ void Jet_Builder_data::set_tree_branches(TTree *outTree)
     outTree->Branch(TString(Prefix + "_jet_eta"), "vector<float>", &jet_eta);
     outTree->Branch(TString(Prefix + "_jet_phi"), "vector<float>", &jet_phi);
     outTree->Branch(TString(Prefix + "_jet_m"), "vector<float>", &jet_m);
-    outTree->Branch(TString(Prefix + "_jet_constituents_jetIndex"), "vector<float>", &jet_constituents_jetIndex);
+    outTree->Branch(TString(Prefix + "_jet_constituents_jetIndex"), "vector<int>", &jet_constituents_jetIndex);
 }
 
 void Jet_Builder_data::fill_cell_var()
