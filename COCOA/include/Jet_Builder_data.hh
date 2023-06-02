@@ -14,13 +14,17 @@ private:
     std::vector<float> jet_eta;
     std::vector<float> jet_phi;
     std::vector<float> jet_m;
-    std::vector<std::vector<float>> jet_constituents_list;
+    std::vector<float> jet_constituents_jetIndex; // jet index for each constituent. default -1: not associated to a jet.
+    unsigned int       n_constituents;
 public:
+  
     Jet_Builder_data(std::string prefix);
     ~Jet_Builder_data();
-    void clear();
-    void set_tree_branches(TTree *outTree);
-    void fill_cell_var();
+    void        clear();
+    void        set_tree_branches(TTree *outTree);
+    inline void set_n_constituents( unsigned int n ) { n_constituents = n; }
+    void        fill_cell_var();
+    
     static Jet_Builder_data &Get_instance_pflow()
     {
         static Jet_Builder_data jets_data("pflow");
