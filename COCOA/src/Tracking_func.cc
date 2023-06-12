@@ -69,6 +69,8 @@ void Tracking::Trajectory_finder(FullTrajectoryInfo FSP, int nParticle, std::vec
             //* Perigee parametrs
             track.a0 = track.charge * (sqrt(a0sqr));
             track.phiHelix = atan2(y0, x0) + charge * M_PI_2;
+	    if ( track.phiHelix < 0.0 )
+		track.phiHelix = 2 * M_PI - TMath::Abs( track.phiHelix );
             track.theta = acos(pz / sqrt(sqr(track.pt) + sqr(pz)));
             track.q_p = charge / sqrt(sqr(track.pt) + sqr(track.pz));
             //* numerical stability
