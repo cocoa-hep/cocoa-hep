@@ -19,7 +19,7 @@ void Jet_Builder_data::set_tree_branches(TTree *outTree)
 
 void Jet_Builder_data::fill_cell_var()
 {
-    jet_constituents_jetIndex = std::vector<float>( n_constituents, -1 );
+    jet_constituents_jetIndex = std::vector<int>( n_constituents, -1 );
     int size_jets = jets.size();
     for (int ijet = 0; ijet < size_jets; ijet++)
     {

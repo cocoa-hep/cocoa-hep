@@ -14,7 +14,7 @@ private:
     std::vector<float> jet_eta;
     std::vector<float> jet_phi;
     std::vector<float> jet_m;
-    std::vector<float> jet_constituents_jetIndex; // jet index for each constituent. default -1: not associated to a jet.
+    std::vector<int>   jet_constituents_jetIndex; // jet index for each constituent. default -1: not associated to a jet.
     unsigned int       n_constituents;
 public:
   
