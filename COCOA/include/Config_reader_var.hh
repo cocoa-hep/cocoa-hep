@@ -96,6 +96,7 @@ public:
     bool Save_truth_particle_graph;
     bool Use_high_granularity;
     bool Skip_unuseable_tracks;
+    bool Skip_detector_interaction;
     bool check_geometry_overlap;
     bool check_geometry_overlap_only;
     bool use_inner_detector;

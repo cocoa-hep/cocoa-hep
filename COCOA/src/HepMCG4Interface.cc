@@ -164,6 +164,10 @@ void HepMCG4Interface::HepMC2G4(const HepMC::GenEvent *hepmcevt,
 			{
 				continue;
 			}
+			else if (config_json_var.Skip_detector_interaction) // EXPERIMENTAL! Testing dry run option
+			{
+				continue;
+			}
 
 			//add to selected particles (selected to be passed to GEANT), avoid duplicates.
 			m_truthrecordgraph.add_to_vector(pptr, selected_particles);
