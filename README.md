@@ -5,6 +5,8 @@ The COnfigurable Calorimeter simulatiOn for Ai (COCOA) is a nearly-hermetic calo
 
 The COCOA calorimeter comprises a barrel and endcap system with configurable granularity, and with nearly uniform material depth distribution in pseudorapidity. An inner tracker system consisting of silicon and iron layers immersed in a magnetic field can be included optionally, along with basic tracking emulation. Output data are processed using on-board algorithms for topological clustering of calorimeter cells, graph creation, and jet clustering. The COCOA geometry is also provided in a format supporting event visualization with [Phoenix](https://github.com/HSF/phoenix).
 
+The documentation can be found [here](https://cocoa-hep.readthedocs.io/en/latest/).
+
 ## Publication
 [![DOI](https://zenodo.org/badge/563008933.svg)](https://zenodo.org/badge/latestdoi/563008933)
 
@@ -20,6 +22,8 @@ docker pull ghcr.io/cocoa-hep/cocoa-hep:main
 docker image tag $(docker images | grep cocoa-hep | head -n 1 | awk '{print $3}') cocoa-hep
 docker run -it cocoa-hep
 ```
+
+Please note that in this container cocoa and its dependencies are installed in /root .
 
 ### Non-Docker
 
