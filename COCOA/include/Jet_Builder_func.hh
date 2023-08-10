@@ -10,12 +10,13 @@
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/ClusterSequence.hh"
 #include "Config_reader_var.hh"
+#include "Jet_Builder_data.hh"
 
 class Jet_Builder_func
 {
 
 public:
-    void build_jets(std::vector<fastjet::PseudoJet> &input_jets, std::vector<fastjet::PseudoJet> &output_jets, Jet_parameters jet_par);
+    void build_jets(std::vector<fastjet::PseudoJet> &input_jets, Jet_Builder_data &jet_data, Jet_parameters jet_par);
     void reset();
     fastjet::ClusterSequence *cs;
     fastjet::JetAlgorithm algorithm(std::string algo);
