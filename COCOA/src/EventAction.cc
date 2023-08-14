@@ -203,7 +203,17 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			noise_apply.apply_noise(cells_data_low.fCell_array);
 			Topo_clust_func clustering(cells_data_low.fCell_array, config_var.low_resolution, config_var.topological_clustering, "Standard");
 			clustering.topoclustering(topo_clusts.topo_clusts_list);
-			cells_data_low.fill_cells_in_topoclusters();
+			if ( config_var.save_cells_in_cone )
+			{
+				// open cone around leading track
+				float eta = trajectories.fAllTrajectoryInfo.at(0).caloExtrapolEta;
+				float phi = trajectories.fAllTrajectoryInfo.at(0).caloExtrapolPhi;
+				cells_data_low.fill_cells_in_topoclusters(eta,phi,0.4); // R0.4 is hardcoded for now
+			}
+			else
+			{
+				cells_data_low.fill_cells_in_topoclusters();
+			}
 			topo_clusts.fill_topo_var();
 
 			if ( config_var.doPFlow )

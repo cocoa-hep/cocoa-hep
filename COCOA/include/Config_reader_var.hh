@@ -100,6 +100,7 @@ public:
     bool check_geometry_overlap_only;
     bool use_inner_detector;
     bool use_ID_support;
+    bool save_cells_in_cone;
 
     long double r_inn_calo;
     long double Layer_gap;

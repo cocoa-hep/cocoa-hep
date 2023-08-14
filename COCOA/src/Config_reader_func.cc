@@ -17,6 +17,7 @@ Config_reader_func::Config_reader_func(std::string path, Config_reader_var &conf
     config_var.Use_high_granularity = configs["Use_high_granularity"].asBool();
     config_var.Skip_unuseable_tracks = configs["Skip_unuseable_tracks"].asBool();
     config_var.doSuperclustering = configs.get( "Do_superclustering", false ).asBool();
+    config_var.save_cells_in_cone = configs.get( "Save_cells_in_cone", false ).asBool();
 
     config_var.r_inn_calo = configs["Geometry_definition"]["Inner_calorimeter_layer"].asDouble();
     config_var.Layer_gap = configs["Geometry_definition"]["Layer_gap"].asDouble();

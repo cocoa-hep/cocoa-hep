@@ -207,8 +207,9 @@ void Cells_data::add_cell_info(int ilay, int ieta, int iphi, float ch_en, float 
 	
 }
 
-void Cells_data::fill_cells_in_topoclusters()
+void Cells_data::fill_cells_in_topoclusters(float eta, float phi, float dR)
 {
+	bool do_cone = (eta != -999 && phi != -999);
 	float sum = 0;
 	int pos_in_list = 0;
     for (int ilay = 0; ilay < ilay_num; ilay++)
@@ -218,7 +219,22 @@ void Cells_data::fill_cells_in_topoclusters()
             for (int iphi = 0; iphi < (int) Number_Pixel_Flatten.at(ilay); iphi++)
             {
                 Cell &local_cell = fCell_array.at(ilay).at(ieta).at(iphi);
-                if (local_cell.get_label() != 0)
+				float dR_cell = 999;
+				if (do_cone)
+				{
+					float cell_eta = local_cell.get_eta_pos();
+					float cell_phi = local_cell.get_phi_pos();
+					float deta = cell_eta - eta;
+					float dphi = cell_phi - phi;
+					while (dphi > M_PI)
+						dphi -= 2 * M_PI;
+					dR_cell = sqrt(deta*deta + dphi*dphi);
+					if (dR_cell > dR)
+					{
+						continue;
+					}
+				}
+                if ( local_cell.get_label() != 0 || do_cone)
                 {
                     local_cell.position_in_list = pos_in_list;
                     Cells_in_topoclusters.push_back(&fCell_array.at(ilay).at(ieta).at(iphi));

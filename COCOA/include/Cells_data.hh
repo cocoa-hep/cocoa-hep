@@ -52,7 +52,7 @@ public:
     void fill_cell_var();
     void add_cell_info(int ilay, int ieta, int iphi, float ch_en, float nu_en, Particle_dep_in_cell particle, Particle_dep_in_cell* conv_el = nullptr);
     void clear();
-    void fill_cells_in_topoclusters();
+    void fill_cells_in_topoclusters(float eta = -999, float phi = -999, float dR = 0.4);
     int ilay_num;
     // std::vector< std::vector< std::vector<Cell > > > // fLow_cell_array;
 };
