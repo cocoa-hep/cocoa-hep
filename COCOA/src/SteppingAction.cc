@@ -378,7 +378,7 @@ void SteppingAction::UserSteppingAction(const G4Step *astep)
 			conv_el = new Particle_dep_in_cell;
 			conv_el->PDG_ID = trajectories.fAllConvElectrons[iConvEl].fPDGCode;
 			conv_el->particle_pos_in_true_list = iConvEl;
-			conv_el->Energy = edep;
+			conv_el->Energy = edep / samplingFraction;
 			break;
 		    }
 		}
@@ -392,7 +392,7 @@ void SteppingAction::UserSteppingAction(const G4Step *astep)
 				// runData->AddTotalEnergy(Ech, Enu);
 				Particle_dep_in_cell ptrc;
 
-				ptrc.Energy = Etot;
+				ptrc.Energy = Etot / samplingFraction;
 				ptrc.PDG_ID = trajectories.fAllTrajectoryInfo.at(mTraj).fPDGCode;
 
 				ptrc.particle_pos_in_true_list = mTraj;
