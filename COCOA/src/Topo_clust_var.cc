@@ -180,7 +180,7 @@ void Topo_clust::COM_update(Cell &cell, float weight, int add_subtract)
         cos_phi += add_subtract*fabs(cell_energy) * weight * (cos(cell.get_phi_pos()) - cos_phi) / abs_total_energy;
         sin_phi += add_subtract*fabs(cell_energy) * weight * (sin(cell.get_phi_pos()) - sin_phi) / abs_total_energy;
         R_com   += add_subtract*fabs(cell_energy) * weight * (geometry.layer_mid_radius_flatten.at(cell.get_layer()) - R_com)/abs_total_energy;
-        phi_com = atan2f(-1 * sin_phi, -1 * cos_phi) + M_PI; 
+        phi_com = atan2f(sin_phi, cos_phi);
         float argumEta = pow(cell.get_eta_pos() - eta_com, 2);
         sigma_eta_buf += add_subtract*argumEta;//!  sometimes is negative
 

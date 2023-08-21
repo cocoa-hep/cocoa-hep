@@ -41,7 +41,10 @@ void Particle_flow_data::fill_cell_var()
     for (int ipflow = 0; ipflow < size_pflow_list; ipflow++)
     {
         pflow_eta.push_back(pflow_list.at(ipflow).eta);
-        pflow_phi.push_back(pflow_list.at(ipflow).phi);
+        float phi = pflow_list.at(ipflow).phi;
+        if (phi < -M_PI) phi += 2*M_PI;
+        if (phi > M_PI) phi -= 2*M_PI;
+        pflow_phi.push_back(phi);
         pflow_px.push_back(pflow_list.at(ipflow).px);
         pflow_py.push_back(pflow_list.at(ipflow).py);
         pflow_pz.push_back(pflow_list.at(ipflow).pz);

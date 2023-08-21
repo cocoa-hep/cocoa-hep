@@ -24,7 +24,10 @@ void Jet_Builder_data::fill_cell_var()
     {
         jet_pt.push_back(jets.at(ijet).pt());
         jet_eta.push_back(jets.at(ijet).eta());
-        jet_phi.push_back(jets.at(ijet).phi());
+        float phi = jets.at(ijet).phi();
+        if (phi < -M_PI) phi += 2*M_PI;
+        if (phi > M_PI) phi -= 2*M_PI;
+        jet_phi.push_back(phi);
         jet_m.push_back(jets.at(ijet).m());
         int size_constituents = jets.at(ijet).constituents().size();
         std::vector<float> constituents;

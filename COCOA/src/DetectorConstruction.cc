@@ -67,13 +67,7 @@ long double EtaToTheta(long double eta) {
 }
 
 long double GetPhi(long double px, long double py) {
-        long double phi = atan( fabs( py / px ) );
-	if ( px < 0.0 && py > 0.0 )
-	    phi = M_PI - phi;
-	if ( px > 0.0 && py < 0.0 )
-	    phi = 2.0 * M_PI - phi;
-	if ( px < 0.0 && py < 0.0 )
-	    phi = M_PI + phi;
+	long double phi = atan2( py, px );
 	return phi;    
 }
 
