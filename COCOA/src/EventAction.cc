@@ -211,7 +211,7 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 				// open cone around leading track
 				float eta = trajectories.fAllTrajectoryInfo.at(0).caloExtrapolEta;
 				float phi = trajectories.fAllTrajectoryInfo.at(0).caloExtrapolPhi;
-				cells_data_low.fill_cells_in_topoclusters(eta,phi,0.4); // R0.4 is hardcoded for now
+				cells_data_low.fill_cells_in_topoclusters(eta,phi,0.2); // R0.2 is hardcoded for now
 			}
 			else
 			{

@@ -224,12 +224,14 @@ void Cells_data::fill_cells_in_topoclusters(float eta, float phi, float dR)
 				{
 					float cell_eta = local_cell.get_eta_pos();
 					float cell_phi = local_cell.get_phi_pos();
+					float cell_lay = local_cell.get_layer();
 					float deta = cell_eta - eta;
 					float dphi = cell_phi - phi;
-					while (dphi > M_PI)
+					if (dphi > M_PI)
 						dphi -= 2 * M_PI;
 					dR_cell = sqrt(deta*deta + dphi*dphi);
-					if (dR_cell > dR)
+					float variable_cone = dR + (cell_lay - 1)*0.05; // 0.15, 0.20, 0.25, 0.3, 0.35, 0.40
+					if (dR_cell > variable_cone)
 					{
 						continue;
 					}
