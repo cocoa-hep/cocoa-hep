@@ -27,6 +27,7 @@
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
 #include "HepMCG4Pythia8Interface.hh"
+#include "HepMCG4AsciiReader.hh"
 #include "PrimaryGeneratorAction.hh"
 #include "PrimaryGeneratorMessenger.hh"
 #include "G4GeneralParticleSource.hh"
@@ -51,6 +52,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	// fHepmcAscii = new HepMCG4AsciiReader();
 	//#ifdef G4LIB_USE_PYTHIA
 	fPythiaGen = new HepMCG4Pythia8Interface();
+	fHepMCGen  = new HepMCG4AsciiReader();
 	//#else
 	//  fPythiaGen= 0;
 	//#endif
@@ -58,8 +60,8 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	fParticleGun_ = new G4ParticleGun(1);
 
 	fGentypeMap["particleGun"] = fParticleGun;
-	// fGentypeMap["hepmcAscii"] = fHepmcAscii;
-	fGentypeMap["pythia8"] = fPythiaGen;
+	fGentypeMap["hepmcAscii"]  = fHepMCGen;
+	fGentypeMap["pythia8"]     = fPythiaGen;
 
 	fMessenger = new PrimaryGeneratorMessenger(this);
 }
@@ -95,9 +97,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 		}
 		//* particleGun end
 		//* pythia8
-		else if (fCurrentGeneratorName == "pythia8")
+		else if (fCurrentGeneratorName == "pythia8" or fCurrentGeneratorName == "hepmcAscii")
 		{
-			fGentypeMap["pythia8"]->GeneratePrimaryVertex(anEvent);
+			fGentypeMap[fCurrentGeneratorName]->GeneratePrimaryVertex(anEvent);
 		}
 		//* Pythia8 end
 	}
