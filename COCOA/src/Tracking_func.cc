@@ -69,6 +69,7 @@ void Tracking::Trajectory_finder(FullTrajectoryInfo FSP, int nParticle, std::vec
             //* Perigee parametrs
             track.a0 = track.charge * (sqrt(a0sqr));
             track.phiHelix = atan2(y0, x0) + charge * M_PI_2;
+            track.phiHelix = track.phiHelix > M_PI ? track.phiHelix - 2 * M_PI : track.phiHelix < -M_PI ? track.phiHelix + 2 * M_PI : track.phiHelix;
             track.theta = acos(pz / sqrt(sqr(track.pt) + sqr(pz)));
             track.q_p = charge / sqrt(sqr(track.pt) + sqr(track.pz));
             //* numerical stability
@@ -155,8 +156,6 @@ void Tracking::Trajectory_finder(FullTrajectoryInfo FSP, int nParticle, std::vec
                 track.z_mid_layer.at(lay) = z_f;
                 track.eta.at(lay) = -1 * log(tan(0.5 * acos(z_f / sqrt(sqr(R_mid.at(lay)) + sqr(z_f)))));
                 track.phi.at(lay) = atan2(y_f, x_f);
-                if (track.phi.at(lay) < 0)
-                    track.phi.at(lay) += 2*M_PI;
                 float deta = d_eta.at(lay); //!
                 float dphi = d_phi.at(lay); //!
                 track.ind_phi.at(lay) = (int)floor(track.phi.at(lay) / dphi);
@@ -191,8 +190,6 @@ void Tracking::TrajectoryInMF(Track_struct &track, int lay)
         float Y_in_mid_layer = track.y_end_MF + track.rho_perigee * track.py_end_MF * time_to_layer;
         float Z_in_mid_layer = track.z_end_MF + track.rho_perigee * track.pz_perigee * time_to_layer;
         float Phi = atan2(Y_in_mid_layer, X_in_mid_layer);
-        if (Phi < 0)
-            Phi += 2*M_PI;
         float Eta = -1 * log(tan(0.5 * acos(Z_in_mid_layer / sqrt(sqr(X_in_mid_layer) + sqr(Y_in_mid_layer) + sqr(Z_in_mid_layer)))));
 
         float deta = d_eta.at(lay);
@@ -214,8 +211,6 @@ void Tracking::TrajectoryInMF(Track_struct &track, int lay)
         float Y_in_mid_layer = track.y_end_MF + track.py_end_MF * time_to_layer;
         float Z_in_mid_layer = track.z_end_MF + track.pz_perigee * time_to_layer;
         float Phi = atan2(Y_in_mid_layer, X_in_mid_layer);
-        if (Phi < 0)
-            Phi += 2*M_PI;
         float Eta = -1 * log(tan(0.5 * acos(Z_in_mid_layer / sqrt( sqr(R_mid.at(lay)) + sqr(Z_in_mid_layer) ) )));
 	
         float deta = d_eta.at(lay);
