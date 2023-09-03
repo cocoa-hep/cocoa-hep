@@ -238,7 +238,7 @@ HepMC::GenEvent *HepMCG4Pythia8Interface::GenerateHepMCEvent()
 				event.append(id, 23, 101, 102, px, py, pz, ee);
 				event.append(id, 23, 102, 101, -px, -py, -pz, ee);
 			}
-			else if (id == 2) //*  Quark
+			else if (id == 2 || id == 6) //*  Quark
 			{
 				double mass_0 = pdt.m0(id);
 				double pp = Pythia8::sqrtpos(ee * ee - mass_0 * mass_0);

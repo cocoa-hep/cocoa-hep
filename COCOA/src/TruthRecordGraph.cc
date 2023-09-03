@@ -136,7 +136,7 @@ void TruthRecordGraph::add_all_moving_parents(HepMC::GenParticle *to_add, std::v
 		bool is_b = isBottomHadron(parent_pdgid);
 
 		bool is_top = abs(parent_pdgid) == 6;
-		// bool is_up = abs(parent_pdgid)==2;
+		bool is_up = parent_pdgid==2;
 		bool is_W = abs(parent_pdgid) == 24;
 		// bool is_gluon = abs(parent_pdgid)==21;
 		/* Has child correct PDG code? */
@@ -145,7 +145,7 @@ void TruthRecordGraph::add_all_moving_parents(HepMC::GenParticle *to_add, std::v
 			add_to_vector(*parent, add_to);
 		}
 
-		if (is_top || is_W)
+		if (is_top || is_W || is_up)
 		{
 			if (!is_parent_same(*parent))
 			{
