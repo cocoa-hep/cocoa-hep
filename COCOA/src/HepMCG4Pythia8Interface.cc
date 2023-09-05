@@ -220,12 +220,15 @@ HepMC::GenEvent *HepMCG4Pythia8Interface::GenerateHepMCEvent()
 			double maxenergy = messenger->MaxEnergy;
 			double mineta = messenger->MinEta;
 			double maxeta = messenger->MaxEta;
+			double minphi = messenger->MinPhi;
+			double maxphi = messenger->MaxPhi;
 
 			double ee = CLHEP::RandFlat::shoot(minenergy, maxenergy); //100;
 
 			double eta = CLHEP::RandFlat::shoot(mineta, maxeta);
 
-			double phi = CLHEP::RandFlat::shoot(0., 2 * M_PI);
+			//double phi = CLHEP::RandFlat::shoot(0., 2 * M_PI);
+			double phi = CLHEP::RandFlat::shoot(minphi, maxphi);
 			Pythia8::ParticleData &pdt = pythia.particleData;
 			// Reset event record to allow for new event.
 			event.reset();
