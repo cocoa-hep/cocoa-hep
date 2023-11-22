@@ -211,12 +211,12 @@ void Superclustering::add_neighbor_clusters(std::vector<Supercluster> &Super_lis
     std::vector<int> taken_topos;
 
     //Loop over superclusters (still only seeds)
-    for(int isuper=0; isuper<Super_list.size(); isuper++)
+    for(size_t isuper=0; isuper<Super_list.size(); isuper++)
     {
         Topo_clust seed = Super_list.at(isuper).get_clusters()[0];
 
         //Look for candidate neighbor clusters by checking criteria
-        for(int itopo=0; itopo<Topo_List.size(); itopo++)
+        for(size_t itopo=0; itopo<Topo_List.size(); itopo++)
         {
             Topo_clust test = Topo_List.at(itopo);
 
@@ -271,7 +271,7 @@ void Superclustering::calc_merged_clusters(std::vector<Supercluster> &Super_list
 {
 
     //Loop over superclusters (still only seeds)
-    for(int isuper=0; isuper<Super_list.size(); isuper++)
+    for(size_t isuper=0; isuper<Super_list.size(); isuper++)
     {
         float sum_cell_e_times_x = 0;
         float sum_cell_e_times_y = 0;
@@ -280,7 +280,7 @@ void Superclustering::calc_merged_clusters(std::vector<Supercluster> &Super_list
 
         std::vector<Topo_clust> topo_members = Super_list.at(isuper).get_clusters();
 
-        for(int itopo=0; itopo<topo_members.size(); itopo++)
+        for(size_t itopo=0; itopo<topo_members.size(); itopo++)
         {
             int topo_label = topo_members.at(itopo).label;        
             int n_cells    = cells_in_topoclust.size();
