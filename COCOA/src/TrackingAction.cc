@@ -213,7 +213,7 @@ bool TrackingAction::IsInnerDetectorTrack(const G4Track* aTrack) const {
     G4String logicalVolumeName = aTrack->GetVolume()->GetName();
     logicalVolumeName.toLower();
     
-    return logicalVolumeName( 0, 5 ) == "inner";
+    return logicalVolumeName.substr( 0, 5 ) == "inner";
     
 }
 
