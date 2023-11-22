@@ -9,7 +9,7 @@ WORKDIR ${WKDIR}
 # Basics #
 ##########
 
-RUN yum -y install which wget tar devtoolset-8-gcc-c++ make cmake3 git mesa-libGL-devel libXmu-devel expat-devel && \
+RUN yum -y install epel-release which wget tar devtoolset-8-gcc-c++ make cmake3 git mesa-libGL-devel libXmu-devel expat-devel && \
     yum group install -y "X Window System" && \
     yum clean all
 RUN ln -s -f /usr/bin/cmake3 /usr/bin/cmake
@@ -25,18 +25,7 @@ ENV CXX=/opt/rh/devtoolset-8/root/usr/bin/g++
 # HEPMC #
 #########
 
-ARG HEPMC_VERSION=2.06.11
-
-RUN wget hepmc.web.cern.ch/hepmc/releases/hepmc${HEPMC_VERSION}.tgz && \
-    tar -xzf hepmc${HEPMC_VERSION}.tgz
-ENV HEPMC_SRC_DIR=${WKDIR}/HepMC-${HEPMC_VERSION}
-ENV HEPMC_DIR=${WKDIR}/hepmc
-RUN mkdir ${HEPMC_DIR}
-RUN cd ${HEPMC_DIR} && \
-    cmake ${HEPMC_SRC_DIR} -Dmomentum:STRING=MEV -Dlength:STRING=MM && \
-    make -j4
-RUN mkdir ${HEPMC_DIR}/include && \
-    cp -r ${HEPMC_SRC_DIR}/HepMC ${HEPMC_DIR}/include/
+RUN yum -y install HepMC HepMC-devel
 
 
 ###########
@@ -68,15 +57,7 @@ RUN cp -r /usr/include/jsoncpp/json /usr/include
 # PYTHIA8 #
 ###########
 
-ARG PYTHIA_VERSION=8306
-
-RUN cd ${WKDIR}
-RUN wget https://pythia.org/download/pythia83/pythia${PYTHIA_VERSION}.tgz && \
-    tar -xzf pythia${PYTHIA_VERSION}.tgz
-ENV PYTHIA8_HOME=${WKDIR}/pythia${PYTHIA_VERSION}
-RUN cd ${PYTHIA8_HOME} && \
-    make -j4
-
+RUN yum -y install pythia8-lhapdf pythia8-devel pythia8-doc
 
 ########
 # ROOT #
