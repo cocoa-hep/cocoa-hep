@@ -11,7 +11,6 @@ option(COCOA_ENABLE_TESTS "Enables testing" ON)
 message(STATUS "COCOA: WITH_GEANT4_UIVIS=${WITH_GEANT4_UIVIS}")
 message(STATUS "COCOA: COCOA_ENABLE_TESTS=${COCOA_ENABLE_TESTS}")
 #----------------------------------------------------------------------------
-
 #----------------------------------------------------------------------------
 # Compiler flags
 add_compile_options("$<$<COMPILE_LANG_AND_ID:CXX,AppleClang,Clang>:-Wc++17-extensions;-Wno-shadow>")
