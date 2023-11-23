@@ -46,6 +46,7 @@
 // #include "DataStorage.hh"
 #include "G4Run.hh"
 #include "G4RunManager.hh"
+#include "G4Version.hh"
 #if G4VERSION_NUMBER >= 1100
 #include "G4AnalysisManager.hh"
 #endif
