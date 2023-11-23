@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include "G4ios.hh"
 
 CSVReader::CSVReader()
 {
@@ -19,7 +20,7 @@ void CSVReader::read_record(TH1F &hist, std::string filename)
     if (!fin)
     {
         G4cout << "Error!!! There is no " << filename << G4endl;
-        exit(0);
+        exit(1);
     }
     std::string line, word;
     std::vector<std::vector<double>> value;
