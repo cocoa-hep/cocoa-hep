@@ -72,6 +72,8 @@ To see more options, pass the `-h` argument.
 
 ## Phoenix event display
 
+**Live demo hosted here:** [https://cocoa-phoenix.web.cern.ch/](https://cocoa-phoenix.web.cern.ch/)
+
 <img src="https://github.com/scd-hep/scd-hep/blob/main/docs/imgs/ttbar.png" height="250">
 
 The `phoenix` directory contains the ingredients for displaying COCOA events using the [HSF Phoenix software](https://github.com/HSF/phoenix). 
