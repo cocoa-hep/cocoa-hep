@@ -40,6 +40,8 @@ Cells
 Tracks
 ------------------------------------
 
+The tracks are built using the Geant truth information and receive efficiency corrections and smearing of the reconstructed track parameters as specified in the configuration files in COCOA/tracking_configuration
+
 **track_parent_idx :** index of parent particle corresponding to this track
 
 **track_pdgid :** the PDG ID of the charged particle which creates the track
@@ -69,7 +71,7 @@ Nodes (of truth particle record)
 
 **node_{} :** values for constructing the graph describing the truth particle record
 
-Particles
+Truth particles
 ------------------------------------
 
 **particle_pdgid :** vector storing PDG-ID of all the stable truth-particles in the event
@@ -156,6 +158,8 @@ Superclusters
 Graph edges
 ------------------------------------
 
+The calculation of the graph edges is defined in the files in COCOA/config/
+
 **track_to_cell_edge_start :** list of track indices used as source nodes in track-to-cell edges
 
 **track_to_cell_edge_end :** list of cell indices used as destination nodes in track-to-cell edges
@@ -170,6 +174,8 @@ Graph edges
 
 Jets
 ------------------------------------
+
+The clustering parameters of the jets are defined in the files in COCOA/config/
 
 **true_jet_pt :** transverse component of momentum 3-vector of the jet built from truth particle
 

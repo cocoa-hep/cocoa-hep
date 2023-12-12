@@ -175,16 +175,16 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			Jet_Builder_func jets_build;
 			if ( config_var.doPFlow ) {
 			    pflow_obj.make_pseudo_jet_particles();
-			    jets_build.build_jets(pflow_obj.jets_objects, pflow_jets_obj.jets, config_var.jet_parameter);
+			    jets_build.build_jets(pflow_obj.jets_objects, pflow_jets_obj, config_var.jet_parameter);
 			    pflow_jets_obj.fill_cell_var();
 			    jets_build.reset();
 			}
 			trajectories.make_pseudo_jet_particles();
-			jets_build.build_jets(trajectories.jets_objects, true_jets_obj.jets, config_var.jet_parameter);
+			jets_build.build_jets(trajectories.jets_objects, true_jets_obj, config_var.jet_parameter);
 			true_jets_obj.fill_cell_var();
 			jets_build.reset();
 			topo_clusts.make_pseudo_jet_particles();
-			jets_build.build_jets(topo_clusts.jets_objects, topo_jets_obj.jets, config_var.jet_parameter);
+			jets_build.build_jets(topo_clusts.jets_objects, topo_jets_obj, config_var.jet_parameter);
 			topo_jets_obj.fill_cell_var();
 			jets_build.reset();
 
@@ -230,16 +230,16 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			Jet_Builder_func jets_build;
 			if ( config_var.doPFlow ) {
 			    pflow_obj.make_pseudo_jet_particles();
-			    jets_build.build_jets(pflow_obj.jets_objects, pflow_jets_obj.jets, config_var.jet_parameter);
+			    jets_build.build_jets(pflow_obj.jets_objects, pflow_jets_obj, config_var.jet_parameter);
 			    pflow_jets_obj.fill_cell_var();
 			    jets_build.reset();
 			}
 			trajectories.make_pseudo_jet_particles();
-			jets_build.build_jets(trajectories.jets_objects, true_jets_obj.jets, config_var.jet_parameter);
+			jets_build.build_jets(trajectories.jets_objects, true_jets_obj, config_var.jet_parameter);
 			true_jets_obj.fill_cell_var();
 			jets_build.reset();
 			topo_clusts.make_pseudo_jet_particles();
-			jets_build.build_jets(topo_clusts.jets_objects, topo_jets_obj.jets, config_var.jet_parameter);
+			jets_build.build_jets(topo_clusts.jets_objects, topo_jets_obj, config_var.jet_parameter);
 			topo_jets_obj.fill_cell_var();
 			jets_build.reset();
 		}

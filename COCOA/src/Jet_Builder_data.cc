@@ -14,11 +14,12 @@ void Jet_Builder_data::set_tree_branches(TTree *outTree)
     outTree->Branch(TString(Prefix + "_jet_eta"), "vector<float>", &jet_eta);
     outTree->Branch(TString(Prefix + "_jet_phi"), "vector<float>", &jet_phi);
     outTree->Branch(TString(Prefix + "_jet_m"), "vector<float>", &jet_m);
-    outTree->Branch(TString(Prefix + "_jet_constituents_list"), "vector<vector<float>>", &jet_constituents_list);
+    outTree->Branch(TString(Prefix + "_jet_constituents_jetIndex"), "vector<int>", &jet_constituents_jetIndex);
 }
 
 void Jet_Builder_data::fill_cell_var()
 {
+    jet_constituents_jetIndex = std::vector<int>( n_constituents, -1 );
     int size_jets = jets.size();
     for (int ijet = 0; ijet < size_jets; ijet++)
     {
@@ -33,11 +34,10 @@ void Jet_Builder_data::fill_cell_var()
         std::vector<float> constituents;
         for (int icon = 0; icon < size_constituents; icon++)
         {
-            constituents.push_back((float) jets.at(ijet).constituents().at(icon).user_index());
+	    int constituent_index                        = jets.at(ijet).constituents().at(icon).user_index();
+	    jet_constituents_jetIndex[constituent_index] = ijet;
         }
-        jet_constituents_list.push_back(constituents);
     }
-
 }
 
 void Jet_Builder_data::clear()
@@ -46,5 +46,5 @@ void Jet_Builder_data::clear()
     jet_eta.clear();
     jet_phi.clear();
     jet_m.clear();
-    jet_constituents_list.clear();
+    jet_constituents_jetIndex.clear();
 }
