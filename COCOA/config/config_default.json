@@ -58,7 +58,7 @@
     },
     "Fiducial_cuts":
     {
-        "pt_min": 1.0,
+        "pt_min_gev": 1.0,
         "eta_max": 3.0,
         "dR_cut": -1
     }

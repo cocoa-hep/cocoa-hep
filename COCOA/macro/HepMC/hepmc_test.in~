@@ -1,4 +1,0 @@
-/generator/select hepmcAscii
-/generator/hepmcAscii/verbose 1
-/generator/hepmcAscii/open /home/pat/physics/scd/cocoa-hep/COCOA/HepMC_output_ttbar.hmc
-/run/beamOn 2

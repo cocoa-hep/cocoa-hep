@@ -229,16 +229,15 @@ void InnerConstruction::EndCap_Inner()
 
     }
     
-    if ( !config_obj.use_ID_support )
-	return;
+	if ( !config_obj.use_ID_support ) return;
 
     
 	//* End-Cap support material 
 	float SpaceForLayers = r_inn-(r_out_trkStr3+widthiron_add);
-    float GapBetweenIronLayers = SpaceForLayers/(NumberOfIronLayers+1);
+	float GapBetweenIronLayers = SpaceForLayers/(NumberOfIronLayers+1);
 	long double iron_r_inn = (r_out_trkStr3 + widthiron_add) + NumberOfIronLayers*GapBetweenIronLayers;
 	long double iron_width_endcap = 4.4*cm;
-    long double iron_width_barrel = 4.4*cm/NumberOfIronLayers;
+	long double iron_width_barrel = 4.4*cm/NumberOfIronLayers;
 
 	for (int direction = 1; direction > -2; direction=direction-2)
 	{
