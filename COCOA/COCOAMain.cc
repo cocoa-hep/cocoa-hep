@@ -76,6 +76,7 @@ int main(int argc, char **argv)
 	G4UIExecutive *ui = nullptr;
 	std::string root_file_path = "";
 	std::string macro_file_path = "";
+	std::string input_file_path = "";
 	int nEvents = -1;
 
 	if (argc == 1)
@@ -166,6 +167,24 @@ int main(int argc, char **argv)
 					std::cerr << "--config option requires one argument." << std::endl;
 					return 1;
 				}
+			}
+			else if (arg == "--input" || arg == "-i")
+			{
+				if (i + 1 < argc) // Make sure we aren't at the end of argv
+				{
+					i++;
+					input_file_path = argv[i];
+				}
+				else
+				{
+					std::cerr << "--input option requires one argument." << std::endl;
+					return 1;
+				}
+			}
+			else if (arg == "--help" || arg == "-h")
+			{
+				show_usage(argv[0]);
+				return 0;
 			}
 			else
 			{
@@ -264,6 +283,18 @@ int main(int argc, char **argv)
 			else if ( (nEvents > 0) && (line.find( "/run/beamOn" ) != std::string::npos) )
 			{
 				runManager->BeamOn(nEvents);
+			}
+			else if ( (input_file_path != "") && (line.find("/generator/hepmcAscii/open") != std::string::npos) )
+			{
+				if (input_file_path.find(".hmc") != std::string::npos)
+				{
+					UImanager->ApplyCommand(G4String("/generator/hepmcAscii/open " + input_file_path));
+				}
+				else
+				{
+					G4cout << "Input file is not a HepMC file (.hmc)!" << G4endl;
+					return 1;
+				}
 			}
 			else if (line.at(0)!='#')
 			{
