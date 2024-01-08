@@ -51,6 +51,7 @@ From within `COCOA <https://github.com/cocoa-hep/cocoa-hep/tree/main/COCOA>`_ di
            **--config (-c) <str>** path to json configuration file
            **--macro (-m) <str>** path to Geant4 or Pythia8 macro file for event generation (can be set in json configuration file)
            **--output (-o) <str>** path (incl. name) of output ROOT file to be written (can be set in json configuration file)
+           **--input (-i) <str>** path to HepMC (.hmc) input file (overrides the default path set in the HepMC macro file)
            **--seed (-s) <int>** set random seed
            **--nevents (-n) <int>** number of events to generate (default is read from macro)
 Example
