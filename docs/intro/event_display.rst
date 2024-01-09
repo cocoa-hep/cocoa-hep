@@ -1,6 +1,8 @@
 Phoenix event display
 ---------------------
 
+**Live demo hosted here:** https://cocoa-phoenix.web.cern.ch/
+
 The ``phoenix`` directory contains the ingredients for displaying COCOA
 events using the `HSF Phoenix
 software <https://github.com/HSF/phoenix>`__.

@@ -58,6 +58,7 @@ void Track_struct::smearing()
     q_p += sigma_qp * gRandom->Gaus(0, 1);
     theta += sigma_theta * gRandom->Gaus(0, 1);
     phiHelix += sigma_phi * gRandom->Gaus(0, 1);
+    phiHelix = phiHelix > M_PI ? phiHelix - 2 * M_PI : phiHelix < -M_PI ? phiHelix + 2 * M_PI : phiHelix;
 }
 void Track_struct::IsProductInsideRadius()
 {

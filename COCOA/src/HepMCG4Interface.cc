@@ -129,11 +129,11 @@ void HepMCG4Interface::HepMC2G4(const HepMC::GenEvent *hepmcevt,
 
 			if ((*vpitr)->status() != 1)
 				continue;
-			if ((*vpitr)->momentum().perp() < 1000.)
+			if ((*vpitr)->momentum().perp() < 1000.*config_json_var.fiducial_cuts.pt_min)
 			{
 				continue;
 			}
-			if (fabs((*vpitr)->momentum().eta()) > 3.0)
+			if (fabs((*vpitr)->momentum().eta()) > config_json_var.fiducial_cuts.eta_max)
 			{
 				continue;
 			}
