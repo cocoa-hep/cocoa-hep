@@ -75,6 +75,7 @@ struct Jet_parameters
 };
 struct Fiducial_cuts
 {
+    float min_pT;  // remove particles at truth level with pT small than min_pT. Unit is GeV.
     float dR_cut;  // remove particles at truth level separated farther than dR_cut from the primary particle (used to generate single-jet data)
 };
 class Config_reader_var

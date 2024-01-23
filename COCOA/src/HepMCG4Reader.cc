@@ -23,69 +23,67 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx01/include/HepMCG4AsciiReader.hh
-/// \brief Definition of the HepMCG4AsciiReader class
+/// \file eventgenerator/HepMC/HepMCEx01/src/HepMCG4Reader.cc
+/// \brief Implementation of the HepMCG4Reader class
 //
-// * modified from Geant4 *
 //
 
-#ifndef HEPMC_G4_ASCII_READER_H
-#define HEPMC_G4_ASCII_READER_H
+#include "HepMCG4Reader.hh"
+#include "HepMCG4ReaderMessenger.hh"
+#include "HepMC3/Print.h"
 
-#include "HepMCG4Interface.hh"
-#include "HepMC/IO_GenEvent.h"
+#include <iostream>
+#include <fstream>
 
-class HepMCG4AsciiReaderMessenger;
+using namespace HepMC3;
 
-class HepMCG4AsciiReader : public HepMCG4Interface {
-protected:
-  G4String                     filename;
-  HepMC::IO_GenEvent*          asciiInput;
-  G4int                        verbose;
-  HepMCG4AsciiReaderMessenger* messenger;
-  int                          i_first_event;
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMCG4Reader::HepMCG4Reader()
+    :  filename(""), verbose(0), i_first_event(0), hepmc3_reader(nullptr)
+{
+    // if ( filename != "" )
+    // 	hepmc3_reader = new HepMC3::ReaderRootTree(filename.c_str());
 
-  virtual HepMC::GenEvent* GenerateHepMCEvent();
-
-public:
-  HepMCG4AsciiReader();
-  ~HepMCG4AsciiReader();
-
-  // set/get methods
-  void     SetFileName(G4String name);
-  G4String GetFileName() const;
-
-  void  SetVerboseLevel(G4int i);
-  G4int GetVerboseLevel() const;
-
-  void SetFirstEventIndex( int idx ) { i_first_event = idx; }
+  messenger= new HepMCG4ReaderMessenger(this);
   
-  // methods...
-  void Initialize();
-};
-
-// ====================================================================
-// inline functions
-// ====================================================================
-
-inline void HepMCG4AsciiReader::SetFileName(G4String name)
+}
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMCG4Reader::~HepMCG4Reader()
 {
-  filename= name;
+  delete hepmc3_reader;
+  delete messenger;
 }
 
-inline G4String HepMCG4AsciiReader::GetFileName() const
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void HepMCG4Reader::Initialize()
 {
-  return filename;
+
+  if ( filename == "" )
+      return;
+  
+  // delete hepmc3_reader;
+  
+  hepmc3_reader = new HepMC3::ReaderRootTree(filename.c_str());
+  hepmc3_reader->skip( i_first_event );
+    
 }
 
-inline void HepMCG4AsciiReader::SetVerboseLevel(G4int i)
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMC3::GenEvent* HepMCG4Reader::GenerateHepMCEvent()
 {
-  verbose = i;
-}
 
-inline G4int HepMCG4AsciiReader::GetVerboseLevel() const
-{
-  return verbose;
-}
+  GenEvent* evt = new GenEvent(Units::MEV,Units::MM);
+  hepmc3_reader->read_event(*evt);
 
-#endif
+  //
+  // GeV hard-coded in HepMC3 ?
+  // Workaround here.
+  //
+  for ( HepMC3::GenParticlePtr prt : evt->particles() )
+      prt->set_momentum( prt->momentum() * 1e3 );
+  	
+  if(!evt) return 0; // no more event
+  if(verbose>0) HepMC3::Print::content(*evt);
+
+  return evt;
+}

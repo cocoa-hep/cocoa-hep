@@ -23,38 +23,69 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx01/include/HepMCG4AsciiReaderMessenger.hh
-/// \brief Definition of the HepMCG4AsciiReaderMessenger class
+/// \file eventgenerator/HepMC/HepMCEx01/include/HepMCG4Reader.hh
+/// \brief Definition of the HepMCG4Reader class
 //
+// * modified from Geant4 *
 //
 
-#ifndef HEPMC_G4_ASCII_READER_MESSENGER_H
-#define HEPMC_G4_ASCII_READER_MESSENGER_H
+#ifndef HEPMC_G4_ASCII_READER_H
+#define HEPMC_G4_ASCII_READER_H
 
-#include "G4UImessenger.hh"
+#include "HepMCG4Interface.hh"
+#include "HepMC3/ReaderRootTree.h"
 
-class HepMCG4AsciiReader;
-class G4UIdirectory;
-class G4UIcmdWithoutParameter;
-class G4UIcmdWithAString;
-class G4UIcmdWithAnInteger;
+class HepMCG4ReaderMessenger;
 
-class HepMCG4AsciiReaderMessenger : public G4UImessenger {
+class HepMCG4Reader : public HepMCG4Interface {
+protected:
+  G4String                     filename;
+  HepMC3::ReaderRootTree*      hepmc3_reader;
+  G4int                        verbose;
+  HepMCG4ReaderMessenger* messenger;
+  int                          i_first_event;
+
+  virtual HepMC3::GenEvent* GenerateHepMCEvent();
+
 public:
-  HepMCG4AsciiReaderMessenger(HepMCG4AsciiReader* agen);
-  ~HepMCG4AsciiReaderMessenger();
+  HepMCG4Reader();
+  ~HepMCG4Reader();
 
-  void SetNewValue(G4UIcommand* command, G4String newValues);
-  G4String GetCurrentValue(G4UIcommand* command);
+  // set/get methods
+  void     SetFileName(G4String name);
+  G4String GetFileName() const;
 
-private:
-  HepMCG4AsciiReader* gen;
+  void  SetVerboseLevel(G4int i);
+  G4int GetVerboseLevel() const;
 
-  G4UIdirectory*        dir;
-  G4UIcmdWithAnInteger* verbose;
-  G4UIcmdWithAString*   open;
-  G4UIcmdWithAnInteger* first_event;
-
+  void SetFirstEventIndex( int idx ) { i_first_event = idx; }
+  
+  // methods...
+  void Initialize();
 };
+
+// ====================================================================
+// inline functions
+// ====================================================================
+
+inline void HepMCG4Reader::SetFileName(G4String name)
+{
+  filename= name;
+}
+
+inline G4String HepMCG4Reader::GetFileName() const
+{
+  return filename;
+}
+
+inline void HepMCG4Reader::SetVerboseLevel(G4int i)
+{
+  verbose = i;
+}
+
+inline G4int HepMCG4Reader::GetVerboseLevel() const
+{
+  return verbose;
+}
 
 #endif

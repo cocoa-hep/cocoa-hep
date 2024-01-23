@@ -59,6 +59,7 @@ Config_reader_func::Config_reader_func(std::string path, Config_reader_var &conf
     config_var.jet_parameter.ptmin = configs["Jet_parameters"]["ptmin"].asDouble();
     config_var.jet_parameter.radius = configs["Jet_parameters"]["radius"].asDouble();
 
+    config_var.fiducial_cuts.min_pT = configs["Fiducial_cuts"].get( "min_pT", -1.0 ).asFloat();
     config_var.fiducial_cuts.dR_cut = configs["Fiducial_cuts"].get( "dR_cut", -1.0 ).asFloat();
 
     if (config_var.Type_of_running != "Standard")

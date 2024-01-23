@@ -52,12 +52,13 @@
     "Jet_parameters":
     {
         "algorithm": "kt_algorithm",
-        "radius": 0.6,
+        "radius": 0.4,
         "recombination_scheme": "E_scheme", 
         "ptmin": 0.0
     },
     "Fiducial_cuts":
     {
+	"min_pT": 1.0,
         "dR_cut": -1
     }
 
