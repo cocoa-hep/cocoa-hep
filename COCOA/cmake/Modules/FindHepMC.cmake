@@ -9,8 +9,6 @@
 #  HEPMC_LIBRARIES
 #  HEPMC_FIO_LIBRARIES
 
-set(HEPMC_HOME  "/home/pat/physics/scd/hepmc3-install")
-
 find_path(HEPMC_INCLUDE_DIR HepMC3/GenEvent.h
           HINTS $ENV{HEPMC_HOME}/include ${HEPMC_HOME}/include
           $ENV{HEPMC_DIR}/include ${HEPMC_DIR}/include)
