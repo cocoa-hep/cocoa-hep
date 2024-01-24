@@ -29,20 +29,22 @@
 // * modified from Geant4 *
 //
 
-#ifndef HEPMC_G4_ASCII_READER_H
-#define HEPMC_G4_ASCII_READER_H
+#ifndef HEPMC_G4_READER_H
+#define HEPMC_G4_READER_H
 
 #include "HepMCG4Interface.hh"
-#include "HepMC3/ReaderRootTree.h"
+#include "HepMC3/Reader.h"
+
+#include <memory>
 
 class HepMCG4ReaderMessenger;
 
 class HepMCG4Reader : public HepMCG4Interface {
 protected:
   G4String                     filename;
-  HepMC3::ReaderRootTree*      hepmc3_reader;
+    std::shared_ptr<HepMC3::Reader> hepmc3_reader;
   G4int                        verbose;
-  HepMCG4ReaderMessenger* messenger;
+  HepMCG4ReaderMessenger*      messenger;
   int                          i_first_event;
 
   virtual HepMC3::GenEvent* GenerateHepMCEvent();

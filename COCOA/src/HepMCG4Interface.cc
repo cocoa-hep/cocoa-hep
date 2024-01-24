@@ -151,7 +151,6 @@ void HepMCG4Interface::HepMC2G4(const HepMC3::GenEvent *hepmcevt,
 
 			m_truthrecordgraph.add_all_moving_parents(pptr, m_truthrecordgraph.m_interesting_particles);
 
-			// pos = (pptr)->production_vertex()->position(); // todo: remove
 			G4int pdgcode = (pptr)->pdg_id();
 			// skip neutrinos
 			if (abs(pdgcode) == 12 || abs(pdgcode) == 14 || abs(pdgcode) == 16)
@@ -197,8 +196,6 @@ void HepMCG4Interface::GeneratePrimaryVertex(G4Event *anEvent)
 		G4RunManager::GetRunManager()->AbortRun();
 		return;
 	}
-
-	// TODO: apply fiducial volume cuts here (do not do so upstream in the individual readers!)
 	
 	HepMC2G4(hepmcEvent, anEvent);
 }

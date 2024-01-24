@@ -30,6 +30,7 @@
 
 #include "HepMCG4Reader.hh"
 #include "HepMCG4ReaderMessenger.hh"
+#include "HepMC3/ReaderFactory.h"
 #include "HepMC3/Print.h"
 
 #include <iostream>
@@ -50,7 +51,6 @@ HepMCG4Reader::HepMCG4Reader()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 HepMCG4Reader::~HepMCG4Reader()
 {
-  delete hepmc3_reader;
   delete messenger;
 }
 
@@ -63,7 +63,7 @@ void HepMCG4Reader::Initialize()
   
   // delete hepmc3_reader;
   
-  hepmc3_reader = new HepMC3::ReaderRootTree(filename.c_str());
+  hepmc3_reader = HepMC3::deduce_reader( filename );
   hepmc3_reader->skip( i_first_event );
     
 }
