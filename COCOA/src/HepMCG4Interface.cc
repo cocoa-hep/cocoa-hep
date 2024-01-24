@@ -124,6 +124,7 @@ void HepMCG4Interface::HepMC2G4(const HepMC3::GenEvent *hepmcevt,
 
 			if (prt->status() != 1)
 				continue;
+
 			if ( config_json_var.fiducial_cuts.min_pT > 0.0 &&
 			     prt->momentum().perp() < config_json_var.fiducial_cuts.min_pT )
 			{

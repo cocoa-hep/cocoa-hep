@@ -100,7 +100,7 @@ void GraphConstructor::fill_cell_to_cell_edges(std::vector<Cell*> &cell,
 				{
 					pq.push(cell_dr_pair);
 				}
-				else pq.pop(); //should not happen!
+				else continue;
 			}
 			else // inter-layer edges:
 			{
@@ -115,7 +115,7 @@ void GraphConstructor::fill_cell_to_cell_edges(std::vector<Cell*> &cell,
 					std::pair<float,int> cell_dr_pair_inter = std::make_pair(dr,cell_j);
 					pq_inter.push(cell_dr_pair_inter);
 				}
-				else pq_inter.pop();
+				else continue;
 			}
 
 		} // end loop over cell j

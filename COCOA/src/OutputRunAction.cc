@@ -127,9 +127,11 @@ void OutputRunAction::BeginOfRunAction(const G4Run *run)
 			outTree_high = new TTree("High_Tree", "High_Tree");
 			Cells_data &cells_high = Cells_data::GetHigh();
 			Tracks_data &track_list_high = Tracks_data::GetHigh();
+			Graph_construction_data &graph_obj_high = Graph_construction_data::GetHigh();
 
 			cells_high.set_tree_branches(outTree_high);
 			track_list_high.set_tree_branches(outTree_high, config_var.high_resolution.kNLayers);
+			graph_obj_high.set_tree_branches(outTree_high);
 		}
 	}
 	else if (config_var.Type_of_running.find("Detector_") != string::npos)

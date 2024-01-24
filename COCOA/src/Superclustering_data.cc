@@ -42,7 +42,7 @@ void Superclustering_data::fill_supercluster_data()
 
         std::vector<Topo_clust> topos = super_list.at(isuper).get_clusters();
         const int n_topos = topos.size();
-        for(int itopo=0; itopo<topos.size(); itopo++){
+        for(size_t itopo=0; itopo<topos.size(); itopo++){
             topo_idx_list.at(isuper).push_back(topos.at(itopo).label - 1);
         }
 

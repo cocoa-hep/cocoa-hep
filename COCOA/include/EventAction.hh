@@ -63,6 +63,7 @@ private:
 	Superclustering_data &superclustering_data = Superclustering_data::GetInstance();
 	Full_trajectory_info_data &trajectories = Full_trajectory_info_data::GetInstance();
 	Graph_construction_data &graph_obj = Graph_construction_data::GetLow();
+	Graph_construction_data &graph_obj_high = Graph_construction_data::GetHigh();
 	Jet_Builder_data &pflow_jets_obj = Jet_Builder_data::Get_instance_pflow();
 	Jet_Builder_data &true_jets_obj = Jet_Builder_data::Get_instance_true();
 	Jet_Builder_data &topo_jets_obj = Jet_Builder_data::Get_instance_topo();
