@@ -34,7 +34,7 @@
 #include "HepMCG4Interface.hh"
 #include "G4UImessenger.hh"
 
-#include "Pythia8Plugins/HepMC3.h"
+#include "Pythia8/Pythia8ToHepMC3.h"
 #include "Pythia8/Pythia.h"
 #include "Config_reader_var.hh"
 

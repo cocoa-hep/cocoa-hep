@@ -74,13 +74,7 @@ HepMC3::GenEvent* HepMCG4Reader::GenerateHepMCEvent()
 
   GenEvent* evt = new GenEvent(Units::MEV,Units::MM);
   hepmc3_reader->read_event(*evt);
-
-  //
-  // GeV hard-coded in HepMC3 ?
-  // Workaround here.
-  //
-  for ( HepMC3::GenParticlePtr prt : evt->particles() )
-      prt->set_momentum( prt->momentum() * 1e3 );
+  evt->set_units(HepMC3::Units::MEV, HepMC3::Units::MM);
   	
   if(!evt) return 0; // no more event
   if(verbose>0) HepMC3::Print::content(*evt);

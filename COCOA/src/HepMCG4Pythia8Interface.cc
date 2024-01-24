@@ -289,7 +289,7 @@ HepMC3::GenEvent *HepMCG4Pythia8Interface::GenerateHepMCEvent()
 	}
 
 	// GeV hard-coded in Pythia8ToHepMC3
-	hepmcevt->set_units(HepMC3::Units::MEV,HepMC3::Units::MM);
+	hepmcevt->set_units(HepMC3::Units::MEV, HepMC3::Units::MM);
 	
 	return hepmcevt;
 }
