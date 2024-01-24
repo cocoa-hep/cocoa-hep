@@ -288,12 +288,8 @@ HepMC3::GenEvent *HepMCG4Pythia8Interface::GenerateHepMCEvent()
 		}
 	}
 
-	//
-	// GeV hard-coded in HepMC3 ?
-	// Workaround here.
-	//
-	for ( HepMC3::GenParticlePtr prt : hepmcevt->particles() )
-	    prt->set_momentum( prt->momentum() * 1e3 );
+	// GeV hard-coded in Pythia8ToHepMC3
+	hepmcevt->set_units(HepMC3::Units::MEV,HepMC3::Units::MM);
 	
 	return hepmcevt;
 }
