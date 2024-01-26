@@ -73,4 +73,5 @@ inline HepMC3::GenEvent* HepMCG4Interface::GetHepMCGenEvent() const
 	return hepmcEvent;
 }
 
+
 #endif
