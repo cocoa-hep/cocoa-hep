@@ -28,6 +28,7 @@
 /// \brief Implementation of the OutputRunAction class
 
 #include "OutputRunAction.hh"
+#include "G4AnalysisManager.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4Electron.hh"
 #include "G4ProcessManager.hh"
