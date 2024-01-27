@@ -15,7 +15,7 @@ find_path(HEPMC_INCLUDE_DIR HepMC3/GenEvent.h
 
 find_path(HEPMC_PYTHIA8INTERFACE_INCLUDE_DIR Pythia8/Pythia8ToHepMC3.h
           HINTS $ENV{HEPMC_HOME}/share/HepMC3/interfaces/pythia8/include/ ${HEPMC_HOME}/share/HepMC3/interfaces/pythia8/include/
-          $ENV{HEPMC_DIR}/share/HepMC3/interfaces/pythia8/include/ ${HEPMC_DIR}/share/HepMC3/interfaces/pythia8/include/)
+          $ENV{HEPMC_DIR}/share/HepMC3/interfaces/pythia8/include/ ${HEPMC_DIR}/share/HepMC3/interfaces/pythia8/include/ /usr/share/HepMC3/interfaces/pythia8/include/)
 
 find_library(HEPMC_LIBRARIES NAMES HepMC3
              HINTS $ENV{HEPMC_HOME}/lib ${HEPMC_HOME}/lib
