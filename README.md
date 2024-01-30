@@ -20,10 +20,8 @@ The most convenient way to install COCOA is to use its docker image:
 ```
 docker pull ghcr.io/cocoa-hep/cocoa-hep:main
 docker image tag $(docker images | grep cocoa-hep | head -n 1 | awk '{print $3}') cocoa-hep
-docker run -it cocoa-hep
+docker run -it cocoa-hep bash
 ```
-
-Please note that in this container cocoa and its dependencies are installed in /root .
 
 ### Non-Docker
 

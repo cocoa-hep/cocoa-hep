@@ -23,33 +23,35 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx01/include/HepMCG4AsciiReader.hh
-/// \brief Definition of the HepMCG4AsciiReader class
+/// \file eventgenerator/HepMC/HepMCEx01/include/HepMCG4Reader.hh
+/// \brief Definition of the HepMCG4Reader class
 //
 // * modified from Geant4 *
 //
 
-#ifndef HEPMC_G4_ASCII_READER_H
-#define HEPMC_G4_ASCII_READER_H
+#ifndef HEPMC_G4_READER_H
+#define HEPMC_G4_READER_H
 
 #include "HepMCG4Interface.hh"
-#include "HepMC/IO_GenEvent.h"
+#include "HepMC3/Reader.h"
 
-class HepMCG4AsciiReaderMessenger;
+#include <memory>
 
-class HepMCG4AsciiReader : public HepMCG4Interface {
+class HepMCG4ReaderMessenger;
+
+class HepMCG4Reader : public HepMCG4Interface {
 protected:
   G4String                     filename;
-  HepMC::IO_GenEvent*          asciiInput;
+    std::shared_ptr<HepMC3::Reader> hepmc3_reader;
   G4int                        verbose;
-  HepMCG4AsciiReaderMessenger* messenger;
+  HepMCG4ReaderMessenger*      messenger;
   int                          i_first_event;
 
-  virtual HepMC::GenEvent* GenerateHepMCEvent();
+  virtual HepMC3::GenEvent* GenerateHepMCEvent();
 
 public:
-  HepMCG4AsciiReader();
-  ~HepMCG4AsciiReader();
+  HepMCG4Reader();
+  ~HepMCG4Reader();
 
   // set/get methods
   void     SetFileName(G4String name);
@@ -68,22 +70,22 @@ public:
 // inline functions
 // ====================================================================
 
-inline void HepMCG4AsciiReader::SetFileName(G4String name)
+inline void HepMCG4Reader::SetFileName(G4String name)
 {
   filename= name;
 }
 
-inline G4String HepMCG4AsciiReader::GetFileName() const
+inline G4String HepMCG4Reader::GetFileName() const
 {
   return filename;
 }
 
-inline void HepMCG4AsciiReader::SetVerboseLevel(G4int i)
+inline void HepMCG4Reader::SetVerboseLevel(G4int i)
 {
   verbose = i;
 }
 
-inline G4int HepMCG4AsciiReader::GetVerboseLevel() const
+inline G4int HepMCG4Reader::GetVerboseLevel() const
 {
   return verbose;
 }

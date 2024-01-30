@@ -51,15 +51,14 @@
     },
     "Jet_parameters":
     {
-        "algorithm": "kt_algorithm",
-        "radius": 0.6,
+        "algorithm": "antikt_algorithm",
+        "radius" : 0.4,
+	"ptmin" : 10000.0,
         "recombination_scheme": "E_scheme", 
-        "ptmin": 0.0
     },
     "Fiducial_cuts":
     {
-        "pt_min_gev": 1.0,
-        "eta_max": 3.0,
+	"min_pT": 1000.0,
         "dR_cut": -1
     }
 

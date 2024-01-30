@@ -32,7 +32,8 @@
 #include "HepMCG4Pythia8Interface.hh"
 #include "HepMCG4Pythia8Messenger.hh"
 // #include "OutputRunAction.hh"
-#include "HepMC/GenEvent.h"
+#include "HepMC3/GenEvent.h"
+#include "HepMC3/Print.h"
 #include "Randomize.hh"
 // #include "Pythia8/Pythia.h"
 
@@ -156,14 +157,14 @@ void HepMCG4Pythia8Interface::SetUserParameters()
 		   << G4endl;
 }
 
-HepMC::GenEvent *HepMCG4Pythia8Interface::GenerateHepMCEvent()
+HepMC3::GenEvent *HepMCG4Pythia8Interface::GenerateHepMCEvent()
 {
 	//* Pile-up
 	// double nPileupAvg = 2.5;
 	// int nPileup = 0;//poisson(nPileupAvg, pythia.rndm);
 
-	// HepMC::GenEvent* hepmcevt;
-	// hepmcevt = new HepMC::GenEvent(HepMC::Units::MEV, HepMC::Units::MM);
+	// HepMC3::GenEvent* hepmcevt;
+	// hepmcevt = new HepMC3::GenEvent(HepMC3::Units::MEV, HepMC3::Units::MM);
 	// //signall event
 	// pythia.next();
 	// sum_events = pythia.event;
@@ -188,7 +189,7 @@ HepMC::GenEvent *HepMCG4Pythia8Interface::GenerateHepMCEvent()
 	// return hepmcevt;
 	//*  Pile-up end
 	int id = messenger->GQparticle;
-	HepMC::GenEvent *hepmcevt = new HepMC::GenEvent(HepMC::Units::MEV, HepMC::Units::MM);
+	HepMC3::GenEvent *hepmcevt = new HepMC3::GenEvent(HepMC3::Units::MEV, HepMC3::Units::MM);
 	if (id == 22122212) //* pp colision
 	{
 		//pythia.init();
@@ -197,8 +198,8 @@ HepMC::GenEvent *HepMCG4Pythia8Interface::GenerateHepMCEvent()
 
 		ToHepMC.fill_next_event(pythia, hepmcevt);
 
-		if (verbose > 1)
-			hepmcevt->print();
+		// if (verbose > 1)
+		HepMC3::Print::content(*hepmcevt);
 
 		sum_events = pythia.event;
 	}
@@ -278,14 +279,18 @@ HepMC::GenEvent *HepMCG4Pythia8Interface::GenerateHepMCEvent()
 		}
 		else
 		{
-			ToHepMC.fill_next_event(pythia, hepmcevt, -1, false);
+			ToHepMC.fill_next_event(pythia, hepmcevt);
 			sum_events = event;
-			if (verbose > 1)
-			{
-				hepmcevt->print();
-			}
+			// if (verbose > 1)
+			// {
+			// 	hepmcevt->print();
+			// }
 		}
 	}
+
+	// GeV hard-coded in Pythia8ToHepMC3
+	hepmcevt->set_units(HepMC3::Units::MEV, HepMC3::Units::MM);
+	
 	return hepmcevt;
 }
 

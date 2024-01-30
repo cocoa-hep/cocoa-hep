@@ -34,7 +34,7 @@
 #include "HepMCG4Interface.hh"
 #include "G4UImessenger.hh"
 
-#include "Pythia8Plugins/HepMC2.h"
+#include "Pythia8/Pythia8ToHepMC3.h"
 #include "Pythia8/Pythia.h"
 #include "Config_reader_var.hh"
 
@@ -46,13 +46,13 @@ class HepMCG4Pythia8Interface : public HepMCG4Interface
 protected:
 	Config_reader_var &config_var = Config_reader_var::GetInstance(); 
 	G4int verbose;
-	HepMC::Pythia8ToHepMC ToHepMC;
+	HepMC3::Pythia8ToHepMC3 ToHepMC;
 	Pythia8::Pythia pythia;
 	Pythia8::Event sum_events;
 
 	HepMCG4Pythia8Messenger *messenger;
 
-	virtual HepMC::GenEvent *GenerateHepMCEvent();
+	virtual HepMC3::GenEvent *GenerateHepMCEvent();
 
 
 public:

@@ -41,6 +41,9 @@
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
 
+#include "HepMC3/GenVertex.h"
+#include "HepMC3/GenParticle.h"
+
 #include <vector>
 
 
@@ -71,24 +74,20 @@ G4bool HepMCG4Interface::CheckVertexInsideWorld(const G4ThreeVector &pos) const
 		return true;
 }
 
-void HepMCG4Interface::HepMC2G4(const HepMC::GenEvent *hepmcevt,
-								G4Event *g4event)
+void HepMCG4Interface::HepMC2G4(const HepMC3::GenEvent *hepmcevt,
+				G4Event *g4event)
 {
 	float eta_primary=-100;
 	float phi_primary=-100;
 
 	//* loop for vertex
-	for (HepMC::GenEvent::vertex_const_iterator vitr = hepmcevt->vertices_begin();
-		vitr != hepmcevt->vertices_end(); ++vitr)
-	{
+	for ( HepMC3::ConstGenVertexPtr vitr : hepmcevt->vertices() ) {
 
 		//* is vertex real ?
 		G4bool qvtx = false;
-		for (HepMC::GenVertex::particle_iterator
-				pitr = (*vitr)->particles_begin(HepMC::children);
-				pitr != (*vitr)->particles_end(HepMC::children); ++pitr)
+		for ( HepMC3::ConstGenParticlePtr prt : vitr->particles_out() )
 		{
-			if (!(*pitr)->end_vertex() && (*pitr)->status() == 1)
+		    if (!(prt->end_vertex()) && prt->status() == 1)
 			{
 				qvtx = true;
 				break;
@@ -96,68 +95,63 @@ void HepMCG4Interface::HepMC2G4(const HepMC::GenEvent *hepmcevt,
 		}
 		if (!qvtx)
 		{
-			for (HepMC::GenVertex::particle_iterator
-				vpitr= (*vitr)->particles_begin(HepMC::children);
-				vpitr != (*vitr)->particles_end(HepMC::children); ++vpitr)
+		    for ( HepMC3::ConstGenParticlePtr prt : vitr->particles_out() )
 			{ 
-				if((*vpitr)->status()  > 20 && (*vpitr)->status() < 30)
+			    if(prt->status()  > 20 && prt->status() < 30)
 				{
-					eta_primary =  ( (*vpitr)->momentum().eta() );
-					phi_primary =  ( (*vpitr)->momentum().phi() );
+				    eta_primary =  ( prt->momentum().eta() );
+				    phi_primary =  ( prt->momentum().phi() );
 				}
 			}
-            continue;
-        }
+		    continue;
+		}
 
 		//* check world boundary
-		HepMC::FourVector pos = (*vitr)->position();
+		HepMC3::FourVector pos = vitr->position();
 		G4LorentzVector xvtx(pos.x(), pos.y(), pos.z(), pos.t());
 		if (!CheckVertexInsideWorld(xvtx.vect() * mm))
-			continue;
+		    continue;
 
 		//* create G4PrimaryVertex and associated G4PrimaryParticles
 		G4PrimaryVertex *g4vtx =
 			new G4PrimaryVertex(xvtx.x() * mm, xvtx.y() * mm, xvtx.z() * mm,
 								xvtx.t() * mm / c_light);
 
-		std::vector<HepMC::GenParticle *> selected_particles;
+		std::vector<HepMC3::ConstGenParticlePtr> selected_particles;
 
-		for (HepMC::GenVertex::particle_iterator
-				vpitr = (*vitr)->particles_begin(HepMC::children);
-				vpitr != (*vitr)->particles_end(HepMC::children); ++vpitr)
+		for ( HepMC3::ConstGenParticlePtr prt : vitr->particles_out() )
 		{
 
-			if ((*vpitr)->status() != 1)
+			if (prt->status() != 1)
 				continue;
-			if ((*vpitr)->momentum().perp() < 1000.*config_json_var.fiducial_cuts.pt_min)
-			{
-				continue;
-			}
-			if (fabs((*vpitr)->momentum().eta()) > config_json_var.fiducial_cuts.eta_max)
-			{
-				continue;
-			}
 
+			if ( config_json_var.fiducial_cuts.min_pT > 0.0 &&
+			     prt->momentum().perp() < config_json_var.fiducial_cuts.min_pT )
+			{
+				continue;
+			}
+			if (fabs(prt->momentum().eta()) > config_json_var.max_eta_endcap )
+			    continue;
+	
 			// Cut away everything separated from the primary eta,phi by more than dR (used for single-jet data)
 			if(config_json_var.fiducial_cuts.dR_cut > 0)
 			{
-				float eta_cut = (*vpitr)->momentum().eta();
-				float phi_cut = (*vpitr)->momentum().phi();
+				float eta_cut = prt->momentum().eta();
+				float phi_cut = prt->momentum().phi();
 				float dphi = acos(cos(phi_cut-phi_primary));
 				float deta = eta_cut-eta_primary;
 				float dR = sqrt(dphi*dphi+deta*deta);
 				if(dR > config_json_var.fiducial_cuts.dR_cut)
 					continue;
 			}
-
+			
 			// if the particle decayed "too far" into the detector, replace it with its parent. otherwise this function just returns the original particle.
-			HepMC::GenParticle *pptr = m_truthrecordgraph.check_prod_location(*vpitr);
+			HepMC3::ConstGenParticlePtr pptr = m_truthrecordgraph.check_prod_location(prt);
 
 			m_truthrecordgraph.add_to_vector(pptr, m_truthrecordgraph.m_interesting_particles);
 
 			m_truthrecordgraph.add_all_moving_parents(pptr, m_truthrecordgraph.m_interesting_particles);
 
-			pos = (pptr)->production_vertex()->position();
 			G4int pdgcode = (pptr)->pdg_id();
 			// skip neutrinos
 			if (abs(pdgcode) == 12 || abs(pdgcode) == 14 || abs(pdgcode) == 16)
@@ -169,16 +163,14 @@ void HepMCG4Interface::HepMC2G4(const HepMC::GenEvent *hepmcevt,
 			m_truthrecordgraph.add_to_vector(pptr, selected_particles);
 		}
 
-		for (size_t particle_i = 0; particle_i < selected_particles.size(); particle_i++)
+		for ( HepMC3::ConstGenParticlePtr prt : selected_particles )
 		{
-			HepMC::GenParticle *pptr = selected_particles.at(particle_i);
-
-			HepMC::FourVector mom = pptr->momentum();
-			int pdgcode = pptr->pdg_id();
+			HepMC3::FourVector mom = prt->momentum();
+			int pdgcode = prt->pdg_id();
 			G4LorentzVector p(mom.px(), mom.py(), mom.pz(), mom.e());
 			G4PrimaryParticle *g4prim = new G4PrimaryParticle(pdgcode, p.x() * MeV, p.y() * MeV, p.z() * MeV);
 			g4vtx->SetPrimary(g4prim);
-			m_truthrecordgraph.m_final_state_particles.push_back(pptr);
+			m_truthrecordgraph.m_final_state_particles.push_back(prt);
 		}
 
 		g4event->AddPrimaryVertex(g4vtx);
@@ -186,9 +178,9 @@ void HepMCG4Interface::HepMC2G4(const HepMC::GenEvent *hepmcevt,
 	m_truthrecordgraph.fill_truth_graph();
 }
 
-HepMC::GenEvent *HepMCG4Interface::GenerateHepMCEvent()
+HepMC3::GenEvent *HepMCG4Interface::GenerateHepMCEvent()
 {
-	HepMC::GenEvent *aevent = new HepMC::GenEvent();
+	HepMC3::GenEvent *aevent = new HepMC3::GenEvent();
 	return aevent;
 }
 
@@ -205,5 +197,6 @@ void HepMCG4Interface::GeneratePrimaryVertex(G4Event *anEvent)
 		G4RunManager::GetRunManager()->AbortRun();
 		return;
 	}
+	
 	HepMC2G4(hepmcEvent, anEvent);
 }

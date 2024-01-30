@@ -1,5 +1,5 @@
-/generator/select hepmcAscii
-/generator/hepmcAscii/verbose 0
-/generator/hepmcAscii/open /home/pr2329/cocoa-hep/COCOA/pythia8_dijets_partonPtMin100.hmc
-/generator/hepmcAscii/first_event 2
+/generator/select hepmc
+/generator/hepmc/verbose 0
+/generator/hepmc/open /home/pat/physics/scd/ssl-hep/mcgen/WorkArea/pythia8_dijets_partonPtMin100_012123_1k.root
+/generator/hepmc/first_event 2
 /run/beamOn 1
