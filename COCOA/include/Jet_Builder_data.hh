@@ -16,7 +16,10 @@ private:
     std::vector<float> jet_m;
     std::vector<int>   jet_constituents_jetIndex; // jet index for each constituent. default -1: not associated to a jet.
     unsigned int       n_constituents;
-    std::vector<int>   jet_truth_id; // pdg id of the truth level particle associated with the jet
+    std::vector<int>   jet_truth_id;        // pdg id of the truth level particle associated with the jet
+    std::vector<float> jet_truth_partonPt;  // pt of the truth level particle associated with the jet
+    std::vector<float> jet_truth_partonEta; // eta of the truth level particle associated with the jet
+    std::vector<float> jet_truth_partonPhi; // phi of the truth level particle associated with the jet
 public:
   
     Jet_Builder_data(std::string prefix);
