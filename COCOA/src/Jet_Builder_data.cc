@@ -28,8 +28,12 @@ void Jet_Builder_data::set_tree_branches(TTree *outTree)
     outTree->Branch(TString(Prefix + "_jet_phi"), "vector<float>", &jet_phi);
     outTree->Branch(TString(Prefix + "_jet_m"), "vector<float>", &jet_m);
     outTree->Branch(TString(Prefix + "_jet_constituents_jetIndex"), "vector<int>", &jet_constituents_jetIndex);
-    if ( Prefix == "true" )
+    if ( Prefix == "true" ) {
 	outTree->Branch(TString(Prefix + "_jet_truth_id"), "vector<int>", &jet_truth_id);
+	outTree->Branch(TString(Prefix + "_jet_truth_partonPt"), "vector<float>", &jet_truth_partonPt);
+	outTree->Branch(TString(Prefix + "_jet_truth_partonEta"), "vector<float>", &jet_truth_partonEta);
+	outTree->Branch(TString(Prefix + "_jet_truth_partonPhi"), "vector<float>", &jet_truth_partonPhi);
+    }
 }
 
 void Jet_Builder_data::fill_cell_var( float truth_jet_radius )
@@ -77,9 +81,12 @@ void Jet_Builder_data::fill_cell_var( float truth_jet_radius )
 	if ( Prefix == "true" ) {
 	    // Find best match among truth particle candidates: within dR < R_jet and best pT fit
 	    // ToDo: "overlap removal" - preference for some particles, e.g. e before tau, photon before gluon.
-	    float    dR               = 0.0;
-	    float    pT_abs_rel_best  = 0.0;
-	    int      abs_pid_best_fit = 0; // default pid 0 : no matching truth particle found
+	    float    dR                    = 0.0;
+	    float    pT_abs_rel_best       = 0.0;
+	    int      abs_pid_best_fit      = 0; // default pid 0 : no matching truth particle found
+	    float    pT_particle_best_fit  = 0.0;
+	    float    eta_particle_best_fit = -1e2;
+	    float    phi_particle_best_fit = -1e2;
 	    TVector3 jet_p3( jets[ijet].px(), jets[ijet].py(), jets[ijet].pz() );
 	    for ( HepMC3::ConstGenParticlePtr prt : truth_candidates ) {
 		TVector3 particle_p3( prt->momentum().px(),  prt->momentum().py(),  prt->momentum().pz() );
@@ -88,11 +95,17 @@ void Jet_Builder_data::fill_cell_var( float truth_jet_radius )
 		    continue;
 		float pT_abs_rel = abs( jet_p3.Pt() / particle_p3.Pt() - 1.0 );
 		if ( abs_pid_best_fit == 0 || pT_abs_rel < pT_abs_rel_best ) {
-		    pT_abs_rel_best  = pT_abs_rel;
-		    abs_pid_best_fit = prt->abs_pid();
+		    pT_abs_rel_best       = pT_abs_rel;
+		    abs_pid_best_fit      = prt->abs_pid();
+		    pT_particle_best_fit  = particle_p3.Pt();
+		    eta_particle_best_fit = particle_p3.Eta();
+		    phi_particle_best_fit = particle_p3.Phi();
 		}
 	    }
-	    jet_truth_id.push_back( abs_pid_best_fit );	    
+	    jet_truth_id.push_back( abs_pid_best_fit );
+	    jet_truth_partonPt.push_back( pT_particle_best_fit );
+	    jet_truth_partonEta.push_back( eta_particle_best_fit );
+	    jet_truth_partonPhi.push_back( phi_particle_best_fit );
 	}
     }
 }
@@ -105,4 +118,7 @@ void Jet_Builder_data::clear()
     jet_m.clear();
     jet_constituents_jetIndex.clear();
     jet_truth_id.clear();
+    jet_truth_partonPt.clear();
+    jet_truth_partonEta.clear();
+    jet_truth_partonPhi.clear();
 }

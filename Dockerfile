@@ -10,14 +10,29 @@ RUN  yum -y  install  bc make cmake binutils git wget diffutils file sed gawk gr
 RUN ln -s /usr/include/boost/json /usr/include/json
 
 #Packages coming from HEPrpms ->
-RUN  dnf -y copr enable averbyts/HEPrpms && yum -y  install geant4-devel geant4 fastjet fastjet-devel \
+RUN  dnf -y copr enable averbyts/HEPrpms && yum -y  install fastjet fastjet-devel \
      	    	 			    	    clhep clhep-devel PTL PTL-devel \
 						    pythia8-devel pythia8 python3-lhapdf lhapdf lhapdf-devel \
 						    HepMC3* HepMC HepMC-devel \
 						    &&  yum -y clean all
 
+#
+# Pick a specific Geant4 version, so we know it works
+#
+
+ENV G4_VERSION=11.2.0
+
+RUN wget https://gitlab.cern.ch/geant4/geant4/-/archive/v${G4_VERSION}/geant4-v${G4_VERSION}.tar.gz
+RUN tar -xzf geant4-v${G4_VERSION}.tar.gz
+RUN mkdir g4_build
+RUN cd g4_build
+RUN cmake -DGEANT4_USE_OPENGL_X11=ON ../../geant4-v${G4_VERSION}
+RUN make -j16
+RUN make install
+RUN rm -rf /g4_build
+
 ENV Geant4_DataDir=/usr/share/Geant4/data
-RUN mkdir ${Geant4_DataDir}
+RUN mkdir -p ${Geant4_DataDir}
 
 RUN cd ${Geant4_DataDir} && \
     wget http://cern.ch/geant4-data/datasets/G4NDL.4.7.tar.gz && \
@@ -55,6 +70,9 @@ ENV G4SAIDXSDATA=${Geant4_DataDir}/G4SAIDDATA2.0
 ENV G4ENSDFSTATEDATA=${Geant4_DataDir}/G4ENSDFSTATE2.3
 ENV G4NEUTRONHPDATA=${Geant4_DataDir}/G4NDL4.7
 ENV G4RADIOACTIVEDATA=${Geant4_DataDir}/G4RadioactiveDecay5.6
+
+RUN ln -s $Geant4_DataDir /usr/local/share/Geant4/data
+RUN cd /usr/local/share/Geant4/geant4make && /bin/bash -c ./geant4make.sh && cd /
 
 ENV WKDIR=/work
 RUN mkdir ${WKDIR}
