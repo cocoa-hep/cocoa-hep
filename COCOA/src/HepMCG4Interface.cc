@@ -166,7 +166,7 @@ void HepMCG4Interface::HepMC2G4(const HepMC3::GenEvent *hepmcevt,
 		for ( HepMC3::ConstGenParticlePtr prt : selected_particles )
 		{
 			HepMC3::FourVector mom = prt->momentum();
-			int pdgcode = 12; // prt->pdg_id(); // tmp hack: just neutrinos
+			int pdgcode = prt->pdg_id();
 			G4LorentzVector p(mom.px(), mom.py(), mom.pz(), mom.e());
 			G4PrimaryParticle *g4prim = new G4PrimaryParticle(pdgcode, p.x() * MeV, p.y() * MeV, p.z() * MeV);
 			g4vtx->SetPrimary(g4prim);

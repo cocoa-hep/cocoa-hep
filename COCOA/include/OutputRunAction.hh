@@ -44,6 +44,7 @@
 // #include "DetectorGeometryDefinitions.hh"
 // #include "DataStorage.hh"
 #include "G4Run.hh"
+#include "g4root.hh"
 #include "G4RunManager.hh"
 #include "G4UserRunAction.hh"
 // #include "G4UnitsTable.hh"
