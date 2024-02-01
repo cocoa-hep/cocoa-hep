@@ -16,6 +16,7 @@ Config_reader_var::Config_reader_var()  :
     use_inner_detector = true;
     r_inn_calo = 1500;
     Layer_gap = 8;
+    ID_support_width = 44.0;
     fieldValue = 0.0;
     Material_ECAL = NULL;
     Material_HCAL = NULL;

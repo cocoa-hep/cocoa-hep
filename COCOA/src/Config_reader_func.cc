@@ -20,6 +20,7 @@ Config_reader_func::Config_reader_func(std::string path, Config_reader_var &conf
 
     config_var.r_inn_calo = configs["Geometry_definition"]["Inner_calorimeter_layer"].asDouble();
     config_var.Layer_gap = configs["Geometry_definition"]["Layer_gap"].asDouble();
+    config_var.ID_support_width = configs["Geometry_definition"]["ID_support_width"].asDouble();
     config_var.fieldValue = configs["Geometry_definition"]["Magnetic_field"].asDouble() * tesla;
     config_var.max_eta_barrel = configs["Geometry_definition"]["Max_eta_of_barrel_region"].asDouble();
     config_var.max_eta_endcap = configs["Geometry_definition"]["Max_eta_of_endcap_region"].asDouble();

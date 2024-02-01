@@ -28,6 +28,7 @@
         "Characteristic_of_custom_material_for_ECAL":[[18,39.95,1.390]],
         "ECAL_material_mixing_in_volume_proportion":[4.6,1.2],
         "HCAL_material_mixing_in_volume_proportion":[1.0,1.1],
+	"ID_support_width" : 44,
         "Layer_gap": 80,
         "Magnetic_field":3.8
     },

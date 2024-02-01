@@ -103,6 +103,7 @@ public:
 
     long double r_inn_calo;
     long double Layer_gap;
+    long double ID_support_width;
     long double fieldValue;
     long double max_eta_barrel;
     long double max_eta_endcap;
