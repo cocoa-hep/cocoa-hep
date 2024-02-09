@@ -50,12 +50,18 @@
 
 using namespace std;
 
-EventAction::EventAction() : G4UserEventAction()
+EventAction::EventAction() : event_number(-1), G4UserEventAction()
 {;}
 
 EventAction::~EventAction()
 {
 	;
+}
+
+void EventAction::set_tree_branches(TTree* outTree) {
+
+    outTree->Branch("event_number", &event_number );
+
 }
 
 void EventAction::BeginOfEventAction(const G4Event *anEvent) //const G4Event* anEvent
@@ -76,6 +82,8 @@ void EventAction::BeginOfEventAction(const G4Event *anEvent) //const G4Event* an
 	pion_info.clear();
 	det_ana.clear();
 	// const G4Event* ev = anEvent;
+
+	event_number = anEvent->GetEventID();
 
 #ifdef DEBUG_HEPMC
 	// # This is not active

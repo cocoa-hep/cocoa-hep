@@ -172,7 +172,7 @@ void HepMCG4Interface::HepMC2G4(const HepMC3::GenEvent *hepmcevt,
 			g4vtx->SetPrimary(g4prim);
 			m_truthrecordgraph.m_final_state_particles.push_back(prt);
 		}
-
+		g4event->SetEventID(hepmcevt->event_number());
 		g4event->AddPrimaryVertex(g4vtx);
 	}
 	m_truthrecordgraph.fill_truth_graph();

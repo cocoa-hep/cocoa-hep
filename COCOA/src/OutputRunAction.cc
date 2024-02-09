@@ -28,6 +28,7 @@
 /// \brief Implementation of the OutputRunAction class
 
 #include "OutputRunAction.hh"
+#include "EventAction.hh"
 #include "G4RunManager.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4Electron.hh"
@@ -107,6 +108,9 @@ void OutputRunAction::BeginOfRunAction(const G4Run *run)
 
 	if (config_var.Type_of_running == "Standard")
 	{
+
+	        EventAction* evt_action = (EventAction*)G4RunManager::GetRunManager()->GetUserEventAction();
+		evt_action->set_tree_branches(outTree_low);	    
 		Particle_flow_data &pflow_obj = Particle_flow_data::GetInstance();
 		cells_low.set_tree_branches(outTree_low);
 		track_list_low.set_tree_branches(outTree_low, config_var.low_resolution.kNLayers);
