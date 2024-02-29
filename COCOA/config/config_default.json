@@ -13,8 +13,8 @@
         "Max_eta_of_barrel_region": 1.5,
         "Max_eta_of_endcap_region": 3.0,
         "Inner_calorimeter_layer" :1500,
-        "Noise_in_ECAL":[13, 34, 41],
-        "Noise_in_HCAL":[75, 50, 25],
+        "Noise_in_ECAL": [13, 34, 41],
+        "Noise_in_HCAL": [75, 50, 25],
         "Detector_granularity" : 
         {
             "Number_of_pixels_ECAL": [256,256,128],
