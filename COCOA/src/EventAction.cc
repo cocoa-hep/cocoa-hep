@@ -154,7 +154,7 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 	{
 		if (config_var.Use_high_granularity)
 		{
-			Tracking tracking_low(trajectories.fAllTrajectoryInfo, false, tracks_list_low.Tracks_list, config_var.low_resolution);
+			Tracking tracking_low(trajectories.fAllTrajectoryInfo, config_var.Smear_tracks, tracks_list_low.Tracks_list, config_var.low_resolution);
 
 			ReduceResolution Down_ptr(cells_data_high.fCell_array, cells_data_low.fCell_array);
 			Topo_clust_func clustering(cells_data_low.fCell_array, config_var.low_resolution, config_var.topological_clustering, "Standard");
@@ -208,7 +208,7 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 					trajectories.fAllTrajectoryInfo.push_back(trajectories.fAllConvElectrons.at(iconv));
 			}
 
-			Tracking tracking_low(trajectories.fAllTrajectoryInfo, false, tracks_list_low.Tracks_list, config_var.low_resolution);
+			Tracking tracking_low(trajectories.fAllTrajectoryInfo, config_var.Smear_tracks, tracks_list_low.Tracks_list, config_var.low_resolution);
 
 			ReduceResolution noise_apply;
 			noise_apply.apply_noise(cells_data_low.fCell_array);
