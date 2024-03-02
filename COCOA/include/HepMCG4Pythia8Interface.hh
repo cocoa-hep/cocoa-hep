@@ -48,6 +48,7 @@ protected:
 	G4int verbose;
 	HepMC::Pythia8ToHepMC ToHepMC;
 	Pythia8::Pythia pythia;
+	Pythia8::Pythia pythiaPU;
 	Pythia8::Event sum_events;
 
 	HepMCG4Pythia8Messenger *messenger;
