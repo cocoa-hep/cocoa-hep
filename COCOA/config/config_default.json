@@ -51,8 +51,8 @@
     },
     "Jet_parameters":
     {
-        "algorithm": "kt_algorithm",
-        "radius": 0.6,
+        "algorithm": "antikt_algorithm",
+        "radius": 0.4,
         "recombination_scheme": "E_scheme", 
         "ptmin": 0.0
     },
