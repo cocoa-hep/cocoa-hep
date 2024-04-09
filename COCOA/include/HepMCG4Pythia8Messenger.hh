@@ -56,6 +56,7 @@ private:
   G4UIcmdWithADouble*      maxEnergy;
   G4UIcmdWithADouble*      minEta;
   G4UIcmdWithADouble*      maxEta;
+  G4UIcmdWithADouble*      avgPU;
 
 
 public:
@@ -69,6 +70,7 @@ public:
   G4double MaxEnergy;
   G4double MinEta;
   G4double MaxEta;
+  G4double AvgPU;
 };
 
 #endif

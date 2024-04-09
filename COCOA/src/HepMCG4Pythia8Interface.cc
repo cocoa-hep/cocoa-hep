@@ -110,6 +110,8 @@ HepMCG4Pythia8Interface::~HepMCG4Pythia8Interface()
 void HepMCG4Pythia8Interface::CallPythiaReadString(G4String par)
 {
 	pythia.readString(par);
+	pythiaPU.readString(par);
+	pythiaPU.readString("SoftQCD:inelastic = on");
 }
 
 void HepMCG4Pythia8Interface::CallPythiaInit() //
@@ -120,11 +122,13 @@ void HepMCG4Pythia8Interface::CallPythiaInit() //
 	//MyUserHooks myUserHooks = MyUserHooks();
 	//pythia.setUserHooksPtr(myUserHooks);
 	pythia.init();
+	pythiaPU.init();
 }
 
 void HepMCG4Pythia8Interface::CallPythiaStat()
 {
 	pythia.stat();
+	pythiaPU.stat();
 }
 
 Pythia8::Event HepMCG4Pythia8Interface::GetPythiaObject()
@@ -188,6 +192,10 @@ HepMC::GenEvent *HepMCG4Pythia8Interface::GenerateHepMCEvent()
 	// return hepmcevt;
 	//*  Pile-up end
 	int id = messenger->GQparticle;
+	double avgpu = messenger->AvgPU;
+
+    cout << "Avg pileup per event = " << avgpu << endl;
+
 	HepMC::GenEvent *hepmcevt = new HepMC::GenEvent(HepMC::Units::MEV, HepMC::Units::MM);
 	if (id == 22122212) //* pp colision
 	{
@@ -196,11 +204,30 @@ HepMC::GenEvent *HepMCG4Pythia8Interface::GenerateHepMCEvent()
 			cout << " Event generation aborted prematurely, owing to error!\n";
 
 		ToHepMC.fill_next_event(pythia, hepmcevt);
+		sum_events = pythia.event;
+        
+        // adding PU //
+		if (avgpu > 0.) {
+
+			if (!pythiaPU.next())
+			cout << " Pileup Event generation aborted prematurely, owing to error!\n";
+
+			int nPileup = poisson(avgpu, pythiaPU.rndm);
+			cout << "Number of pileup per vertex = " << nPileup << endl;
+
+			for (int iPileup = 0; iPileup < nPileup; ++iPileup)
+			{
+			   pythiaPU.next();
+			   sum_events += pythiaPU.event;
+			   ToHepMC.fill_next_event( pythiaPU, hepmcevt,-1, false );
+
+			}
+
+		}
 
 		if (verbose > 1)
 			hepmcevt->print();
 
-		sum_events = pythia.event;
 	}
 	else //*  Parton or particle with colour singlet
 	{
