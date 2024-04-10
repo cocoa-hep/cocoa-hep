@@ -80,6 +80,10 @@ void HepMCG4Interface::HepMC2G4(const HepMC3::GenEvent *hepmcevt,
 	float eta_primary=-100;
 	float phi_primary=-100;
 
+	// // tmp hack
+	// float max_r = -1.0;
+	// // tmp hack end
+	
 	//* loop for vertex
 	for ( HepMC3::ConstGenVertexPtr vitr : hepmcevt->vertices() ) {
 
@@ -109,6 +113,20 @@ void HepMCG4Interface::HepMC2G4(const HepMC3::GenEvent *hepmcevt,
 		//* check world boundary
 		HepMC3::FourVector pos = vitr->position();
 		G4LorentzVector xvtx(pos.x(), pos.y(), pos.z(), pos.t());
+		// // tmp hack
+		// if ( (vitr->particles_in()).size() == 1 && (vitr->particles_in())[0]->abs_pid() == 15  ) {
+		//     for ( HepMC3::ConstGenParticlePtr prt : vitr->particles_out() ) {
+		// 	if ( prt->abs_pid() == 13 ) {
+		// 	    cout << prt->momentum().x() << " "
+		// 		 << prt->momentum().y() << " "
+		// 		 << prt->momentum().z() << endl;
+		// 	}
+		//     }
+		//     // cout << endl;
+		//     // float r = pos.length();
+		//     // max_r = ( r > max_r ) ? r : max_r;
+		// }
+		// // tmp hack end
 		if (!CheckVertexInsideWorld(xvtx.vect() * mm))
 		    continue;
 
@@ -176,6 +194,9 @@ void HepMCG4Interface::HepMC2G4(const HepMC3::GenEvent *hepmcevt,
 		g4event->AddPrimaryVertex(g4vtx);
 	}
 	m_truthrecordgraph.fill_truth_graph();
+	// // tmp hack
+	// G4cout << "max r = " << max_r << G4endl;
+	// // tmp hack end
 }
 
 HepMC3::GenEvent *HepMCG4Interface::GenerateHepMCEvent()
