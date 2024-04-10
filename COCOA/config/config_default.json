@@ -55,7 +55,7 @@
     {
         "algorithm": "antikt_algorithm",
         "radius" : 0.4,
-	"ptmin" : 10000.0,
+	      "ptmin" : 10000.0,
         "recombination_scheme": "E_scheme", 
     },
     "Fiducial_cuts":
