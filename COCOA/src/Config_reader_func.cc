@@ -16,10 +16,12 @@ Config_reader_func::Config_reader_func(std::string path, Config_reader_var &conf
     config_var.Save_truth_particle_graph = configs["Save_truth_particle_graph"].asBool();
     config_var.Use_high_granularity = configs["Use_high_granularity"].asBool();
     config_var.Skip_unuseable_tracks = configs["Skip_unuseable_tracks"].asBool();
+    config_var.Smear_tracks = configs["Smear_tracks"].asBool();
     config_var.doSuperclustering = configs.get( "Do_superclustering", false ).asBool();
 
     config_var.r_inn_calo = configs["Geometry_definition"]["Inner_calorimeter_layer"].asDouble();
     config_var.Layer_gap = configs["Geometry_definition"]["Layer_gap"].asDouble();
+    config_var.ID_support_width = configs["Geometry_definition"]["ID_support_width"].asDouble();
     config_var.fieldValue = configs["Geometry_definition"]["Magnetic_field"].asDouble() * tesla;
     config_var.max_eta_barrel = configs["Geometry_definition"]["Max_eta_of_barrel_region"].asDouble();
     config_var.max_eta_endcap = configs["Geometry_definition"]["Max_eta_of_endcap_region"].asDouble();
@@ -59,8 +61,7 @@ Config_reader_func::Config_reader_func(std::string path, Config_reader_var &conf
     config_var.jet_parameter.ptmin = configs["Jet_parameters"]["ptmin"].asDouble();
     config_var.jet_parameter.radius = configs["Jet_parameters"]["radius"].asDouble();
 
-    config_var.fiducial_cuts.pt_min = configs["Fiducial_cuts"].get( "pt_min_gev", 1.0 ).asFloat();
-    config_var.fiducial_cuts.eta_max = configs["Fiducial_cuts"].get( "eta_max", 3.0 ).asFloat();
+    config_var.fiducial_cuts.min_pT = configs["Fiducial_cuts"].get( "min_pT", -1.0 ).asFloat();
     config_var.fiducial_cuts.dR_cut = configs["Fiducial_cuts"].get( "dR_cut", -1.0 ).asFloat();
 
     if (config_var.Type_of_running != "Standard")

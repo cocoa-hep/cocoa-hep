@@ -50,7 +50,7 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger
   fSelect= new G4UIcmdWithAString("/generator/select", this);
   fSelect-> SetGuidance("fSelect generator type");
   fSelect-> SetParameterName("generator_type", false, false);
-  fSelect-> SetCandidates("particleGun pythia8 hepmcAscii");
+  fSelect-> SetCandidates("particleGun pythia8 hepmc");
   fSelect-> SetDefaultValue("particleGun");
 }
 

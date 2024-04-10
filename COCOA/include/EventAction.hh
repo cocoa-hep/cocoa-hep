@@ -30,6 +30,7 @@
 #ifndef H02_EVENT_ACTION_H
 #define H02_EVENT_ACTION_H
 #include "G4UserEventAction.hh"
+#include "TTree.h"
 #include "PrimaryGeneratorAction.hh"
 #include "Cells_data.hh"
 #include "Tracking_func.hh"
@@ -50,10 +51,13 @@ public:
 	EventAction();
 	~EventAction();
 
+        void set_tree_branches(TTree* outTree);
+
 	virtual void BeginOfEventAction(const G4Event *anEvent); //
 	virtual void EndOfEventAction(const G4Event *anEvent);
-
+    
 private:
+        int event_number;
 	Tracks_data &tracks_list_low = Tracks_data::GetLow();
 	Cells_data &cells_data_high = Cells_data::GetHigh();
 	Cells_data &cells_data_low = Cells_data::GetLow();

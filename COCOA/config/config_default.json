@@ -4,6 +4,7 @@
     "Type_of_running": "Standard",
     "Save_truth_particle_graph": true,
     "Skip_unuseable_tracks": true,
+    "Smear_tracks": true,
     "Geometry_definition":
     {
         "Check_Geometry_overlap": false,
@@ -12,8 +13,8 @@
         "Max_eta_of_barrel_region": 1.5,
         "Max_eta_of_endcap_region": 3.0,
         "Inner_calorimeter_layer" :1500,
-        "Noise_in_ECAL":[13, 34, 41],
-        "Noise_in_HCAL":[75, 50, 25],
+        "Noise_in_ECAL": [13, 34, 41],
+        "Noise_in_HCAL": [75, 50, 25],
         "Detector_granularity" : 
         {
             "Number_of_pixels_ECAL": [256,256,128],
@@ -28,6 +29,7 @@
         "Characteristic_of_custom_material_for_ECAL":[[18,39.95,1.390]],
         "ECAL_material_mixing_in_volume_proportion":[4.6,1.2],
         "HCAL_material_mixing_in_volume_proportion":[1.0,1.1],
+	"ID_support_width" : 44,
         "Layer_gap": 80,
         "Magnetic_field":3.8
     },
@@ -52,14 +54,13 @@
     "Jet_parameters":
     {
         "algorithm": "antikt_algorithm",
-        "radius": 0.4,
+        "radius" : 0.4,
+	      "ptmin" : 10000.0,
         "recombination_scheme": "E_scheme", 
-        "ptmin": 0.0
     },
     "Fiducial_cuts":
     {
-        "pt_min_gev": 1.0,
-        "eta_max": 3.0,
+	"min_pT": 1000.0,
         "dR_cut": -1
     }
 

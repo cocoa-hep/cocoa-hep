@@ -50,12 +50,18 @@
 
 using namespace std;
 
-EventAction::EventAction() : G4UserEventAction()
+EventAction::EventAction() : event_number(-1), G4UserEventAction()
 {;}
 
 EventAction::~EventAction()
 {
 	;
+}
+
+void EventAction::set_tree_branches(TTree* outTree) {
+
+    outTree->Branch("event_number", &event_number );
+
 }
 
 void EventAction::BeginOfEventAction(const G4Event *anEvent) //const G4Event* anEvent
@@ -76,6 +82,8 @@ void EventAction::BeginOfEventAction(const G4Event *anEvent) //const G4Event* an
 	pion_info.clear();
 	det_ana.clear();
 	// const G4Event* ev = anEvent;
+
+	event_number = anEvent->GetEventID();
 
 #ifdef DEBUG_HEPMC
 	// # This is not active
@@ -146,7 +154,7 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 	{
 		if (config_var.Use_high_granularity)
 		{
-			Tracking tracking_low(trajectories.fAllTrajectoryInfo, false, tracks_list_low.Tracks_list, config_var.low_resolution);
+			Tracking tracking_low(trajectories.fAllTrajectoryInfo, config_var.Smear_tracks, tracks_list_low.Tracks_list, config_var.low_resolution);
 
 			ReduceResolution Down_ptr(cells_data_high.fCell_array, cells_data_low.fCell_array);
 			Topo_clust_func clustering(cells_data_low.fCell_array, config_var.low_resolution, config_var.topological_clustering, "Standard");
@@ -181,7 +189,7 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			}
 			trajectories.make_pseudo_jet_particles();
 			jets_build.build_jets(trajectories.jets_objects, true_jets_obj, config_var.jet_parameter);
-			true_jets_obj.fill_cell_var();
+			true_jets_obj.fill_cell_var(config_var.jet_parameter.radius);
 			jets_build.reset();
 			topo_clusts.make_pseudo_jet_particles();
 			jets_build.build_jets(topo_clusts.jets_objects, topo_jets_obj, config_var.jet_parameter);
@@ -200,7 +208,7 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 					trajectories.fAllTrajectoryInfo.push_back(trajectories.fAllConvElectrons.at(iconv));
 			}
 
-			Tracking tracking_low(trajectories.fAllTrajectoryInfo, false, tracks_list_low.Tracks_list, config_var.low_resolution);
+			Tracking tracking_low(trajectories.fAllTrajectoryInfo, config_var.Smear_tracks, tracks_list_low.Tracks_list, config_var.low_resolution);
 
 			ReduceResolution noise_apply;
 			noise_apply.apply_noise(cells_data_low.fCell_array);
@@ -236,7 +244,7 @@ void EventAction::EndOfEventAction(const G4Event *evt)
 			}
 			trajectories.make_pseudo_jet_particles();
 			jets_build.build_jets(trajectories.jets_objects, true_jets_obj, config_var.jet_parameter);
-			true_jets_obj.fill_cell_var();
+			true_jets_obj.fill_cell_var(config_var.jet_parameter.radius);
 			jets_build.reset();
 			topo_clusts.make_pseudo_jet_particles();
 			jets_build.build_jets(topo_clusts.jets_objects, topo_jets_obj, config_var.jet_parameter);

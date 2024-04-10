@@ -49,7 +49,7 @@ public:
   void SetGenerator(G4VPrimaryGenerator* gen);
   void SetGenerator(G4String genname);
 
-  G4VPrimaryGenerator* GetGenerator() const;
+  const G4VPrimaryGenerator* GetGenerator() const;
   G4String GetGeneratorName() const;
 
 private:
@@ -81,9 +81,9 @@ inline void PrimaryGeneratorAction::SetGenerator(G4String genname)
   }
 }
 
-inline G4VPrimaryGenerator* PrimaryGeneratorAction::GetGenerator() const
+inline const G4VPrimaryGenerator* PrimaryGeneratorAction::GetGenerator() const
 {
-  return fCurrentGenerator;
+    return fGentypeMap.at(fCurrentGeneratorName);
 }
 
 inline G4String PrimaryGeneratorAction::GetGeneratorName() const

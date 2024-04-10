@@ -129,7 +129,7 @@ void InnerConstruction::Barrel_Inner()
     // *Barrel support material 
 	float SpaceForLayers = r_inn-(r_out_trkStr3+widthiron_add);
 	float GapBetweenIronLayers = SpaceForLayers/(NumberOfIronLayers+1);
-	long double iron_width_barrel = 4.4*cm/NumberOfIronLayers;
+	long double iron_width_barrel = config_obj.ID_support_width*mm/NumberOfIronLayers;
 	G4LogicalVolume *Iron_Layer_LV;
 	G4Tubs *Iron_Layer;
 	for (int NironLayer = 1; NironLayer < (NumberOfIronLayers+1); NironLayer++)
@@ -236,8 +236,8 @@ void InnerConstruction::EndCap_Inner()
 	float SpaceForLayers = r_inn-(r_out_trkStr3+widthiron_add);
 	float GapBetweenIronLayers = SpaceForLayers/(NumberOfIronLayers+1);
 	long double iron_r_inn = (r_out_trkStr3 + widthiron_add) + NumberOfIronLayers*GapBetweenIronLayers;
-	long double iron_width_endcap = 4.4*cm;
-	long double iron_width_barrel = 4.4*cm/NumberOfIronLayers;
+	long double iron_width_endcap = config_obj.ID_support_width*mm;
+	long double iron_width_barrel = config_obj.ID_support_width*mm/NumberOfIronLayers;
 
 	for (int direction = 1; direction > -2; direction=direction-2)
 	{

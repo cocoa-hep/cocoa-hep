@@ -3,7 +3,7 @@
 
 
 
-#include "HepMC/GenEvent.h"
+#include "HepMC3/GenEvent.h"
 #include "Config_reader_var.hh"
 #include "TTree.h"
 #include <vector>
@@ -12,13 +12,12 @@
 
 class OutputRunAction;
 
-class TruthRecordGraph
-{
+class TruthRecordGraph {
 
 public:
     Config_reader_var &config = Config_reader_var::GetInstance();
-    std::vector<HepMC::GenParticle *> m_interesting_particles;
-    std::vector<HepMC::GenParticle *> m_final_state_particles;
+    std::vector<HepMC3::ConstGenParticlePtr> m_interesting_particles;
+    std::vector<HepMC3::ConstGenParticlePtr> m_final_state_particles;
     float m_max_radius = config.r_inn_calo;
     static TruthRecordGraph &GetInstance()
     {
@@ -31,16 +30,16 @@ public:
 
     bool isCharmHadron(int pdgid);
     bool isBottomHadron(int pdgid);
-    void add_to_vector(HepMC::GenParticle *to_add, std::vector<HepMC::GenParticle *> &add_to);
-    void add_all_moving_parents(HepMC::GenParticle *to_add, std::vector<HepMC::GenParticle *> &add_to);
-    bool is_parent_same(HepMC::GenParticle *particle);
-    bool is_parent_of(HepMC::GenParticle *parent, HepMC::GenParticle *potential_child);
-    void clean_daugthers(   std::vector<HepMC::GenParticle *> &interesting_particles,
+    void add_to_vector(HepMC3::ConstGenParticlePtr to_add, std::vector<HepMC3::ConstGenParticlePtr > &add_to);
+    void add_all_moving_parents(HepMC3::ConstGenParticlePtr to_add, std::vector<HepMC3::ConstGenParticlePtr > &add_to);
+    bool is_parent_same(HepMC3::ConstGenParticlePtr particle);
+    bool is_parent_of(HepMC3::ConstGenParticlePtr parent, HepMC3::ConstGenParticlePtr potential_child);
+    void clean_daugthers(   std::vector<HepMC3::ConstGenParticlePtr > &interesting_particles,
                             std::vector<int> &all_daughters, std::vector<int> &direct_daughters);
-    void find_daughters(HepMC::GenParticle *parent, std::vector<HepMC::GenParticle *> &interesting_particles, std::vector<int> &direct_daughters);
-    HepMC::GenParticle *check_prod_location(HepMC::GenParticle *particle);
-    HepMC::GenParticle *find_next_level_parent(HepMC::GenParticle *particle);
-    float prod_radius(HepMC::GenParticle *particle);
+    void find_daughters(HepMC3::ConstGenParticlePtr parent, std::vector<HepMC3::ConstGenParticlePtr > &interesting_particles, std::vector<int> &direct_daughters);
+    HepMC3::ConstGenParticlePtr check_prod_location(HepMC3::ConstGenParticlePtr particle);
+    HepMC3::ConstGenParticlePtr find_next_level_parent(HepMC3::ConstGenParticlePtr particle);
+    float prod_radius(HepMC3::ConstGenParticlePtr particle);
 
     std::vector<int> CharmHadrons = {   411, 421, 10411, 10421, 413, 423, 10413, 10423, 20413, 20423, 415, 425, 431, 10431, 433, 10433, 20433, 435,
                                         4122, 4222, 4212, 4112, 4224, 4214, 4114, 4232, 4132, 4322, 4312, 4324, 4314, 4332, 4334, 4412, 4422, 4414,

@@ -1,0 +1,10 @@
+/generator/select pythia8
+/generator/pythia8/verbose 0
+/generator/pythia8/read HardQCD:all = on
+/tracking/storeTrajectory 1
+/generator/pythia8/QuarkGluon 22
+/generator/pythia8/minEnergy 6
+/generator/pythia8/maxEnergy 6
+/generator/pythia8/minEta -2.5
+/generator/pythia8/maxEta 2.5
+/run/beamOn 100

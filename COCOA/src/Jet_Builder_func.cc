@@ -4,11 +4,12 @@ void Jet_Builder_func::build_jets(std::vector<fastjet::PseudoJet> &input_jets,
 				  Jet_Builder_data &jet_data,
 				  Jet_parameters jet_par)
 {
-	fastjet::JetDefinition jet_def = fastjet::JetDefinition(algorithm(jet_par.algorithm),
+    	fastjet::JetDefinition jet_def = fastjet::JetDefinition(algorithm(jet_par.algorithm),
 								jet_par.radius,
 								recombination_scheme(jet_par.recombination_scheme),
 								fastjet::Best);
 	cs = new fastjet::ClusterSequence(input_jets, jet_def);
+	
 	jet_data.jets = sorted_by_pt(cs->inclusive_jets(jet_par.ptmin));
 	jet_data.set_n_constituents( input_jets.size() );
 }

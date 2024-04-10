@@ -23,38 +23,61 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx01/include/HepMCG4AsciiReaderMessenger.hh
-/// \brief Definition of the HepMCG4AsciiReaderMessenger class
+/// \file eventgenerator/HepMC/HepMCEx01/src/HepMCG4Reader.cc
+/// \brief Implementation of the HepMCG4Reader class
 //
 //
 
-#ifndef HEPMC_G4_ASCII_READER_MESSENGER_H
-#define HEPMC_G4_ASCII_READER_MESSENGER_H
+#include "HepMCG4Reader.hh"
+#include "HepMCG4ReaderMessenger.hh"
+#include "HepMC3/ReaderFactory.h"
+#include "HepMC3/Print.h"
 
-#include "G4UImessenger.hh"
+#include <iostream>
+#include <fstream>
 
-class HepMCG4AsciiReader;
-class G4UIdirectory;
-class G4UIcmdWithoutParameter;
-class G4UIcmdWithAString;
-class G4UIcmdWithAnInteger;
+using namespace HepMC3;
 
-class HepMCG4AsciiReaderMessenger : public G4UImessenger {
-public:
-  HepMCG4AsciiReaderMessenger(HepMCG4AsciiReader* agen);
-  ~HepMCG4AsciiReaderMessenger();
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMCG4Reader::HepMCG4Reader()
+    :  filename(""), verbose(0), i_first_event(0), hepmc3_reader(nullptr)
+{
+    // if ( filename != "" )
+    // 	hepmc3_reader = new HepMC3::ReaderRootTree(filename.c_str());
 
-  void SetNewValue(G4UIcommand* command, G4String newValues);
-  G4String GetCurrentValue(G4UIcommand* command);
+  messenger= new HepMCG4ReaderMessenger(this);
+  
+}
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMCG4Reader::~HepMCG4Reader()
+{
+  delete messenger;
+}
 
-private:
-  HepMCG4AsciiReader* gen;
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void HepMCG4Reader::Initialize()
+{
 
-  G4UIdirectory*        dir;
-  G4UIcmdWithAnInteger* verbose;
-  G4UIcmdWithAString*   open;
-  G4UIcmdWithAnInteger* first_event;
+  if ( filename == "" )
+      return;
+  
+  // delete hepmc3_reader;
+  
+  hepmc3_reader = HepMC3::deduce_reader( filename );
+  hepmc3_reader->skip( i_first_event );
+    
+}
 
-};
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMC3::GenEvent* HepMCG4Reader::GenerateHepMCEvent()
+{
 
-#endif
+  GenEvent* evt = new GenEvent(Units::MEV,Units::MM);
+  hepmc3_reader->read_event(*evt);
+  evt->set_units(HepMC3::Units::MEV, HepMC3::Units::MM);
+  	
+  if(!evt) return 0; // no more event
+  if(verbose>0) HepMC3::Print::content(*evt);
+
+  return evt;
+}

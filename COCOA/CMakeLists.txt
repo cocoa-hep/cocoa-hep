@@ -35,7 +35,7 @@ include(${Geant4_USE_FILE})
 #----------------------------------------------------------------------------
 # Find HepMC (required package)
 #
-include_directories(${HEPMC_INCLUDE_DIR})
+include_directories(${HEPMC_INCLUDE_DIR} ${HEPMC_PYTHIA8INTERFACE_INCLUDE_DIR})
 find_package(HepMC REQUIRED)
 #----------------------------------------------------------------------------
 
@@ -75,6 +75,7 @@ endif()
 include_directories(${PROJECT_SOURCE_DIR}/include
                     ${Geant4_INCLUDE_DIR}
                     ${HEPMC_INCLUDE_DIR}
+                    ${HEPMC_PYTHIA8INTERFACE_INCLUDE_DIR}
                     ${PYTHIA8_INCLUDE_DIR}
                     ${ROOT_INCLUDE_DIR}
                     ${ROOTSYS}

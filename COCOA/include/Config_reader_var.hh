@@ -75,10 +75,10 @@ struct Jet_parameters
 };
 struct Fiducial_cuts
 {
-    float pt_min;  // keep particles above this [GeV]
-    float eta_max; // keep particles below this
+    float min_pT;  // remove particles at truth level with pT small than min_pT. Unit is GeV.
     float dR_cut;  // remove particles at truth level separated farther than dR_cut from the primary particle (used to generate single-jet data)
 };
+
 class Config_reader_var
 {
 private:
@@ -96,6 +96,7 @@ public:
     bool Save_truth_particle_graph;
     bool Use_high_granularity;
     bool Skip_unuseable_tracks;
+    bool Smear_tracks;
     bool check_geometry_overlap;
     bool check_geometry_overlap_only;
     bool use_inner_detector;
@@ -103,6 +104,7 @@ public:
 
     long double r_inn_calo;
     long double Layer_gap;
+    long double ID_support_width;
     long double fieldValue;
     long double max_eta_barrel;
     long double max_eta_endcap;

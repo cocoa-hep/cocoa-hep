@@ -1,6 +1,9 @@
 #include "TruthRecordGraph.hh"
 #include "OutputRunAction.hh"
 
+#include "HepMC3/GenVertex.h"
+#include "HepMC3/GenParticle.h"
+
 void TruthRecordGraph::clear()
 {
 	m_interesting_particles.clear();
@@ -43,31 +46,31 @@ bool TruthRecordGraph::isBottomHadron(int pdgid)
 	return false;
 }
 
-void TruthRecordGraph::add_to_vector(HepMC::GenParticle *to_add, std::vector<HepMC::GenParticle *> &add_to)
+// TODO: HEPMC3
+
+void TruthRecordGraph::add_to_vector(HepMC3::ConstGenParticlePtr to_add, std::vector<HepMC3::ConstGenParticlePtr > &add_to)
 {
-	std::vector<HepMC::GenParticle *>::iterator it = std::find(add_to.begin(), add_to.end(), to_add);
+	std::vector<HepMC3::ConstGenParticlePtr >::iterator it = std::find(add_to.begin(), add_to.end(), to_add);
 	if (it == add_to.end())
 	{
 		add_to.push_back(to_add);
 	}
 }
 
-bool TruthRecordGraph::is_parent_same(HepMC::GenParticle *particle)
+bool TruthRecordGraph::is_parent_same(HepMC3::ConstGenParticlePtr particle)
 {
 
-	if (!(particle->production_vertex()))
+    if (!(particle->production_vertex()))
 	{
 		return false;
 	}
 
 	int pdgid = particle->pdg_id();
 
-	for (HepMC::GenVertex::particle_iterator
-			 parent = particle->production_vertex()->particles_begin(HepMC::parents);
-		 parent != particle->production_vertex()->particles_end(HepMC::parents); ++parent)
+	for (HepMC3::ConstGenParticlePtr parent : particle->production_vertex()->particles_in() )
 	{
 
-		int parent_pdgid = (*parent)->pdg_id();
+		int parent_pdgid = parent->pdg_id();
 		if (parent_pdgid == pdgid)
 		{
 			return true;
@@ -76,38 +79,36 @@ bool TruthRecordGraph::is_parent_same(HepMC::GenParticle *particle)
 	return false;
 }
 
-HepMC::GenParticle *TruthRecordGraph::find_next_level_parent(HepMC::GenParticle *particle)
+HepMC3::ConstGenParticlePtr TruthRecordGraph::find_next_level_parent(HepMC3::ConstGenParticlePtr particle)
 {
 
-	for (HepMC::GenVertex::particle_iterator
-			 parent = particle->production_vertex()->particles_begin(HepMC::parents);
-		 parent != particle->production_vertex()->particles_end(HepMC::parents); ++parent)
+    for (HepMC3::ConstGenParticlePtr parent : particle->production_vertex()->particles_in())
 	{
 
-		float r = prod_radius(*parent);
+		float r = prod_radius(parent);
 
 		if (r < m_max_radius)
 		{
-			return (*parent);
+			return parent;
 		}
 		else
 		{
-			return find_next_level_parent(*parent);
+			return find_next_level_parent(parent);
 		}
 	}
 	return nullptr;
 }
 
-float TruthRecordGraph::prod_radius(HepMC::GenParticle *particle)
+float TruthRecordGraph::prod_radius(HepMC3::ConstGenParticlePtr particle)
 {
-	HepMC::FourVector pos_start = (particle)->production_vertex()->position();
-	//HepMC::FourVector pos_end = (particle)->end_vertex()->position();
+	HepMC3::FourVector pos_start = particle->production_vertex()->position();
+	//HepMC3::FourVector pos_end = (particle)->end_vertex()->position();
 
 	float r = TMath::Sqrt(pos_start.x() * pos_start.x() + pos_start.y() * pos_start.y());
 	return r;
 }
 
-HepMC::GenParticle *TruthRecordGraph::check_prod_location(HepMC::GenParticle *particle)
+HepMC3::ConstGenParticlePtr TruthRecordGraph::check_prod_location(HepMC3::ConstGenParticlePtr particle)
 {
 	float r = prod_radius(particle);
 
@@ -118,7 +119,7 @@ HepMC::GenParticle *TruthRecordGraph::check_prod_location(HepMC::GenParticle *pa
 	return particle;
 }
 
-void TruthRecordGraph::add_all_moving_parents(HepMC::GenParticle *to_add, std::vector<HepMC::GenParticle *> &add_to)
+void TruthRecordGraph::add_all_moving_parents(HepMC3::ConstGenParticlePtr to_add, std::vector<HepMC3::ConstGenParticlePtr > &add_to)
 {
 
 	if (!(to_add->production_vertex()))
@@ -126,12 +127,10 @@ void TruthRecordGraph::add_all_moving_parents(HepMC::GenParticle *to_add, std::v
 		return;
 	}
 
-	for (HepMC::GenVertex::particle_iterator parent = to_add->production_vertex()->particles_begin(HepMC::parents);
-		 parent != to_add->production_vertex()->particles_end(HepMC::parents);
-		 ++parent)
+	for (HepMC3::ConstGenParticlePtr parent : to_add->production_vertex()->particles_in())
 	{
 
-		int parent_pdgid = (*parent)->pdg_id();
+		int parent_pdgid = parent->pdg_id();
 		bool is_charm = isCharmHadron(parent_pdgid);
 		bool is_b = isBottomHadron(parent_pdgid);
 
@@ -142,41 +141,41 @@ void TruthRecordGraph::add_all_moving_parents(HepMC::GenParticle *to_add, std::v
 		/* Has child correct PDG code? */
 		if (is_charm || is_b)
 		{
-			add_to_vector(*parent, add_to);
+			add_to_vector(parent, add_to);
 		}
 
 		if (is_top || is_W)
 		{
-			if (!is_parent_same(*parent))
+			if (!is_parent_same(parent))
 			{
-				add_to_vector(*parent, add_to);
+				add_to_vector(parent, add_to);
 			}
 		}
 
-		if (!((*parent)->production_vertex()))
+		if (!(parent->production_vertex()))
 		{
-			add_to_vector(*parent, add_to);
+			add_to_vector(parent, add_to);
 		}
 
-		if (((*parent)->end_vertex()) && ((*parent)->production_vertex()))
+		if ((parent->end_vertex()) && (parent->production_vertex()))
 		{
-			HepMC::FourVector pos_start = (*parent)->production_vertex()->position();
-			HepMC::FourVector pos_end = (*parent)->end_vertex()->position();
+			HepMC3::FourVector pos_start = parent->production_vertex()->position();
+			HepMC3::FourVector pos_end = parent->end_vertex()->position();
 			TVector3 pos_start_vec(pos_start.x(), pos_start.y(), pos_start.z());
 			TVector3 pos_end_vec(pos_end.x(), pos_end.y(), pos_end.z());
 
 			float flight_distance = (pos_start_vec - pos_end_vec).Mag();
 			if (flight_distance > 0.000001)
 			{
-				add_to_vector(*parent, add_to);
+				add_to_vector(parent, add_to);
 			}
 		}
 
-		add_all_moving_parents(*parent, add_to);
+		add_all_moving_parents(parent, add_to);
 	}
 }
 
-bool TruthRecordGraph::is_parent_of(HepMC::GenParticle *parent, HepMC::GenParticle *potential_child)
+bool TruthRecordGraph::is_parent_of(HepMC3::ConstGenParticlePtr parent, HepMC3::ConstGenParticlePtr potential_child)
 {
 	if (!(parent->end_vertex()))
 	{
@@ -185,18 +184,16 @@ bool TruthRecordGraph::is_parent_of(HepMC::GenParticle *parent, HepMC::GenPartic
 
 	bool found_match_for_potential_child = false;
 
-	for (HepMC::GenVertex::particle_iterator
-			 child = parent->end_vertex()->particles_begin(HepMC::children);
-		 child != parent->end_vertex()->particles_end(HepMC::children); ++child)
+	for (HepMC3::ConstGenParticlePtr child : parent->end_vertex()->particles_out())
 	{
 
-		if (*child == potential_child)
+		if (child == potential_child)
 		{
 			return true;
 		}
 		else
 		{
-			if (is_parent_of(*child, potential_child))
+			if (is_parent_of(child, potential_child))
 			{
 				found_match_for_potential_child = true;
 			}
@@ -211,7 +208,7 @@ bool TruthRecordGraph::is_parent_of(HepMC::GenParticle *parent, HepMC::GenPartic
 	return false;
 }
 
-void TruthRecordGraph::clean_daugthers(std::vector<HepMC::GenParticle *> &interesting_particles,
+void TruthRecordGraph::clean_daugthers(std::vector<HepMC3::ConstGenParticlePtr > &interesting_particles,
 									   std::vector<int> &all_daughters, std::vector<int> &direct_daughters)
 {
 
@@ -239,7 +236,7 @@ void TruthRecordGraph::clean_daugthers(std::vector<HepMC::GenParticle *> &intere
 	}
 }
 
-void TruthRecordGraph::find_daughters(HepMC::GenParticle *parent, std::vector<HepMC::GenParticle *> &interesting_particles, std::vector<int> &direct_daughters)
+void TruthRecordGraph::find_daughters(HepMC3::ConstGenParticlePtr parent, std::vector<HepMC3::ConstGenParticlePtr > &interesting_particles, std::vector<int> &direct_daughters)
 {
 
 	if (!(parent->end_vertex()))
@@ -247,11 +244,9 @@ void TruthRecordGraph::find_daughters(HepMC::GenParticle *parent, std::vector<He
 		return;
 	}
 
-	for (HepMC::GenVertex::particle_iterator
-			 child = parent->end_vertex()->particles_begin(HepMC::children);
-		 child != parent->end_vertex()->particles_end(HepMC::children); ++child)
+	for (HepMC3::ConstGenParticlePtr child : parent->end_vertex()->particles_out())
 	{
-		std::vector<HepMC::GenParticle *>::iterator it = std::find(interesting_particles.begin(), interesting_particles.end(), *child);
+		std::vector<HepMC3::ConstGenParticlePtr >::iterator it = std::find(interesting_particles.begin(), interesting_particles.end(), child);
 		if (it != interesting_particles.end())
 		{
 			int idx = std::distance(interesting_particles.begin(), it);
@@ -259,7 +254,7 @@ void TruthRecordGraph::find_daughters(HepMC::GenParticle *parent, std::vector<He
 		}
 		else
 		{
-			find_daughters(*child, interesting_particles, direct_daughters);
+			find_daughters(child, interesting_particles, direct_daughters);
 		}
 	}
 }
@@ -269,7 +264,7 @@ void TruthRecordGraph::fill_truth_graph()
 	size_t n_particles = m_interesting_particles.size();
 	for (size_t part_i = 0; part_i < n_particles; part_i++)
 	{
-		HepMC::GenParticle *particle = m_interesting_particles.at(part_i);
+		HepMC3::ConstGenParticlePtr particle = m_interesting_particles.at(part_i);
 		std::vector<int> all_direct_daughters;
 		std::vector<int> direct_daughters;
 
@@ -303,11 +298,11 @@ void TruthRecordGraph::fill_truth_graph()
 		{
 
 			node_idx.push_back(part_i);
-			HepMC::GenParticle *particle = m_interesting_particles.at(part_i);
+			HepMC3::ConstGenParticlePtr particle = m_interesting_particles.at(part_i);
 
 			int node_final_state_idx = -1;
 
-			std::vector<HepMC::GenParticle *>::iterator find_it = std::find(m_final_state_particles.begin(), m_final_state_particles.end(), particle);
+			std::vector<HepMC3::ConstGenParticlePtr >::iterator find_it = std::find(m_final_state_particles.begin(), m_final_state_particles.end(), particle);
 			if (find_it != m_final_state_particles.end())
 			{
 				node_final_state_idx = abs(std::distance(m_final_state_particles.end(), find_it)) - 1;
