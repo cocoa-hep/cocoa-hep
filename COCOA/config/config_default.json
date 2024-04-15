@@ -4,7 +4,7 @@
     "Type_of_running": "Standard",
     "Save_truth_particle_graph": true,
     "Skip_unuseable_tracks": true,
-    "Smear_tracks": false,
+    "Smear_tracks": true,
     "Geometry_definition":
     {
         "Check_Geometry_overlap": false,
@@ -53,10 +53,10 @@
     },
     "Jet_parameters":
     {
-        "algorithm": "kt_algorithm",
+        "algorithm": "antikt_algorithm",
         "radius" : 0.4,
 	"ptmin" : 10000.0,
-        "recombination_scheme": "E_scheme", 
+        "recombination_scheme": "E_scheme"
     },
     "Fiducial_cuts":
     {
