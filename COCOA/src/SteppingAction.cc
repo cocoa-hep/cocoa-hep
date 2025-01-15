@@ -106,14 +106,16 @@ int *SteppingAction::CellIndex(const char* cellName, double XPos, double YPos, d
 
 	
 	for( size_t iMainLayer = 0; iMainLayer < geometry.layer_inn_radius_ECAL.size(); ++iMainLayer ) {
-	    if ( isECAL && iMainLayer == mainLayerIndex )
-		break;
+	    if ( isECAL && iMainLayer == mainLayerIndex ) {
+			break;
+		}
 	    R_Bin += geometry.layer_inn_radius_ECAL[iMainLayer].size();
 	}
 	if ( !isECAL ) {
 	    for( size_t iMainLayer = 0; iMainLayer < geometry.layer_inn_radius_HCAL.size(); ++iMainLayer ) {
-		if ( iMainLayer == mainLayerIndex )
+		if ( iMainLayer == mainLayerIndex ) {
 		    break;
+		}
 		R_Bin += geometry.layer_inn_radius_HCAL[iMainLayer].size();
 	    }
 	}
@@ -123,60 +125,19 @@ int *SteppingAction::CellIndex(const char* cellName, double XPos, double YPos, d
 	double PhiPos = atan2(YPos, XPos);
 	if (PhiPos < 0)
 		PhiPos += config_json_var.max_phi;
-	// Phi_Bin = (int) floor(PhiPos/divided_tube_dPhi);
 
 	double EtaPos = -1 * log(tan(0.5 * acos(ZPos / pow(r_sqr + pow(ZPos, 2), 0.5))));
-	// Eta_Bin = (int) floor((config_json_var.max_eta_endcap+EtaPos)/d_eta_old);
-	if (EtaPos >= -1 * config_json_var.max_eta_barrel && EtaPos <= config_json_var.max_eta_barrel)
-	    //
-	    // Phi definition used here does not perfectly match the one used in the cell definition. A rotation in phi is considered Ok though.
-	    //
-	{
-		int nLow_Layers = geometry.number_of_pixels_flatten.size();
-		for (int ilow_layer = 0; ilow_layer < nLow_Layers; ilow_layer++)
-		{
-		    if ( r_sqr >= pow(geometry.layer_inn_radius_flatten.at(ilow_layer), 2) &&
-			 r_sqr < pow(geometry.layer_out_radius_flatten.at(ilow_layer), 2) ) {
-			
-				Phi_Bin = (int)floor(PhiPos / geometry.layer_dphi_flatten.at(ilow_layer));
-				Eta_Bin = (int)floor((config_json_var.max_eta_endcap + EtaPos) / (geometry.layer_deta_flatten.at(ilow_layer)));
-				break;
 
-		    }
-		}
-	}
-	else if (EtaPos >= -1 * config_json_var.max_eta_endcap && EtaPos < -1 * config_json_var.max_eta_barrel)
+	if (abs(EtaPos) <= config_json_var.max_eta_endcap)
 	{
-		int nLow_Layers = geometry.number_of_pixels_flatten.size();
-		for (int ilow_layer = 0; ilow_layer < nLow_Layers; ilow_layer++)
-		{
-			if (ZPos >= -1 * cone_max_length_flatten.at(ilow_layer) &&
-				ZPos < -1 * cone_min_length_flatten.at(ilow_layer))
-			{
-				Phi_Bin = (int)floor(PhiPos / geometry.layer_dphi_flatten.at(ilow_layer));
-				Eta_Bin = (int)floor((config_json_var.max_eta_endcap + EtaPos) / (geometry.layer_deta_flatten.at(ilow_layer)));
-				break;
-			}
-		}
-	}
-	else if (EtaPos > config_json_var.max_eta_barrel && EtaPos <= config_json_var.max_eta_endcap)
-	{
-		int nLow_Layers = geometry.number_of_pixels_flatten.size();
-		for (int ilow_layer = 0; ilow_layer < nLow_Layers; ilow_layer++)
-		{
-			if (ZPos >= cone_min_length_flatten.at(ilow_layer) &&
-				ZPos < cone_max_length_flatten.at(ilow_layer))
-			{
-				Phi_Bin = (int)floor(PhiPos / geometry.layer_dphi_flatten.at(ilow_layer));
-				Eta_Bin = (int)floor((config_json_var.max_eta_endcap + EtaPos) / (geometry.layer_deta_flatten.at(ilow_layer)));
-				break;
-			}
-		}
+		Phi_Bin = (int)floor(PhiPos / geometry.layer_dphi_flatten.at(R_Bin));
+		Eta_Bin = (int)floor((config_json_var.max_eta_endcap + EtaPos) / (geometry.layer_deta_flatten.at(R_Bin)));
 	}
 
 	ZXYBin[0] = R_Bin;
 	ZXYBin[1] = Eta_Bin;
 	ZXYBin[2] = Phi_Bin;
+
 	return ZXYBin;
 }
 
