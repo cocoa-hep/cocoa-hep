@@ -1,137 +1,114 @@
-#----------------------------------------------------------------------------
-# Setup the project
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-project(COCOA)
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    add_compile_options(-Wno-shadow)
-    add_compile_options(-Wc++17-extensions)
-endif()
+cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
+project(COCOA LANGUAGES CXX C)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
+
+include("GNUInstallDirs")
+#----------------------------------------------------------------------------
+# Options
+option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
+option(COCOA_ENABLE_TESTS "Enables testing" ON)
+message(STATUS "COCOA: WITH_GEANT4_UIVIS=${WITH_GEANT4_UIVIS}")
+message(STATUS "COCOA: COCOA_ENABLE_TESTS=${COCOA_ENABLE_TESTS}")
+#----------------------------------------------------------------------------
+#----------------------------------------------------------------------------
+# Compiler flags
+add_compile_options("$<$<COMPILE_LANG_AND_ID:CXX,AppleClang,Clang>:-Wc++17-extensions;-Wno-shadow>")
+add_compile_options("$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wall;-Wno-sign-compare>")
+message(STATUS "COCOA: CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}" )
+message(STATUS "COCOA: CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS} CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}=${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}}" )
+#----------------------------------------------------------------------------
+
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
 # You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
-# to build a batch mode only executable
+# to build a batch mode only executable.
 #
-option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
 if(WITH_GEANT4_UIVIS)
   find_package(Geant4 REQUIRED ui_all vis_all)
 else()
   find_package(Geant4 REQUIRED)
 endif()
-
-find_package( FastJet REQUIRED)
-
-
-#find_package (Acts REQUIRED)
-
-find_package(JsonCpp REQUIRED)
-include_directories(${JsonCpp_INCLUDE_DIR})
-#----------------------------------------------------------------------------
-# Setup Geant4 include directories and compile definitions
-#
+message(STATUS "COCOA: Geant4_FOUND=${Geant4_FOUND} Geant4_INCLUDE_DIR=${Geant4_INCLUDE_DiR} Geant4_LIBRARIES=${Geant4_LIBRARIES} Geant4_USE_FILE=${Geant4_USE_FILE}  Geant4_DATASETS=${Geant4_DATASETS}")
 include(${Geant4_USE_FILE})
+#----------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------
-# Find HepMC (required package)
+# Find FastJet (required package)
 #
-include_directories(${HEPMC_INCLUDE_DIR})
-find_package(HepMC REQUIRED)
+find_package(FastJet REQUIRED)
+message(STATUS "COCOA: FASTJET_FOUND=${FASTJET_FOUND} FASTJET_INCLUDE_DIR=${FASTJET_INCLUDE_DIR} FASTJET_LIBRARIES=${FASTJET_LIBRARIES}")
+#----------------------------------------------------------------------------
+
+#----------------------------------------------------------------------------
+# Find JsonCPP (required package)
+#
+find_package(JsonCpp REQUIRED)
+message(STATUS "COCOA: JsonCpp_FOUND=${JsonCpp_FOUND} JsonCpp_INCLUDE_DIR=${JsonCpp_INCLUDE_DIR} JsonCpp_LIBRARIES=${JsonCpp_LIBRARIES}")
+#----------------------------------------------------------------------------
+
+#----------------------------------------------------------------------------
+# Find HepMC2 (required package)
+#
+find_package(HepMC2 REQUIRED QUIET)
+message(STATUS "COCOA: HepMC2_FOUND=${HepMC2_FOUND} HEPMC2_INCLUDE_DIR=${HEPMC2_INCLUDE_DIR} HEPMC2_LIBRARIES=${HEPMC2_LIBRARIES}")
 #----------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------
 # Find ROOT (required package)
 #
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
-find_package(ROOT REQUIRED COMPONENTS RIO Net)
+find_package(ROOT REQUIRED COMPONENTS Core Tree RIO Net Hist Graf Physics)
+message(STATUS "COCOA: ROOT_FOUND=${ROOT_FOUND} ROOT_INCLUDE_DIRS=${ROOT_INCLUDE_DIRS} ROOT_LIBRARIES=${ROOT_LIBRARIES} ROOT_USE_FILE=${ROOT_USE_FILE}")
 include("${ROOT_USE_FILE}")
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-include_directories(${ROOT_INCLUDE_DIR})
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
-ROOT_GENERATE_DICTIONARY(G__Event LINKDEF LinkDef.h )# H02RunAction.hh
-#---Create a shared library with geneated dictionary
-add_library(Event SHARED G__Event.cxx)
-target_link_libraries(Event ${ROOT_LIBRARIES})
-
+#----------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------
 # Find Pythia8 (required package)
 #
 find_package(Pythia8 REQUIRED)
-if(Pythia8_FOUND)
-  message(STATUS "G4 Examples: Pythia8 found. --> COCOA example with Pythia8 enabled.") 
-  add_definitions(-DG4LIB_USE_PYTHIA8)
-else()
-  set(PYTHIA8_LIBRARIES "")
-  #set(PYTHIA8_HEPMC_LIBRARY "")
-endif()
-
+message(STATUS "COCOA: PYTHIA8_VERSION=${PYTHIA8_VERSION} PYTHIA8_LIBRARIES=${PYTHIA8_LIBRARIES} PYTHIA8_INCLUDE_DIRS=${PYTHIA8_INCLUDE_DIRS}")
+#----------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------
-# Locate sources and headers for this project
+# Sources and headers for this project
 #
-include_directories(${PROJECT_SOURCE_DIR}/include
-                    ${Geant4_INCLUDE_DIR}
-                    ${HEPMC_INCLUDE_DIR}
-                    ${PYTHIA8_INCLUDE_DIR}
-                    ${ROOT_INCLUDE_DIR}
-                    ${ROOTSYS}
-                    ${FASTJET_INCLUDE_DIR}
-                    ${JsonCpp_INCLUDE_DIR}
-
-                    )
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
+#----------------------------------------------------------------------------
+#---Create a shared library with geneated dictionary
+ROOT_GENERATE_DICTIONARY(G__Event LINKDEF LinkDef.h )
+add_library(Event SHARED G__Event.cxx)
+target_link_libraries(Event PRIVATE ROOT::Core ROOT::Tree ROOT::Physics)
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+  target_link_options(Event PRIVATE "LINKER:-z,defs")
+  target_link_options(Event PRIVATE "LINKER:-z,now")
+endif()
+#----------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------
-#find_package(UUID REQUIRED uuid)
-# Add the executable, and link it to the Geant4 libraries
-#
+#---Create COCOA executable
 add_executable(COCOA COCOAMain.cc ${sources} ${headers})
-
-
-target_include_directories(COCOA PUBLIC ${UUID_INCLUDE_DIRS})
-
-target_link_libraries(COCOA ${Geant4_LIBRARIES}
-                      ${HEPMC_LIBRARIES}
-                      ${HEPMC_FIO_LIBRARIES}
-                      ${PYTHIA6_LIBRARIES}
-                      ${PYTHIA8_LIBRARIES}
-                      ${FASTJET_LIBRARY}
-                      ${JsonCpp_LIBRARIES}
-                      #HepMCdict
-                      ${ROOT_LIBRARIES}
-                      # jsoncpp_object
-                      # jsoncpp_static
-                      #HepMCdict
+target_include_directories(COCOA PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_compile_definitions(COCOA PRIVATE -DG4LIB_USE_PYTHIA8)
+target_link_libraries(COCOA PRIVATE
+                      ${Geant4_LIBRARIES}
+                      HepMC2::HepMC2 HepMC2::HepMC2fio
+                      Pythia8::Pythia8
+                      fastjet::fastjet 
+                      JsonCpp::JsonCpp
+                      ROOT::Core ROOT::Tree ROOT::Hist ROOT::Graf ROOT::Physics
                       Event
-                      #clangBasic
-                      #clangLex
-                      #clangTooling
-                      #clangSerialization
                       ${CMAKE_DL_LIBS}
-                      ${UUID_LIBRARIES}
-                      ${CMAKE_THREAD_LIBS_INIT}
-                      #libuuid.so
-                      #-llzma
                      )
-
-# if pythia is compiled with g77, link with -lg2c instead.
-#target_link_libraries(COCOA ${Geant4_LIBRARIES}
-#                      ${HEPMC_LIBRARIES} ${HEPMC_FIO_LIBRARIES}
-#                      ${PYTHIA6_LIBRARIES} g2c)
+#----------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
 # build COCOA. This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
-#
-# set(COCOA_SCRIPTS 
-# #    macro/Pythia8/hepmc_pythia8_qcd.in macro/Pythia8/QuarkMacro.in macro/Pythia8/GluonMacro.in
-#     )
+
 set(COCOA_SCRIPTS 
     # macro
     init_vis.mac
@@ -158,9 +135,27 @@ foreach(_script ${COCOA_SCRIPTS})
     COPYONLY
     )
 endforeach()
+#----------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------
-# Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
+# Install the targets
 #
-install(TARGETS COCOA DESTINATION bin)
+install(TARGETS COCOA DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS Event DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(FILES ${PROJECT_BINARY_DIR}/libEvent_rdict.pcm ${PROJECT_BINARY_DIR}/libEvent.rootmap DESTINATION  ${CMAKE_INSTALL_LIBDIR})
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/config/  DESTINATION ${CMAKE_INSTALL_DATADIR}/COCOA/config/ COMPONENT data)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/pflow_configuration/  DESTINATION ${CMAKE_INSTALL_DATADIR}/COCOA/pflow_configuration/ COMPONENT data)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tracking_configuration/  DESTINATION ${CMAKE_INSTALL_DATADIR}/COCOA/tracking_configuration/ COMPONENT data)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/macro/  DESTINATION ${CMAKE_INSTALL_DATADIR}/COCOA/macro/ COMPONENT data)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/init_vis.mac ${CMAKE_CURRENT_SOURCE_DIR}/vis.mac  DESTINATION ${CMAKE_INSTALL_DATADIR}/COCOA COMPONENT data)
+#----------------------------------------------------------------------------
+
+#----------------------------------------------------------------------------
+# Testing
+#
+if (COCOA_ENABLE_TESTS)
+  ENABLE_TESTING()
+  add_subdirectory(test)
+endif()
+#----------------------------------------------------------------------------
 
