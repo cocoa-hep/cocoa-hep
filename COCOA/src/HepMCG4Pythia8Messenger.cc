@@ -96,6 +96,9 @@ HepMCG4Pythia8Messenger::HepMCG4Pythia8Messenger(HepMCG4Pythia8Interface* agen)
   minEta->SetGuidance("set min Eta.");
   maxEta = new G4UIcmdWithADouble("/generator/pythia8/maxEta", this);
   maxEta->SetGuidance("set max Eta.");
+
+  avgPU = new G4UIcmdWithADouble("/generator/pythia8/Pileup", this);
+  avgPU->SetGuidance("set average pileup");  
 }
 
 HepMCG4Pythia8Messenger::~HepMCG4Pythia8Messenger()
@@ -113,6 +116,7 @@ HepMCG4Pythia8Messenger::~HepMCG4Pythia8Messenger()
   delete maxEnergy;
   delete minEta;
   delete maxEta;
+  delete avgPU;
 
   delete dir;
 }
@@ -180,6 +184,11 @@ void HepMCG4Pythia8Messenger::SetNewValue(G4UIcommand* command,
   {
     MaxEta = maxEta->GetNewDoubleValue(newValues);
   }
+  else if (command==avgPU)
+  {
+    AvgPU = avgPU->GetNewDoubleValue(newValues);
+  }
+
 }
 
 G4String HepMCG4Pythia8Messenger::GetCurrentValue(G4UIcommand* command)
