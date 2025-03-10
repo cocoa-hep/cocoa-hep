@@ -197,7 +197,19 @@ int main(int argc, char **argv)
 	}
 	Config_reader_var &config_var = Config_reader_var::GetInstance();
 	Config_reader_func config_json_func(path_to_config, config_var);
-	
+
+	if ((root_file_path == ""))
+	{
+		if (config_var.Output_file_path!="")
+		{
+			root_file_path = config_var.Output_file_path;
+		}
+		else
+		{
+			root_file_path = "cocoa_output.root";
+		}
+	}	
+
 	//* choose the Random engine
 	CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
 	G4Random::setTheSeed(seed);
@@ -225,17 +237,6 @@ int main(int argc, char **argv)
 
 	G4VUserPrimaryGeneratorAction *gen_action = new PrimaryGeneratorAction;
 	runManager->SetUserAction(gen_action);
-
-	if ((root_file_path == ""))
-	{
-		if (config_var.Output_file_path!="")
-			root_file_path = config_var.Output_file_path;
-		else
-		{
-			G4cout<<"root_file_path is not given!"<<G4endl;
-			return 1;
-		}
-	}
 	
 	OutputRunAction *outputrunaction = new OutputRunAction(root_file_path, config_var.Save_truth_particle_graph);
 	runManager->SetUserAction(outputrunaction);
@@ -287,7 +288,7 @@ int main(int argc, char **argv)
 			}
 			else if ( (input_file_path != "") && (line.find("/generator/hepmcAscii/open") != std::string::npos) )
 			{
-				if (input_file_path.find(".hmc") != std::string::npos)
+				if ((input_file_path.find(".hmc") != std::string::npos) || (input_file_path.find(".hepmc") != std::string::npos))
 				{
 					UImanager->ApplyCommand(G4String("/generator/hepmcAscii/open " + input_file_path));
 				}
